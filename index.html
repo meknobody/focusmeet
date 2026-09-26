@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" data-theme="indigo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusMeet — Student Study Workspace</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* DYNAMIC CSS THEME VARIABLES */
+    :root, [data-theme="indigo"] {
+      --bg-body: #f8fafc;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --border-main: #e2e8f0;
+      --border-card: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-soft-bg: #eef2ff;
+      --accent-soft-text: #4338ca;
+      --focus-box-bg: linear-gradient(135deg, #312e81 0%, #3730a3 50%, #1e1b4b 100%);
+      --input-bg: #f8fafc;
+      --item-hover: #f1f5f9;
+      --badge-bar: #e0e7ff;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0b0f19;
+      --bg-header: #111827;
+      --bg-card: #151d30;
+      --border-main: #1f293d;
+      --border-card: #202b44;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-soft-bg: #2e1065;
+      --accent-soft-text: #c4b5fd;
+      --focus-box-bg: linear-gradient(135deg, #1e1b4b 0%, #2e1065 50%, #0f172a 100%);
+      --input-bg: #0f172a;
+      --item-hover: #1e293b;
+      --badge-bar: #2e1065;
+    }
+
+    [data-theme="sage"] {
+      --bg-body: #f4f7f4;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --border-main: #dcfce7;
+      --border-card: #d1fae5;
+      --text-main: #14532d;
+      --text-muted: #4b6b55;
+      --accent: #059669;
+      --accent-hover: #047857;
+      --accent-soft-bg: #ecfdf5;
+      --accent-soft-text: #065f46;
+      --focus-box-bg: linear-gradient(135deg, #064e3b 0%, #047857 50%, #022c22 100%);
+      --input-bg: #f0fdf4;
+      --item-hover: #f0fdf4;
+      --badge-bar: #d1fae5;
+    }
+
+    [data-theme="sunset"] {
+      --bg-body: #fffbf5;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --border-main: #ffedd5;
+      --border-card: #fed7aa;
+      --text-main: #431407;
+      --text-muted: #7c2d12;
+      --accent: #ea580c;
+      --accent-hover: #c2410c;
+      --accent-soft-bg: #fff7ed;
+      --accent-soft-text: #9a3412;
+      --focus-box-bg: linear-gradient(135deg, #7c2d12 0%, #9a3412 50%, #431407 100%);
+      --input-bg: #fff7ed;
+      --item-hover: #fff7ed;
+      --badge-bar: #ffedd5;
+    }
+
+    [data-theme="cyber"] {
+      --bg-body: #050508;
+      --bg-header: #0d0e17;
+      --bg-card: #0e111d;
+      --border-main: #1f2338;
+      --border-card: #1f263d;
+      --text-main: #f1f5f9;
+      --text-muted: #7dd3fc;
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --accent-soft-bg: #164e63;
+      --accent-soft-text: #67e8f9;
+      --focus-box-bg: linear-gradient(135deg, #0e7490 0%, #4f46e5 50%, #030712 100%);
+      --input-bg: #090b10;
+      --item-hover: #161b2b;
+      --badge-bar: #164e63;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .theme-card {
+      background-color: var(--bg-card);
+      border-color: var(--border-card);
+      color: var(--text-main);
+    }
+    .theme-header {
+      background-color: var(--bg-header);
+      border-color: var(--border-main);
+    }
+    .theme-accent-btn {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+    .theme-accent-btn:hover {
+      background-color: var(--accent-hover);
+    }
+    .theme-accent-soft {
+      background-color: var(--accent-soft-bg);
+      color: var(--accent-soft-text);
+    }
+    .theme-input {
+      background-color: var(--input-bg);
+      border-color: var(--border-card);
+      color: var(--text-main);
+    }
+    .theme-focus-box {
+      background: var(--focus-box-bg);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col antialiased">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="theme-header border-b sticky top-0 z-30 px-4 lg:px-8 py-3 shadow-xs">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Brand & Bespoke Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 transform hover:scale-105 transition">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12a8 8 0 0 1 14.93-4" />
+            <path d="M20 12a8 8 0 0 1-14.93 4" />
+            <polygon points="12,8 15,12 12,16 9,12" fill="white" stroke="none" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold tracking-tight text-inherit">FocusMeet</h1>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full theme-accent-soft border border-indigo-200/40">focusmeet.in</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Student Study Workspace</p>
+        </div>
+      </div>
+
+      <!-- Center Navigation Tabs (Interactive Views) -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-200/40 dark:bg-slate-800/40 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+        <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition">Dashboard</button>
+        <button onclick="switchView('tasks')" id="nav-tasks" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Tasks & Timetable</button>
+        <button onclick="switchView('timer')" id="nav-timer" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Focus Timer</button>
+        <button onclick="switchView('subjects')" id="nav-subjects" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Subjects</button>
+        <button onclick="switchView('goals')" id="nav-goals" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Goals</button>
+      </nav>
+
+      <!-- Right Actions: Theme, XP, Streak, Profile -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- THEME SELECTOR -->
+        <div class="relative">
+          <button onclick="toggleThemeMenu()" id="btn-theme-selector" title="Change Theme" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 hover:bg-slate-100 text-xs font-semibold shadow-xs transition">
+            <span class="text-sm">🎨</span>
+            <span id="current-theme-name" class="hidden sm:inline text-[11px]">Indigo</span>
+          </button>
+
+          <!-- Theme Dropdown -->
+          <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-52 theme-card border rounded-2xl shadow-2xl p-2.5 z-50 text-xs space-y-1">
+            <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Select Workspace Theme</div>
+            <button onclick="setAppTheme('indigo')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-indigo-600 border border-indigo-400"></div><span class="font-semibold">Daylight Indigo</span></div>
+              <span id="check-indigo" class="text-indigo-600 font-bold">✓</span>
+            </button>
+            <button onclick="setAppTheme('dark')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-slate-900 border border-purple-500"></div><span class="font-semibold">Midnight Obsidian</span></div>
+              <span id="check-dark" class="hidden font-bold">✓</span>
+            </button>
+            <button onclick="setAppTheme('sage')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-emerald-600 border border-emerald-400"></div><span class="font-semibold">Forest Sage</span></div>
+              <span id="check-sage" class="hidden font-bold">✓</span>
+            </button>
+            <button onclick="setAppTheme('sunset')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-amber-600 border border-orange-400"></div><span class="font-semibold">Warm Amber</span></div>
+              <span id="check-sunset" class="hidden font-bold">✓</span>
+            </button>
+            <button onclick="setAppTheme('cyber')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-cyan-500 border border-indigo-500"></div><span class="font-semibold">Cyberpunk Neon</span></div>
+              <span id="check-cyber" class="hidden font-bold">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Level & XP Badge -->
+        <div onclick="switchView('goals')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl theme-accent-soft text-xs font-semibold cursor-pointer">
+          <svg class="w-3.5 h-3.5 text-current" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
+          </svg>
+          <span id="badge-lvl">Lvl 2</span>
+          <span class="opacity-50">•</span>
+          <span id="badge-xp">210 XP</span>
+        </div>
+
+        <!-- Streak Pill -->
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs font-semibold text-amber-600 dark:text-amber-400">
+          <span>🔥</span>
+          <span id="streak-days">1 day</span>
+        </div>
+
+        <!-- Profile Avatar Pill -->
+        <div class="flex items-center gap-2 pl-1 border-l border-slate-200/60 dark:border-slate-700">
+          <div class="w-8 h-8 rounded-full theme-accent-btn font-bold text-xs flex items-center justify-center shadow-xs">
+            A
+          </div>
+          <span class="text-xs font-semibold hidden md:block">Aditya</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Navigation Bar -->
+    <div class="flex md:hidden items-center justify-between gap-1 overflow-x-auto pt-2 border-t border-slate-200/40 dark:border-slate-800 text-xs font-semibold">
+      <button onclick="switchView('dashboard')" id="mob-nav-dashboard" class="px-2.5 py-1 rounded-lg theme-card shadow-xs">Dashboard</button>
+      <button onclick="switchView('tasks')" id="mob-nav-tasks" class="px-2.5 py-1 rounded-lg opacity-75">Tasks</button>
+      <button onclick="switchView('timer')" id="mob-nav-timer" class="px-2.5 py-1 rounded-lg opacity-75">Timer</button>
+      <button onclick="switchView('subjects')" id="mob-nav-subjects" class="px-2.5 py-1 rounded-lg opacity-75">Subjects</button>
+      <button onclick="switchView('goals')" id="mob-nav-goals" class="px-2.5 py-1 rounded-lg opacity-75">Goals</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER (MULTI-VIEW PANELS) -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 w-full flex-1 flex flex-col gap-6">
+
+    <!-- =========================================================================
+         VIEW 1: DASHBOARD
+         ========================================================================= -->
+    <div id="view-dashboard" class="view-panel flex flex-col gap-6">
+
+      <!-- WELCOME HERO -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            <span id="current-date-display">Saturday, Sep 26, 2026</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
+            Good afternoon, Aditya Rathore! <span class="text-2xl animate-bounce">👋</span>
+          </h2>
+          <p id="motivational-sub" class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
+            You're <span id="study-target-pct" class="font-bold theme-accent-soft px-1.5 py-0.5 rounded">0%</span> toward today's study target. Ready to focus?
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openNewTaskModal()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800 hover:bg-slate-50 text-xs font-bold shadow-xs transition">
+            <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            Quick Add Task
+          </button>
+          <button onclick="switchView('timer')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl theme-accent-btn text-xs font-bold shadow-sm transition transform active:scale-95">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Open Focus Station
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 CORE METRIC CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Today's Study Time</span>
+            <div class="w-7 h-7 rounded-lg theme-accent-soft flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-baseline gap-1.5">
+              <span id="card-study-mins" class="text-2xl font-extrabold">0m</span>
+              <span class="text-xs font-semibold text-slate-400">/ 120m goal</span>
+            </div>
+            <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 mt-3 overflow-hidden">
+              <div id="study-progress-bar" class="theme-accent-btn h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 font-medium">
+              <span id="study-progress-label">0% accomplished</span>
+              <span id="study-mins-left">120m left</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Current Study Streak</span>
+            <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center"><span>🔥</span></div>
+          </div>
+          <div class="mt-4">
+            <span id="card-streak-val" class="text-2xl font-extrabold">1 Day</span>
+            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+              <span class="text-amber-500 font-semibold">🔥 Daily habit on track!</span> Complete a session today to keep it flaming.
+            </p>
+          </div>
+        </div>
+
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Today's Tasks Done</span>
+            <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-baseline gap-1.5">
+              <span id="card-tasks-done" class="text-2xl font-extrabold">0</span>
+              <span id="card-tasks-total" class="text-xs font-semibold text-slate-400">/ 0 total today</span>
+            </div>
+            <p id="card-tasks-pending" class="text-[11px] text-slate-400 mt-2">0 pending tasks remaining today.</p>
+          </div>
+        </div>
+
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">All-Time Completed</span>
+            <div class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-600 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-baseline gap-1.5">
+              <span id="alltime-tasks-done" class="text-2xl font-extrabold">4</span>
+              <span class="text-xs font-semibold text-slate-400">tasks across 4 subjects</span>
+            </div>
+            <p id="alltime-sessions-done" class="text-[11px] text-slate-400 mt-2">3 focus sessions logged overall.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- GAMIFICATION BANNER -->
+      <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4 w-full md:w-auto">
+          <div class="w-12 h-12 rounded-2xl theme-accent-btn flex items-center justify-center font-black text-xl shadow-md">⚡</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <h3 id="gamification-level-title" class="text-sm font-bold">Level 2 • Apprentice Mind</h3>
+              <span id="gamification-total-xp" class="text-xs font-bold theme-accent-soft px-2 py-0.5 rounded-full border border-current/20">210 XP Total</span>
+            </div>
+            <p id="gamification-xp-next" class="text-xs text-slate-400 mt-0.5 font-medium">90 XP needed to reach Level 3 (Dedicated Learner)</p>
+            <div class="flex items-center gap-3 mt-2">
+              <div class="w-48 sm:w-64 bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 overflow-hidden">
+                <div id="gamification-xp-bar" class="theme-accent-btn h-2 rounded-full transition-all duration-500" style="width: 55%"></div>
+              </div>
+              <span id="gamification-xp-stat" class="text-[11px] font-semibold text-slate-400">55% (110 / 200 XP)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-200/50 dark:border-slate-800">
+          <button onclick="switchView('goals')" class="text-xs font-bold text-amber-500 hover:text-amber-600 flex items-center gap-1.5 transition">
+            <span>🏆 All Badges (3/32)</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div title="Focus Rookie" class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 border border-amber-500/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🍅</div>
+            <div title="Streak Starter" class="w-8 h-8 rounded-xl theme-accent-soft border border-current/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🔥</div>
+            <div title="Task Crusher" class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🎯</div>
+            <div title="Locked: Deep Work Sage" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🛡️</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD TASKS & MINI TIMER -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Priority Tasks Preview -->
+        <section class="lg:col-span-7 theme-card border rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold">Today's Priority Tasks</h3>
+              <span id="priority-tasks-count" class="text-xs px-2 py-0.5 rounded-full theme-accent-soft font-bold">4</span>
+            </div>
+            <button onclick="switchView('tasks')" class="text-xs font-bold text-indigo-500 hover:underline">View All Tasks →</button>
+          </div>
+
+          <div id="tasks-container" class="space-y-2.5 my-3 max-h-[300px] overflow-y-auto pr-1"></div>
+
+          <form onsubmit="quickAddTask(event)" class="mt-2 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center gap-2">
+            <input type="text" id="quick-task-title" placeholder="Type a task and hit Enter (e.g. Solve 10 calculus limits)..." class="flex-1 theme-input border rounded-xl px-3.5 py-2.5 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <button type="submit" class="px-4 py-2.5 theme-accent-btn text-xs font-bold rounded-xl shadow-xs transition">Add</button>
+          </form>
+        </section>
+
+        <!-- Mini Flow Station -->
+        <section class="lg:col-span-5 theme-focus-box text-white rounded-2xl p-6 shadow-lg flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-indigo-200 text-xs font-bold uppercase tracking-wider mb-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Quick Focus Station
+            </div>
+            <h3 class="text-xl font-extrabold text-white">Enter Flow State</h3>
+            <p class="text-xs text-indigo-200 mt-1">Science-backed Pomodoro blocks designed for uninterrupted learning.</p>
+
+            <div class="mt-4 bg-black/30 border border-white/10 rounded-xl p-3">
+              <span class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider">Active Target</span>
+              <p id="focus-station-task-name" class="text-xs font-semibold text-white truncate mt-0.5">Calculus: Differential Equations</p>
+            </div>
+
+            <div class="text-center my-5">
+              <span id="dashboard-timer-display" class="text-4xl font-extrabold font-mono tracking-tight text-white">25:00</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="toggleTimer()" id="btn-timer-dashboard" class="flex-1 py-2.5 rounded-xl bg-white text-indigo-950 hover:bg-indigo-50 font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition">
+              <span id="dash-timer-btn-text">START TIMER</span>
+            </button>
+            <button onclick="switchView('timer')" class="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs transition">
+              Full Screen ⛶
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         VIEW 2: FULL TASKS & TIMETABLE
+         ========================================================================= -->
+    <div id="view-tasks" class="view-panel hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight">Tasks & Weekly Timetable</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Manage study assignments, homework, and weekly classes.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="openNewTaskModal()" class="px-4 py-2 rounded-xl theme-accent-btn text-xs font-bold shadow-xs transition">
+            + New Task
+          </button>
+          <button onclick="openAddBlockModal()" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 theme-card text-xs font-bold shadow-xs transition">
+            + Add Timetable Block
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left: Full Task Checklist (6 cols) -->
+        <div class="lg:col-span-6 theme-card border rounded-2xl p-6 shadow-xs flex flex-col justify-between min-h-[500px]">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800">
+              <h3 class="text-sm font-bold">Study Tasks List</h3>
+              <!-- Filter chips -->
+              <div class="flex items-center gap-1 overflow-x-auto text-[11px]">
+                <button onclick="setTaskFilter('all')" class="px-2.5 py-0.5 rounded-lg theme-accent-btn font-semibold">All</button>
+                <button onclick="setTaskFilter('active')" class="px-2.5 py-0.5 rounded-lg bg-slate-200/40 dark:bg-slate-800 font-semibold">Active</button>
+                <button onclick="setTaskFilter('completed')" class="px-2.5 py-0.5 rounded-lg bg-slate-200/40 dark:bg-slate-800 font-semibold">Done</button>
+              </div>
+            </div>
+
+            <!-- Task List Container -->
+            <div id="full-tasks-container" class="space-y-2.5 my-4 max-h-[420px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <form onsubmit="quickAddTask(event)" class="pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center gap-2">
+            <input type="text" id="quick-task-full" placeholder="Add study task..." class="flex-1 theme-input border rounded-xl px-3.5 py-2 text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <button type="submit" class="px-4 py-2 theme-accent-btn text-xs font-bold rounded-xl shadow-xs">Add</button>
+          </form>
+        </div>
+
+        <!-- Right: Weekly Timetable Grid (6 cols) -->
+        <div class="lg:col-span-6 theme-card border rounded-2xl p-6 shadow-xs flex flex-col justify-between min-h-[500px]">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800">
+              <h3 class="text-sm font-bold">Weekly Schedule</h3>
+              <!-- Day selector tabs -->
+              <select id="schedule-day-select" onchange="changeScheduleDay(this.value)" class="theme-input border text-xs rounded-xl px-2.5 py-1 font-semibold focus:outline-none">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+
+            <!-- Timetable Slots -->
+            <div id="timetable-slots-container" class="space-y-2.5 my-4 max-h-[420px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800 text-right">
+            <button onclick="openAddBlockModal()" class="text-xs font-bold text-indigo-500 hover:underline">
+              + Slot New Routine / Lecture
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         VIEW 3: IMMERSIVE FOCUS TIMER
+         ========================================================================= -->
+    <div id="view-timer" class="view-panel hidden flex flex-col items-center justify-center gap-6 py-6">
+      
+      <div class="text-center max-w-lg">
+        <h2 class="text-3xl font-black tracking-tight">Focus Sanctuary</h2>
+        <p class="text-xs text-slate-400 mt-1">Science-backed intervals, ambient study noise, and zero distractions.</p>
+      </div>
+
+      <!-- Large Hero Timer Dial -->
+      <div class="theme-card border rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col items-center max-w-md w-full relative overflow-hidden">
+        
+        <!-- Mode Tabs -->
+        <div class="inline-flex p-1 rounded-2xl bg-slate-200/50 dark:bg-slate-800/80 mb-6 text-xs font-semibold">
+          <button onclick="setFocusPreset(25)" id="timer-tab-25" class="px-4 py-2 rounded-xl theme-card shadow-xs transition">25m Pomo</button>
+          <button onclick="setFocusPreset(50)" id="timer-tab-50" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">50m Deep</button>
+          <button onclick="setBreakMode(5)" id="timer-tab-short" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">5m Break</button>
+          <button onclick="setBreakMode(15)" id="timer-tab-long" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">15m Long</button>
+        </div>
+
+        <!-- SVG Dial -->
+        <div class="relative w-64 h-64 flex items-center justify-center my-2">
+          <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="44" stroke="currentColor" class="text-slate-200/60 dark:text-slate-800" stroke-width="6" fill="transparent" />
+            <circle id="timer-hero-progress-ring" cx="50" cy="50" r="44" stroke="currentColor" class="text-indigo-600 dark:text-indigo-400 transition-all duration-500 ease-linear" stroke-width="6" stroke-dasharray="276.46" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" />
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <span id="timer-hero-clock" class="text-5xl font-black font-mono tracking-tight">25:00</span>
+            <span id="timer-hero-state-label" class="text-xs uppercase font-bold text-slate-400 tracking-wider mt-2">Ready</span>
+          </div>
+        </div>
+
+        <!-- Target Task Selector -->
+        <div class="w-full mt-4 bg-slate-100/60 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-200/60 dark:border-slate-700/60 text-center">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Task</span>
+          <p id="timer-hero-target-task" class="text-xs font-bold truncate mt-0.5">Calculus: Differential Equations</p>
+        </div>
+
+        <!-- Primary Play/Pause Controls -->
+        <div class="flex items-center gap-3 w-full mt-6">
+          <button onclick="toggleTimer()" id="btn-timer-hero-toggle" class="flex-1 py-3.5 rounded-2xl theme-accent-btn font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
+            <span id="timer-hero-toggle-text">START FOCUS</span>
+          </button>
+          <button onclick="resetTimer()" title="Reset Session" class="p-3.5 rounded-2xl border border-slate-300 dark:border-slate-700 theme-card opacity-75 hover:opacity-100 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </button>
+        </div>
+
+        <!-- Ambient Sound Generator Controls (Web Audio Engine) -->
+        <div class="w-full mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs">
+          <span class="text-slate-400 font-medium">Ambient Sound:</span>
+          <div class="flex items-center gap-1">
+            <button onclick="setAmbientSound('off')" id="sound-off" class="px-2.5 py-1 rounded-lg theme-accent-btn font-bold">Mute</button>
+            <button onclick="setAmbientSound('rain')" id="sound-rain" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100">🌧️ Rain</button>
+            <button onclick="setAmbientSound('waves')" id="sound-waves" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100">🌊 Waves</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         VIEW 4: SUBJECTS & SYLLABUS
+         ========================================================================= -->
+    <div id="view-subjects" class="view-panel hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight">Study Subjects & Syllabus</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Track time spent, syllabus progress, and assignments per course.</p>
+        </div>
+
+        <button onclick="alert('Subject added! You can link tasks to this subject anytime.')" class="px-4 py-2 rounded-xl theme-accent-btn text-xs font-bold shadow-xs">
+          + Add New Subject
+        </button>
+      </div>
+
+      <!-- Subject Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Math -->
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">📐</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 border border-blue-500/20">Active</span>
+            </div>
+            <h3 class="text-base font-bold mt-3">Mathematics</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Calculus, Linear Algebra & Geometry</p>
+            
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Syllabus Progress</span>
+                <span class="font-bold text-slate-700 dark:text-slate-200">85%</span>
+              </div>
+              <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-blue-600 h-1.5 rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <span>⏱️ 18h logged</span>
+            <button onclick="setTaskFilter('Mathematics'); switchView('tasks')" class="font-bold text-blue-600 hover:underline">View Tasks (1) →</button>
+          </div>
+        </div>
+
+        <!-- Physics -->
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚡</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/20">Active</span>
+            </div>
+            <h3 class="text-base font-bold mt-3">Physics</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Electromagnetism & Thermodynamics</p>
+            
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Syllabus Progress</span>
+                <span class="font-bold text-slate-700 dark:text-slate-200">70%</span>
+              </div>
+              <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-amber-500 h-1.5 rounded-full" style="width: 70%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <span>⏱️ 14h logged</span>
+            <button onclick="setTaskFilter('Physics'); switchView('tasks')" class="font-bold text-amber-600 hover:underline">View Tasks (1) →</button>
+          </div>
+        </div>
+
+        <!-- CS -->
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">💻</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/20">Active</span>
+            </div>
+            <h3 class="text-base font-bold mt-3">Computer Science</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Data Structures & Algorithm Design</p>
+            
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Syllabus Progress</span>
+                <span class="font-bold text-slate-700 dark:text-slate-200">92%</span>
+              </div>
+              <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-indigo-600 h-1.5 rounded-full" style="width: 92%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <span>⏱️ 22h logged</span>
+            <button onclick="setTaskFilter('Computer Science'); switchView('tasks')" class="font-bold text-indigo-600 hover:underline">View Tasks (1) →</button>
+          </div>
+        </div>
+
+        <!-- Chemistry -->
+        <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🧪</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">Active</span>
+            </div>
+            <h3 class="text-base font-bold mt-3">Chemistry</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Organic Reactions & Chemical Kinetics</p>
+            
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Syllabus Progress</span>
+                <span class="font-bold text-slate-700 dark:text-slate-200">60%</span>
+              </div>
+              <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <span>⏱️ 10h logged</span>
+            <button onclick="setTaskFilter('Chemistry'); switchView('tasks')" class="font-bold text-emerald-600 hover:underline">View Tasks (1) →</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         VIEW 5: GOALS & ACHIEVEMENTS
+         ========================================================================= -->
+    <div id="view-goals" class="view-panel hidden flex flex-col gap-6">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight">Study Goals & Achievements</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Track your daily study milestones, leveling progress, and badge unlocks.</p>
+        </div>
+      </div>
+
+      <!-- Daily Goals Progress -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <div class="theme-card border rounded-2xl p-5 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Daily Study Target</span>
+            <span class="text-xs font-bold text-indigo-500">120 mins</span>
+          </div>
+          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden">
+            <div id="goal-progress-daily" class="theme-accent-btn h-2 rounded-full" style="width: 0%"></div>
+          </div>
+          <p id="goal-daily-status" class="text-xs text-slate-400 mt-2">0 / 120 minutes logged today</p>
+        </div>
+
+        <div class="theme-card border rounded-2xl p-5 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Weekly Pomodoro Target</span>
+            <span class="text-xs font-bold text-purple-500">20 Pomos</span>
+          </div>
+          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden">
+            <div class="bg-purple-600 h-2 rounded-full" style="width: 15%"></div>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">3 / 20 Pomodoros completed this week</p>
+        </div>
+
+        <div class="theme-card border rounded-2xl p-5 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Consistency Habit</span>
+            <span class="text-xs font-bold text-amber-500">7 Days</span>
+          </div>
+          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden">
+            <div class="bg-amber-500 h-2 rounded-full" style="width: 14%"></div>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">Day 1 of 7 streak maintained 🔥</p>
+        </div>
+
+      </div>
+
+      <!-- Badge Showcase Grid (All 32 Badges) -->
+      <div class="theme-card border rounded-2xl p-6 shadow-xs">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200/60 dark:border-slate-800">
+          <div>
+            <h3 class="text-base font-bold">Achievement Badges</h3>
+            <p class="text-xs text-slate-400">Earn XP and unlock recognition as you master your study routines.</p>
+          </div>
+          <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+            3 of 32 Badges Unlocked
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 mt-6">
+          
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 shadow-xs">
+            <span class="text-2xl">🍅</span>
+            <span class="text-xs font-bold mt-1">Focus Rookie</span>
+            <span class="text-[10px] text-amber-600 font-semibold">Unlocked</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl theme-accent-soft border border-current/30 shadow-xs">
+            <span class="text-2xl">🔥</span>
+            <span class="text-xs font-bold mt-1">Streak Starter</span>
+            <span class="text-[10px] font-semibold">Unlocked</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 shadow-xs">
+            <span class="text-2xl">🎯</span>
+            <span class="text-xs font-bold mt-1">Task Crusher</span>
+            <span class="text-[10px] text-emerald-600 font-semibold">Unlocked</span>
+          </div>
+
+          <!-- Locked Badges -->
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50">
+            <span class="text-2xl">🛡️</span>
+            <span class="text-xs font-bold mt-1">Deep Sage</span>
+            <span class="text-[10px] text-slate-400">Lvl 3</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50">
+            <span class="text-2xl">👑</span>
+            <span class="text-xs font-bold mt-1">Century Club</span>
+            <span class="text-[10px] text-slate-400">100 Pomos</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50">
+            <span class="text-2xl">⌛</span>
+            <span class="text-xs font-bold mt-1">Time Bender</span>
+            <span class="text-[10px] text-slate-400">5hr Day</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50">
+            <span class="text-2xl">📚</span>
+            <span class="text-xs font-bold mt-1">Scholar</span>
+            <span class="text-[10px] text-slate-400">4 Subjects</span>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50">
+            <span class="text-2xl">🌟</span>
+            <span class="text-xs font-bold mt-1">Grandmaster</span>
+            <span class="text-[10px] text-slate-400">Lvl 10</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+  <!-- ADD TASK MODAL -->
+  <div id="modal-task" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+      <button onclick="closeModal('modal-task')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+
+      <h3 class="text-lg font-bold mb-1">Create Study Task</h3>
+      <p class="text-xs text-slate-400 mb-4">Set subject, priority, and Pomodoro target for Aditya.</p>
+
+      <form onsubmit="handleSaveTask(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold mb-1">Task Title</label>
+          <input type="text" id="task-input-title" required placeholder="e.g. Complete Chemistry Revision Chapter 4" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1">Subject</label>
+            <select id="task-input-category" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Mathematics">Mathematics 📐</option>
+              <option value="Physics">Physics ⚡</option>
+              <option value="Computer Science">Computer Science 💻</option>
+              <option value="Chemistry">Chemistry 🧪</option>
+              <option value="General Study">General Study 📚</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">Priority</label>
+            <select id="task-input-priority" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="High">High Priority 🔥</option>
+              <option value="Medium" selected>Medium Priority ⚡</option>
+              <option value="Low">Low Priority 🌿</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1">Est. Pomodoros</label>
+            <input type="number" id="task-input-pomos" value="2" min="1" max="20" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">Due / Scheduled Time</label>
+            <input type="time" id="task-input-time" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-200/50 dark:border-slate-700">
+          <button type="button" onclick="closeModal('modal-task')" class="px-4 py-2 rounded-xl bg-slate-200/50 dark:bg-slate-800 text-xs font-semibold transition">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl theme-accent-btn text-xs font-semibold shadow-sm transition">Save Task (+30 XP)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD TIMETABLE BLOCK MODAL -->
+  <div id="modal-block" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+      <button onclick="closeModal('modal-block')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+
+      <h3 class="text-lg font-bold mb-1">Add Timetable Block</h3>
+      <p class="text-xs text-slate-400 mb-4">Slot a routine class, lecture, or focus session into your schedule.</p>
+
+      <form onsubmit="handleSaveBlock(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold mb-1">Block / Subject Title</label>
+          <input type="text" id="block-input-title" required placeholder="e.g. Mathematics Lecture / Physics Lab" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1">Day of Week</label>
+            <select id="block-input-day" class="w-full theme-input border rounded-xl px-3 py-2 text-xs">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">Tag / Type</label>
+            <select id="block-input-tag" class="w-full theme-input border rounded-xl px-3 py-2 text-xs">
+              <option value="Lecture">Class / Lecture 🎓</option>
+              <option value="Study">Deep Study 📚</option>
+              <option value="Work">Lab / Assignment 💻</option>
+              <option value="Break">Break / Lunch 🥪</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1">Start Time</label>
+            <input type="time" id="block-input-start" required value="09:00" class="w-full theme-input border rounded-xl px-3 py-2 text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">End Time</label>
+            <input type="time" id="block-input-end" required value="10:30" class="w-full theme-input border rounded-xl px-3 py-2 text-xs">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-200/50 dark:border-slate-700">
+          <button type="button" onclick="closeModal('modal-block')" class="px-4 py-2 rounded-xl bg-slate-200/50 dark:bg-slate-800 text-xs font-semibold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl theme-accent-btn text-xs font-semibold">Add Block</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT STATE & VIEW ENGINE -->
+  <script>
+    /* ==========================================================================
+       VIEW ROUTING & SWITCHING
+       ========================================================================== */
+    function switchView(viewName) {
+      // Hide all views
+      document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+      
+      // Unhide target view
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.remove('hidden');
+
+      // Update Nav Button Styles (Desktop & Mobile)
+      const tabs = ['dashboard', 'tasks', 'timer', 'subjects', 'goals'];
+      tabs.forEach(tab => {
+        const deskBtn = document.getElementById(`nav-${tab}`);
+        const mobBtn = document.getElementById(`mob-nav-${tab}`);
+        if (tab === viewName) {
+          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition';
+          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg theme-card shadow-xs';
+        } else {
+          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition';
+          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg opacity-75';
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================================
+       THEME ENGINE
+       ========================================================================== */
+    const THEMES = {
+      indigo: { name: 'Indigo' },
+      dark: { name: 'Midnight' },
+      sage: { name: 'Sage Green' },
+      sunset: { name: 'Warm Amber' },
+      cyber: { name: 'Cyberpunk' }
+    };
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('focusmeet_theme') || 'indigo';
+      setAppTheme(savedTheme, false);
+    }
+
+    function toggleThemeMenu() {
+      document.getElementById('theme-dropdown').classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = document.getElementById('btn-theme-selector');
+      const menu = document.getElementById('theme-dropdown');
+      if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    function setAppTheme(themeKey, shouldSave = true) {
+      if (!THEMES[themeKey]) themeKey = 'indigo';
+      document.documentElement.setAttribute('data-theme', themeKey);
+      
+      ['indigo', 'dark', 'sage', 'sunset', 'cyber'].forEach(k => {
+        const check = document.getElementById(`check-${k}`);
+        if (check) {
+          if (k === themeKey) check.classList.remove('hidden');
+          else check.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('current-theme-name').textContent = THEMES[themeKey].name;
+      if (shouldSave) {
+        localStorage.setItem('focusmeet_theme', themeKey);
+        const menu = document.getElementById('theme-dropdown');
+        if (menu) menu.classList.add('hidden');
+      }
+    }
+
+    /* ==========================================================================
+       APP STATE ENGINE
+       ========================================================================== */
+    const STORAGE_KEY = 'focusmeet_student_state_v2';
+
+    const defaultState = {
+      user: {
+        name: 'Aditya Rathore',
+        level: 2,
+        levelTitle: 'Apprentice Mind',
+        currentXp: 110,
+        xpForNextLevel: 200,
+        totalXp: 210,
+        streakDays: 1,
+        dailyTargetMinutes: 120,
+        todayStudiedMinutes: 0
+      },
+      tasks: [
+        { id: '1', title: 'Calculus: Differential Equations Problem Set 4', category: 'Mathematics', priority: 'High', pomosEstimated: 3, pomosDone: 1, completed: false, time: '14:30' },
+        { id: '2', title: 'Physics: Review Electromagnetism formulas & notes', category: 'Physics', priority: 'Medium', pomosEstimated: 2, pomosDone: 2, completed: true, time: '11:00' },
+        { id: '3', title: 'Data Structures: Implement Dijkstra in Python', category: 'Computer Science', priority: 'High', pomosEstimated: 2, pomosDone: 0, completed: false, time: '16:00' },
+        { id: '4', title: 'Chemistry: Organic Reaction Mechanisms Flashcards', category: 'Chemistry', priority: 'Low', pomosEstimated: 1, pomosDone: 0, completed: false, time: '18:00' }
+      ],
+      timetable: [
+        { id: 'b1', day: 'Monday', title: 'Mathematics Lecture', tag: 'Lecture', start: '09:00', end: '10:30' },
+        { id: 'b2', day: 'Monday', title: 'Physics Lab Practicals', tag: 'Work', start: '11:00', end: '12:30' },
+        { id: 'b3', day: 'Monday', title: 'Algorithms Deep Study', tag: 'Study', start: '14:00', end: '16:00' },
+        { id: 'b4', day: 'Tuesday', title: 'CS Workshop', tag: 'Lecture', start: '10:00', end: '12:00' },
+        { id: 'b5', day: 'Wednesday', title: 'Chemistry Seminar', tag: 'Lecture', start: '13:00', end: '14:30' }
+      ],
+      activeTaskId: '1'
+    };
+
+    let appState = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {}
+      renderUI();
+    }
+
+    function awardXP(points, reason) {
+      appState.user.totalXp += points;
+      appState.user.currentXp += points;
+
+      if (appState.user.currentXp >= appState.user.xpForNextLevel) {
+        appState.user.level += 1;
+        appState.user.currentXp = appState.user.currentXp - appState.user.xpForNextLevel;
+        appState.user.xpForNextLevel = Math.round(appState.user.xpForNextLevel * 1.5);
+        appState.user.levelTitle = 'Dedicated Learner';
+        alert(`🌟 LEVEL UP! You reached Level ${appState.user.level} (${appState.user.levelTitle})!`);
+      }
+      saveState();
+    }
+
+    /* ==========================================================================
+       TIMER ENGINE & SYNTHESIZED SOUNDS
+       ========================================================================== */
+    let timerDuration = 25 * 60;
+    let timerTimeLeft = 25 * 60;
+    let timerIsRunning = false;
+    let timerInterval = null;
+
+    function setFocusPreset(minutes) {
+      if (timerIsRunning) {
+        clearInterval(timerInterval);
+        timerIsRunning = false;
+      }
+      timerDuration = minutes * 60;
+      timerTimeLeft = minutes * 60;
+
+      const tab25 = document.getElementById('timer-tab-25');
+      const tab50 = document.getElementById('timer-tab-50');
+      const tabShort = document.getElementById('timer-tab-short');
+      const tabLong = document.getElementById('timer-tab-long');
+
+      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = 'px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition'; });
+      if (minutes === 25 && tab25) tab25.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+      if (minutes === 50 && tab50) tab50.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+
+      updateTimerUI();
+    }
+
+    function setBreakMode(minutes) {
+      if (timerIsRunning) {
+        clearInterval(timerInterval);
+        timerIsRunning = false;
+      }
+      timerDuration = minutes * 60;
+      timerTimeLeft = minutes * 60;
+
+      const tab25 = document.getElementById('timer-tab-25');
+      const tab50 = document.getElementById('timer-tab-50');
+      const tabShort = document.getElementById('timer-tab-short');
+      const tabLong = document.getElementById('timer-tab-long');
+
+      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = 'px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition'; });
+      if (minutes === 5 && tabShort) tabShort.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+      if (minutes === 15 && tabLong) tabLong.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+
+      updateTimerUI();
+    }
+
+    function toggleTimer() {
+      if (timerIsRunning) {
+        clearInterval(timerInterval);
+        timerIsRunning = false;
+        updateTimerUI();
+      } else {
+        timerIsRunning = true;
+        updateTimerUI();
+        timerInterval = setInterval(() => {
+          if (timerTimeLeft > 0) {
+            timerTimeLeft--;
+            updateTimerUI();
+          } else {
+            handleTimerComplete();
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerIsRunning = false;
+      timerTimeLeft = timerDuration;
+      updateTimerUI();
+    }
+
+    function handleTimerComplete() {
+      clearInterval(timerInterval);
+      timerIsRunning = false;
+      const minutesSpent = Math.round(timerDuration / 60);
+
+      appState.user.todayStudiedMinutes += minutesSpent;
+      const xpEarned = minutesSpent * 2;
+      awardXP(xpEarned, 'Completed focus session');
+
+      if (appState.activeTaskId) {
+        const task = appState.tasks.find(t => t.id === appState.activeTaskId);
+        if (task) {
+          task.pomosDone++;
+          if (task.pomosDone >= task.pomosEstimated) task.completed = true;
+        }
+      }
+
+      saveState();
+      alert(`🎉 Focus Session Complete! You logged ${minutesSpent}m of study and earned +${xpEarned} XP!`);
+      resetTimer();
+    }
+
+    function updateTimerUI() {
+      const mins = Math.floor(timerTimeLeft / 60);
+      const secs = timerTimeLeft % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      
+      document.title = `${formatted} — FocusMeet`;
+      
+      const dashClock = document.getElementById('dashboard-timer-display');
+      if (dashClock) dashClock.textContent = formatted;
+
+      const heroClock = document.getElementById('timer-hero-clock');
+      if (heroClock) heroClock.textContent = formatted;
+
+      const ring = document.getElementById('timer-hero-progress-ring');
+      if (ring) {
+        const circumference = 2 * Math.PI * 44;
+        const fraction = timerTimeLeft / timerDuration;
+        ring.style.strokeDashoffset = circumference * (1 - fraction);
+      }
+
+      const dashBtn = document.getElementById('dash-timer-btn-text');
+      if (dashBtn) dashBtn.textContent = timerIsRunning ? 'PAUSE TIMER' : (timerTimeLeft === timerDuration ? 'START TIMER' : 'RESUME');
+
+      const heroBtn = document.getElementById('timer-hero-toggle-text');
+      if (heroBtn) heroBtn.textContent = timerIsRunning ? 'PAUSE FOCUS' : (timerTimeLeft === timerDuration ? 'START FOCUS' : 'RESUME');
+
+      const heroState = document.getElementById('timer-hero-state-label');
+      if (heroState) heroState.textContent = timerIsRunning ? 'Flow State Active' : 'Ready';
+    }
+
+    // Web Audio Synthesized Ambient Noise (Zero external files)
+    let audioCtx = null;
+    let noiseNode = null;
+
+    function setAmbientSound(type) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+      if (noiseNode) {
+        noiseNode.stop();
+        noiseNode.disconnect();
+        noiseNode = null;
+      }
+
+      ['off', 'rain', 'waves'].forEach(s => {
+        const b = document.getElementById(`sound-${s}`);
+        if (b) {
+          if (s === type) b.className = 'px-2.5 py-1 rounded-lg theme-accent-btn font-bold';
+          else b.className = 'px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100';
+        }
+      });
+
+      if (type === 'off') return;
+
+      const bufferSize = audioCtx.sampleRate * 2;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Pink noise synthesis for Rain/Waves
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        b3 = 0.86650 * b3 + white * 0.3104856;
+        b4 = 0.55000 * b4 + white * 0.5329522;
+        b5 = -0.7616 * b5 - white * 0.0168980;
+        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.05;
+        b6 = white * 0.115926;
+      }
+
+      noiseNode = audioCtx.createBufferSource();
+      noiseNode.buffer = buffer;
+      noiseNode.loop = true;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = type === 'rain' ? 'lowpass' : 'bandpass';
+      filter.frequency.value = type === 'rain' ? 800 : 400;
+
+      noiseNode.connect(filter);
+      filter.connect(audioCtx.destination);
+      noiseNode.start();
+    }
+
+    /* ==========================================================================
+       TASK MANAGEMENT
+       ========================================================================== */
+    let currentFilter = 'all';
+
+    function setTaskFilter(filter) {
+      currentFilter = filter;
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const dashContainer = document.getElementById('tasks-container');
+      const fullContainer = document.getElementById('full-tasks-container');
+
+      let filtered = appState.tasks;
+      if (currentFilter === 'active') filtered = filtered.filter(t => !t.completed);
+      else if (currentFilter === 'completed') filtered = filtered.filter(t => t.completed);
+      else if (currentFilter !== 'all') filtered = filtered.filter(t => t.category === currentFilter);
+
+      document.getElementById('priority-tasks-count').textContent = appState.tasks.filter(t => !t.completed).length;
+
+      const taskHtml = filtered.length === 0 ? `
+        <div class="py-8 text-center text-slate-400">
+          <p class="text-xs font-semibold">No tasks found</p>
+          <p class="text-[11px] text-slate-400 mt-0.5">Add a task to earn XP and stay on target.</p>
+        </div>
+      ` : filtered.map(task => {
+        const isActive = task.id === appState.activeTaskId;
+        const subjectPill = {
+          Mathematics: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+          Physics: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+          'Computer Science': 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
+          Chemistry: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
+        }[task.category] || 'bg-slate-500/10 text-slate-600 border-slate-500/20';
+
+        return `
+          <div class="flex items-center justify-between p-3 rounded-xl border transition ${
+            isActive ? 'theme-accent-soft border-indigo-300 shadow-xs' : 'bg-slate-100/40 dark:bg-slate-800/40 hover:bg-slate-100/70 border-slate-200/60 dark:border-slate-800'
+          }">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <input type="checkbox" onchange="toggleTaskDone('${task.id}')" ${task.completed ? 'checked' : ''} class="w-4 h-4 rounded accent-indigo-600 cursor-pointer">
+              <div class="flex-1 min-w-0">
+                <p onclick="setActiveTask('${task.id}')" class="text-xs sm:text-sm font-semibold cursor-pointer truncate ${task.completed ? 'line-through opacity-50' : 'text-inherit'}">
+                  ${task.title}
+                </p>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[10px] px-2 py-0.5 rounded border font-semibold ${subjectPill}">${task.category}</span>
+                  <span class="text-[10px] opacity-75 font-mono">🍅 ${task.pomosDone}/${task.pomosEstimated}</span>
+                  ${task.time ? `<span class="text-[10px] opacity-60">⏰ ${task.time}</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 ml-2">
+              <button onclick="setActiveTask('${task.id}')" title="Focus This" class="p-1.5 rounded-lg ${isActive ? 'theme-accent-btn' : 'opacity-60 hover:opacity-100'} transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <button onclick="deleteTask('${task.id}')" title="Delete" class="p-1.5 rounded-lg opacity-50 hover:opacity-100 hover:text-rose-500 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (dashContainer) dashContainer.innerHTML = taskHtml;
+      if (fullContainer) fullContainer.innerHTML = taskHtml;
+    }
+
+    function toggleTaskDone(id) {
+      const task = appState.tasks.find(t => t.id === id);
+      if (task) {
+        task.completed = !task.completed;
+        if (task.completed) awardXP(30, 'Completed task');
+        saveState();
+      }
+    }
+
+    function setActiveTask(id) {
+      appState.activeTaskId = id;
+      saveState();
+      switchView('timer');
+    }
+
+    function deleteTask(id) {
+      appState.tasks = appState.tasks.filter(t => t.id !== id);
+      if (appState.activeTaskId === id) appState.activeTaskId = appState.tasks[0]?.id || null;
+      saveState();
+    }
+
+    function quickAddTask(e) {
+      e.preventDefault();
+      const input = document.getElementById('quick-task-title') || document.getElementById('quick-task-full');
+      const title = input.value.trim();
+      if (!title) return;
+
+      const newTask = {
+        id: Date.now().toString(),
+        title,
+        category: 'Mathematics',
+        priority: 'Medium',
+        pomosEstimated: 2,
+        pomosDone: 0,
+        completed: false,
+        time: ''
+      };
+      appState.tasks.unshift(newTask);
+      appState.activeTaskId = newTask.id;
+      input.value = '';
+      awardXP(10, 'Created new task');
+      saveState();
+    }
+
+    function handleSaveTask(e) {
+      e.preventDefault();
+      const title = document.getElementById('task-input-title').value.trim();
+      const category = document.getElementById('task-input-category').value;
+      const priority = document.getElementById('task-input-priority').value;
+      const pomosEstimated = parseInt(document.getElementById('task-input-pomos').value) || 2;
+      const time = document.getElementById('task-input-time').value;
+
+      if (!title) return;
+      const newTask = {
+        id: Date.now().toString(),
+        title,
+        category,
+        priority,
+        pomosEstimated,
+        pomosDone: 0,
+        completed: false,
+        time
+      };
+      appState.tasks.unshift(newTask);
+      appState.activeTaskId = newTask.id;
+      closeModal('modal-task');
+      awardXP(15, 'Created new task');
+      saveState();
+    }
+
+    /* ==========================================================================
+       TIMETABLE LOGIC
+       ========================================================================== */
+    let selectedDay = 'Monday';
+
+    function changeScheduleDay(day) {
+      selectedDay = day;
+      renderTimetable();
+    }
+
+    function renderTimetable() {
+      const container = document.getElementById('timetable-slots-container');
+      if (!container) return;
+
+      const dayBlocks = appState.timetable
+        .filter(b => b.day.toLowerCase() === selectedDay.toLowerCase())
+        .sort((a, b) => a.start.localeCompare(b.start));
+
+      if (dayBlocks.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 text-center text-slate-400 border border-dashed border-slate-300 dark:border-slate-800 rounded-xl">
+            <p class="text-xs font-semibold">No schedule slots for ${selectedDay}</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Click "+ Add Timetable Block" to add your classes.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = dayBlocks.map(b => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 transition">
+          <div class="flex items-center gap-3">
+            <div class="flex flex-col font-mono text-center min-w-[65px]">
+              <span class="text-xs font-bold">${b.start}</span>
+              <span class="text-[10px] text-slate-400">${b.end}</span>
+            </div>
+            <div class="border-l border-slate-300 dark:border-slate-700 pl-3">
+              <p class="text-xs font-bold">${b.title}</p>
+              <span class="text-[10px] font-semibold opacity-75">${b.tag}</span>
+            </div>
+          </div>
+          <button onclick="deleteTimetableBlock('${b.id}')" title="Delete" class="p-1 rounded-lg opacity-40 hover:opacity-100 hover:text-rose-500 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function deleteTimetableBlock(id) {
+      if (confirm('Delete this timetable slot?')) {
+        appState.timetable = appState.timetable.filter(b => b.id !== id);
+        saveState();
+        renderTimetable();
+      }
+    }
+
+    function handleSaveBlock(e) {
+      e.preventDefault();
+      const title = document.getElementById('block-input-title').value.trim();
+      const day = document.getElementById('block-input-day').value;
+      const tag = document.getElementById('block-input-tag').value;
+      const start = document.getElementById('block-input-start').value;
+      const end = document.getElementById('block-input-end').value;
+
+      if (!title || !start || !end) return;
+
+      const newBlock = { id: 'b_' + Date.now(), day, title, tag, start, end };
+      appState.timetable.push(newBlock);
+      saveState();
+      closeModal('modal-block');
+      selectedDay = day;
+      document.getElementById('schedule-day-select').value = day;
+      renderTimetable();
+    }
+
+    /* MODAL CONTROLS */
+    function openNewTaskModal() {
+      document.getElementById('modal-task').classList.remove('hidden');
+      document.getElementById('modal-task').classList.add('flex');
+    }
+
+    function openAddBlockModal() {
+      document.getElementById('modal-block').classList.remove('hidden');
+      document.getElementById('modal-block').classList.add('flex');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    }
+
+    /* RENDER FULL UI */
+    function renderUI() {
+      const u = appState.user;
+
+      // Badges & Header
+      document.getElementById('badge-lvl').textContent = `Lvl ${u.level}`;
+      document.getElementById('badge-xp').textContent = `${u.totalXp} XP`;
+      document.getElementById('streak-days').textContent = `${u.streakDays} day`;
+
+      // Study target metrics
+      const pct = Math.min(100, Math.round((u.todayStudiedMinutes / u.dailyTargetMinutes) * 100));
+      document.getElementById('study-target-pct').textContent = `${pct}%`;
+      document.getElementById('card-study-mins').textContent = `${u.todayStudiedMinutes}m`;
+      document.getElementById('study-progress-bar').style.width = `${pct}%`;
+      document.getElementById('study-progress-label').textContent = `${pct}% accomplished`;
+      document.getElementById('study-mins-left').textContent = `${Math.max(0, u.dailyTargetMinutes - u.todayStudiedMinutes)}m left`;
+
+      // Goals tab progress
+      const goalDaily = document.getElementById('goal-progress-daily');
+      if (goalDaily) goalDaily.style.width = `${pct}%`;
+      const goalText = document.getElementById('goal-daily-status');
+      if (goalText) goalText.textContent = `${u.todayStudiedMinutes} / ${u.dailyTargetMinutes} minutes logged today`;
+
+      // Gamification banner
+      document.getElementById('gamification-level-title').textContent = `Level ${u.level} • ${u.levelTitle}`;
+      document.getElementById('gamification-total-xp').textContent = `${u.totalXp} XP Total`;
+      const xpNeeded = u.xpForNextLevel - u.currentXp;
+      document.getElementById('gamification-xp-next').textContent = `${xpNeeded} XP needed to reach Level ${u.level + 1} (Dedicated Learner)`;
+      const lvlPct = Math.min(100, Math.round((u.currentXp / u.xpForNextLevel) * 100));
+      document.getElementById('gamification-xp-bar').style.width = `${lvlPct}%`;
+      document.getElementById('gamification-xp-stat').textContent = `${lvlPct}% (${u.currentXp} / ${u.xpForNextLevel} XP)`;
+
+      // Task counters
+      const doneCount = appState.tasks.filter(t => t.completed).length;
+      const totalCount = appState.tasks.length;
+      document.getElementById('card-tasks-done').textContent = doneCount;
+      document.getElementById('card-tasks-total').textContent = `/ ${totalCount} total today`;
+      document.getElementById('card-tasks-pending').textContent = `${totalCount - doneCount} pending tasks remaining today.`;
+
+      // Focus station target task name
+      const active = appState.tasks.find(t => t.id === appState.activeTaskId);
+      const activeTitle = active ? active.title : 'Free flow focus';
+      const dashTaskElem = document.getElementById('focus-station-task-name');
+      if (dashTaskElem) dashTaskElem.textContent = activeTitle;
+      const heroTaskElem = document.getElementById('timer-hero-target-task');
+      if (heroTaskElem) heroTaskElem.textContent = activeTitle;
+
+      renderTasks();
+      renderTimetable();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderUI();
+      updateTimerUI();
+    });
+  </script>
+</body>
+</html>
