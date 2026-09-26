@@ -213,27 +213,28 @@
           <svg class="w-3.5 h-3.5 text-current" fill="currentColor" viewBox="0 0 20 20">
             <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
           </svg>
-          <span id="badge-lvl">Lvl 2</span>
+          <span id="badge-lvl">Lvl 1</span>
           <span class="opacity-50">•</span>
-          <span id="badge-xp">210 XP</span>
+          <span id="badge-xp">0 XP</span>
         </div>
 
-        <!-- AUTHENTICATION BUTTONS & USER MENU -->
+        <!-- AUTHENTICATION BUTTONS & USER PROFILE -->
         <div class="relative pl-1 border-l border-slate-200/60 dark:border-slate-700 flex items-center gap-2">
           
-          <!-- When Logged In: User Badge with Dropdown -->
-          <div id="auth-user-pill" class="flex items-center gap-2 cursor-pointer p-1 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition" onclick="toggleUserMenu()">
+          <!-- State 1: When User is Logged In (Profile Pill & Dropdown) -->
+          <div id="auth-user-pill" class="hidden items-center gap-2 cursor-pointer p-1 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition" onclick="toggleUserMenu()">
             <div id="user-avatar-initials" class="w-8 h-8 rounded-full theme-accent-btn font-bold text-xs flex items-center justify-center shadow-xs">
-              A
+              U
             </div>
             <div class="hidden sm:block text-left">
-              <span id="user-navbar-name" class="text-xs font-bold block leading-none">Aditya</span>
+              <span id="user-navbar-name" class="text-xs font-bold block leading-none">User</span>
               <span class="text-[9px] text-slate-400">Account ▾</span>
             </div>
           </div>
 
-          <!-- When Logged Out: Prominent Sign In Button -->
-          <button id="auth-login-btn" onclick="openAuthModal('login')" class="hidden px-3.5 py-1.5 rounded-xl theme-accent-btn text-xs font-bold shadow-xs transition">
+          <!-- State 2: When Not Logged In (Prominent Sign In Button) -->
+          <button id="auth-login-btn" onclick="openAuthModal('login')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl theme-accent-btn text-xs font-extrabold shadow-sm transition transform active:scale-95">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
             Sign In / Sign Up
           </button>
 
@@ -241,31 +242,31 @@
           <div id="user-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-64 theme-card border rounded-2xl shadow-2xl p-4 z-50 text-xs space-y-3">
             <div class="flex items-center gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-800">
               <div id="menu-avatar-circle" class="w-10 h-10 rounded-full theme-accent-btn font-black text-sm flex items-center justify-center shadow-xs">
-                A
+                U
               </div>
               <div class="min-w-0 flex-1">
-                <p id="menu-user-fullname" class="font-bold text-sm truncate">Aditya Rathore</p>
-                <p id="menu-user-email" class="text-slate-400 text-[11px] truncate">aditya@focusmeet.in</p>
+                <p id="menu-user-fullname" class="font-bold text-sm truncate">Student</p>
+                <p id="menu-user-email" class="text-slate-400 text-[11px] truncate">student@focusmeet.in</p>
               </div>
             </div>
 
             <div class="space-y-1">
               <div class="flex items-center justify-between text-slate-400 py-1">
                 <span>Account Rank</span>
-                <span id="menu-user-rank" class="font-bold text-indigo-500">Apprentice (Lvl 2)</span>
+                <span id="menu-user-rank" class="font-bold text-indigo-500">Curious Mind (Lvl 1)</span>
               </div>
               <div class="flex items-center justify-between text-slate-400 py-1">
                 <span>Total XP Earned</span>
-                <span id="menu-user-xp" class="font-bold text-slate-700 dark:text-slate-200">210 XP</span>
+                <span id="menu-user-xp" class="font-bold text-slate-700 dark:text-slate-200">0 XP</span>
               </div>
             </div>
 
             <div class="pt-2 border-t border-slate-200/60 dark:border-slate-800 space-y-1.5">
               <button onclick="openAuthModal('signup')" class="w-full text-left p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold flex items-center justify-between transition">
-                <span>➕ Switch / Add Account</span>
+                <span>➕ Create Another Account</span>
               </button>
               <button onclick="openAuthModal('login')" class="w-full text-left p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold flex items-center justify-between transition">
-                <span>🔑 Sign In Another Account</span>
+                <span>🔑 Switch Account</span>
               </button>
               <button onclick="handleLogout()" class="w-full text-left p-2 rounded-xl hover:bg-rose-500/10 text-rose-500 font-semibold flex items-center justify-between transition">
                 <span>🚪 Sign Out</span>
@@ -303,16 +304,16 @@
             <span id="current-date-display">Saturday, Sep 26, 2026</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
-            Good afternoon, <span id="hero-greeting-name">Aditya Rathore</span>! <span class="text-2xl animate-bounce">👋</span>
+            <span id="hero-greeting-prefix">Welcome to FocusMeet</span>, <span id="hero-greeting-name">Guest Learner</span>! <span class="text-2xl animate-bounce">👋</span>
           </h2>
           <p id="motivational-sub" class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
-            You're <span id="study-target-pct" class="font-bold theme-accent-soft px-1.5 py-0.5 rounded">0%</span> toward today's study target. Ready to focus?
+            <span id="hero-auth-prompt">Sign in or create an account to save your study streaks, earn XP, and track subjects.</span>
           </p>
         </div>
 
         <div class="flex items-center gap-3">
-          <button onclick="openAuthModal('login')" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800 hover:bg-slate-50 text-xs font-bold shadow-xs transition">
-            <span>👤 Switch Account</span>
+          <button id="hero-auth-btn" onclick="openAuthModal('login')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-indigo-400/40 bg-indigo-50/50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 text-xs font-bold shadow-xs transition">
+            <span>🔑 Sign In / Register</span>
           </button>
           <button onclick="openNewTaskModal()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800 hover:bg-slate-50 text-xs font-bold shadow-xs transition">
             <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
@@ -337,7 +338,7 @@
           <div class="mt-4">
             <div class="flex items-baseline gap-1.5">
               <span id="card-study-mins" class="text-2xl font-extrabold">0m</span>
-              <span class="text-xs font-semibold text-slate-400">/ 120m goal</span>
+              <span id="card-study-goal-label" class="text-xs font-semibold text-slate-400">/ 120m goal</span>
             </div>
             <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 mt-3 overflow-hidden">
               <div id="study-progress-bar" class="theme-accent-btn h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
@@ -355,9 +356,9 @@
             <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center"><span>🔥</span></div>
           </div>
           <div class="mt-4">
-            <span id="card-streak-val" class="text-2xl font-extrabold">1 Day</span>
+            <span id="card-streak-val" class="text-2xl font-extrabold">0 Days</span>
             <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
-              <span class="text-amber-500 font-semibold">🔥 Daily habit on track!</span> Complete a session today to keep it flaming.
+              <span class="text-amber-500 font-semibold">🔥 Daily habit on track!</span> Complete a 25m session to light up your streak.
             </p>
           </div>
         </div>
@@ -387,10 +388,10 @@
           </div>
           <div class="mt-4">
             <div class="flex items-baseline gap-1.5">
-              <span id="alltime-tasks-done" class="text-2xl font-extrabold">4</span>
+              <span id="alltime-tasks-done" class="text-2xl font-extrabold">0</span>
               <span class="text-xs font-semibold text-slate-400">tasks across 4 subjects</span>
             </div>
-            <p id="alltime-sessions-done" class="text-[11px] text-slate-400 mt-2">3 focus sessions logged overall.</p>
+            <p id="alltime-sessions-done" class="text-[11px] text-slate-400 mt-2">0 focus sessions logged overall.</p>
           </div>
         </div>
       </div>
@@ -401,28 +402,28 @@
           <div class="w-12 h-12 rounded-2xl theme-accent-btn flex items-center justify-center font-black text-xl shadow-md">⚡</div>
           <div class="flex-1">
             <div class="flex items-center gap-2">
-              <h3 id="gamification-level-title" class="text-sm font-bold">Level 2 • Apprentice Mind</h3>
-              <span id="gamification-total-xp" class="text-xs font-bold theme-accent-soft px-2 py-0.5 rounded-full border border-current/20">210 XP Total</span>
+              <h3 id="gamification-level-title" class="text-sm font-bold">Level 1 • Curious Mind</h3>
+              <span id="gamification-total-xp" class="text-xs font-bold theme-accent-soft px-2 py-0.5 rounded-full border border-current/20">0 XP Total</span>
             </div>
-            <p id="gamification-xp-next" class="text-xs text-slate-400 mt-0.5 font-medium">90 XP needed to reach Level 3 (Dedicated Learner)</p>
+            <p id="gamification-xp-next" class="text-xs text-slate-400 mt-0.5 font-medium">100 XP needed to reach Level 2 (Apprentice Mind)</p>
             <div class="flex items-center gap-3 mt-2">
               <div class="w-48 sm:w-64 bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 overflow-hidden">
-                <div id="gamification-xp-bar" class="theme-accent-btn h-2 rounded-full transition-all duration-500" style="width: 55%"></div>
+                <div id="gamification-xp-bar" class="theme-accent-btn h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
-              <span id="gamification-xp-stat" class="text-[11px] font-semibold text-slate-400">55% (110 / 200 XP)</span>
+              <span id="gamification-xp-stat" class="text-[11px] font-semibold text-slate-400">0% (0 / 100 XP)</span>
             </div>
           </div>
         </div>
 
         <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-slate-200/50 dark:border-slate-800">
           <button onclick="switchView('goals')" class="text-xs font-bold text-amber-500 hover:text-amber-600 flex items-center gap-1.5 transition">
-            <span>🏆 All Badges (3/32)</span>
+            <span>🏆 All Badges (0/32)</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
           <div class="flex items-center gap-2">
-            <div title="Focus Rookie" class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 border border-amber-500/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🍅</div>
-            <div title="Streak Starter" class="w-8 h-8 rounded-xl theme-accent-soft border border-current/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🔥</div>
-            <div title="Task Crusher" class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 flex items-center justify-center text-sm shadow-xs cursor-pointer">🎯</div>
+            <div title="Locked: Focus Rookie" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🍅</div>
+            <div title="Locked: Streak Starter" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🔥</div>
+            <div title="Locked: Task Crusher" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🎯</div>
             <div title="Locked: Deep Work Sage" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🛡️</div>
           </div>
         </div>
@@ -433,7 +434,7 @@
         <section class="lg:col-span-7 theme-card border rounded-2xl p-6 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between pb-3 border-b border-slate-200/60 dark:border-slate-800">
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-bold">Today's Priority Tasks</h3>
+              <h3 class="text-base font-bold">Today's Study Tasks</h3>
               <span id="priority-tasks-count" class="text-xs px-2 py-0.5 rounded-full theme-accent-soft font-bold">4</span>
             </div>
             <button onclick="switchView('tasks')" class="text-xs font-bold text-indigo-500 hover:underline">View All Tasks →</button>
@@ -528,14 +529,16 @@
       </div>
     </div>
 
-    <!-- VIEW 3: FOCUS TIMER -->
+    <!-- VIEW 3: IMMERSIVE FOCUS TIMER WITH ENHANCED AUDIO SYNTHESIZER -->
     <div id="view-timer" class="view-panel hidden flex flex-col items-center justify-center gap-6 py-6">
       <div class="text-center max-w-lg">
         <h2 class="text-3xl font-black tracking-tight">Focus Sanctuary</h2>
-        <p class="text-xs text-slate-400 mt-1">Science-backed intervals, ambient study noise, and zero distractions.</p>
+        <p class="text-xs text-slate-400 mt-1">Procedural soothing ambient soundscapes, zero distractions, and pure flow.</p>
       </div>
 
       <div class="theme-card border rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col items-center max-w-md w-full relative overflow-hidden">
+        
+        <!-- Mode Tabs -->
         <div class="inline-flex p-1 rounded-2xl bg-slate-200/50 dark:bg-slate-800/80 mb-6 text-xs font-semibold">
           <button onclick="setFocusPreset(25)" id="timer-tab-25" class="px-4 py-2 rounded-xl theme-card shadow-xs transition">25m Pomo</button>
           <button onclick="setFocusPreset(50)" id="timer-tab-50" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">50m Deep</button>
@@ -543,6 +546,7 @@
           <button onclick="setBreakMode(15)" id="timer-tab-long" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">15m Long</button>
         </div>
 
+        <!-- SVG Dial -->
         <div class="relative w-64 h-64 flex items-center justify-center my-2">
           <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="44" stroke="currentColor" class="text-slate-200/60 dark:text-slate-800" stroke-width="6" fill="transparent" />
@@ -554,11 +558,13 @@
           </div>
         </div>
 
+        <!-- Target Task -->
         <div class="w-full mt-4 bg-slate-100/60 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-200/60 dark:border-slate-700/60 text-center">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Task</span>
           <p id="timer-hero-target-task" class="text-xs font-bold truncate mt-0.5">Calculus: Differential Equations</p>
         </div>
 
+        <!-- Controls -->
         <div class="flex items-center gap-3 w-full mt-6">
           <button onclick="toggleTimer()" id="btn-timer-hero-toggle" class="flex-1 py-3.5 rounded-2xl theme-accent-btn font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
             <span id="timer-hero-toggle-text">START FOCUS</span>
@@ -568,14 +574,27 @@
           </button>
         </div>
 
-        <div class="w-full mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs">
-          <span class="text-slate-400 font-medium">Ambient Sound:</span>
-          <div class="flex items-center gap-1">
-            <button onclick="setAmbientSound('off')" id="sound-off" class="px-2.5 py-1 rounded-lg theme-accent-btn font-bold">Mute</button>
-            <button onclick="setAmbientSound('rain')" id="sound-rain" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100">🌧️ Rain</button>
-            <button onclick="setAmbientSound('waves')" id="sound-waves" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100">🌊 Waves</button>
+        <!-- ENHANCED AMBIENT SOUND GENERATOR (Rhythmic Ocean Swells & Multi-Layer Rain) -->
+        <div class="w-full mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-800 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-400 font-bold flex items-center gap-1.5">
+              <span>🎧 Ambient Soundscape:</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="setAmbientSound('off')" id="sound-off" class="px-2.5 py-1 rounded-lg theme-accent-btn font-bold">Mute</button>
+              <button onclick="setAmbientSound('rain')" id="sound-rain" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition">🌧️ Rain</button>
+              <button onclick="setAmbientSound('waves')" id="sound-waves" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition">🌊 Waves</button>
+            </div>
+          </div>
+
+          <!-- Volume Slider -->
+          <div id="ambient-volume-container" class="hidden items-center justify-between gap-3 pt-1 text-xs text-slate-400">
+            <span class="text-[11px] font-medium">Sound Volume:</span>
+            <input type="range" id="ambient-volume-slider" min="0" max="100" value="45" oninput="setAmbientVolume(this.value)" class="flex-1 accent-indigo-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg">
+            <span id="ambient-volume-label" class="font-mono text-[10px] w-7 text-right">45%</span>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -674,14 +693,14 @@
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs">
           <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-400">Weekly Pomodoro Target</span><span class="text-xs font-bold text-purple-500">20 Pomos</span></div>
-          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-purple-600 h-2 rounded-full" style="width: 15%"></div></div>
-          <p class="text-xs text-slate-400 mt-2">3 / 20 Pomodoros completed this week</p>
+          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-purple-600 h-2 rounded-full" style="width: 0%"></div></div>
+          <p class="text-xs text-slate-400 mt-2">0 / 20 Pomodoros completed this week</p>
         </div>
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs">
           <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-400">Consistency Habit</span><span class="text-xs font-bold text-amber-500">7 Days</span></div>
-          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-amber-500 h-2 rounded-full" style="width: 14%"></div></div>
-          <p class="text-xs text-slate-400 mt-2">Day 1 of 7 streak maintained 🔥</p>
+          <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-amber-500 h-2 rounded-full" style="width: 0%"></div></div>
+          <p class="text-xs text-slate-400 mt-2">Day 0 of 7 streak maintained 🔥</p>
         </div>
       </div>
 
@@ -691,13 +710,13 @@
             <h3 class="text-base font-bold">Achievement Badges</h3>
             <p class="text-xs text-slate-400">Earn XP and unlock recognition as you master your study routines.</p>
           </div>
-          <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">3 of 32 Badges Unlocked</span>
+          <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">32 Badges to Unlock</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 mt-6">
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 shadow-xs"><span class="text-2xl">🍅</span><span class="text-xs font-bold mt-1">Focus Rookie</span><span class="text-[10px] text-amber-600 font-semibold">Unlocked</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl theme-accent-soft border border-current/30 shadow-xs"><span class="text-2xl">🔥</span><span class="text-xs font-bold mt-1">Streak Starter</span><span class="text-[10px] font-semibold">Unlocked</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 shadow-xs"><span class="text-2xl">🎯</span><span class="text-xs font-bold mt-1">Task Crusher</span><span class="text-[10px] text-emerald-600 font-semibold">Unlocked</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🍅</span><span class="text-xs font-bold mt-1">Focus Rookie</span><span class="text-[10px] text-slate-400">1st Pomo</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🔥</span><span class="text-xs font-bold mt-1">Streak Starter</span><span class="text-[10px] text-slate-400">1 Day</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🎯</span><span class="text-xs font-bold mt-1">Task Crusher</span><span class="text-[10px] text-slate-400">3 Tasks</span></div>
           <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🛡️</span><span class="text-xs font-bold mt-1">Deep Sage</span><span class="text-[10px] text-slate-400">Lvl 3</span></div>
           <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">👑</span><span class="text-xs font-bold mt-1">Century Club</span><span class="text-[10px] text-slate-400">100 Pomos</span></div>
           <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">⌛</span><span class="text-xs font-bold mt-1">Time Bender</span><span class="text-[10px] text-slate-400">5hr Day</span></div>
@@ -740,7 +759,7 @@
       <form id="form-login" onsubmit="handleLoginSubmit(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold mb-1">Email Address</label>
-          <input type="email" id="login-email" required placeholder="aditya@focusmeet.in" class="w-full theme-input border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <input type="email" id="login-email" required placeholder="your.email@university.edu" class="w-full theme-input border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
           <label class="block text-xs font-semibold mb-1">Password</label>
@@ -752,7 +771,7 @@
             <input type="checkbox" checked class="accent-indigo-600 rounded">
             <span>Remember me</span>
           </label>
-          <a href="#" onclick="alert('Demo tip: You can sign in using aditya@focusmeet.in with any password, or create a brand new account!')" class="text-indigo-500 font-semibold hover:underline">Forgot?</a>
+          <a href="#" onclick="alert('Forgot password? Try logging in with the demo account, or create a brand new account!')" class="text-indigo-500 font-semibold hover:underline">Forgot?</a>
         </div>
 
         <button type="submit" class="w-full py-3 rounded-xl theme-accent-btn font-extrabold text-xs shadow-md transition transform active:scale-95">
@@ -770,7 +789,7 @@
       <form id="form-signup" onsubmit="handleSignupSubmit(event)" class="space-y-3.5 hidden">
         <div>
           <label class="block text-xs font-semibold mb-1">Full Name</label>
-          <input type="text" id="signup-name" required placeholder="e.g. Aditya Rathore" class="w-full theme-input border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <input type="text" id="signup-name" required placeholder="e.g. Alex Johnson" class="w-full theme-input border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
         <div>
           <label class="block text-xs font-semibold mb-1">Email Address</label>
@@ -899,33 +918,44 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT STATE, AUTH & ROUTING ENGINE -->
+  <!-- JAVASCRIPT STATE, AUTH, SOUND & ROUTING ENGINE -->
   <script>
     /* ==========================================================================
-       AUTHENTICATION & USER PROFILE ENGINE
+       AUTHENTICATION & USER PROFILE ENGINE (NO AUTO-LOGIN BY DEFAULT)
        ========================================================================== */
-    const AUTH_USERS_KEY = 'focusmeet_registered_users_v1';
-    const AUTH_SESSION_KEY = 'focusmeet_logged_in_user_v1';
+    const AUTH_USERS_KEY = 'focusmeet_registered_users_v2';
+    const AUTH_SESSION_KEY = 'focusmeet_active_session_v3';
 
     function initAuth() {
+      // Purge any legacy session tokens from earlier testing so user arrives as Guest
+      ['focusmeet_logged_in_user', 'focusmeet_logged_in_user_v2'].forEach(k => {
+        try { localStorage.removeItem(k); } catch (e) {}
+      });
+
       let users = getRegisteredUsers();
       if (!users['aditya@focusmeet.in']) {
         users['aditya@focusmeet.in'] = {
           name: 'Aditya Rathore',
           email: 'aditya@focusmeet.in',
           password: 'password123',
-          dailyGoal: 120
+          dailyGoal: 120,
+          level: 2,
+          levelTitle: 'Apprentice Mind',
+          totalXp: 210,
+          currentXp: 110,
+          xpForNextLevel: 200,
+          streakDays: 1
         };
         localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
       }
 
-      // Check if user has an active session
+      // Check if user has an active session from an EXPLICIT previous login
       const activeEmail = localStorage.getItem(AUTH_SESSION_KEY);
       if (activeEmail && users[activeEmail]) {
-        updateAuthUI();
+        loadUserWorkspace(users[activeEmail], false);
       } else {
-        localStorage.setItem(AUTH_SESSION_KEY, 'aditya@focusmeet.in');
-        updateAuthUI();
+        // ALWAYS DEFAULT: Not logged in! Arrives as Guest Learner
+        setGuestMode();
       }
     }
 
@@ -998,7 +1028,7 @@
       if (users[email] && users[email].password === pass) {
         localStorage.setItem(AUTH_SESSION_KEY, email);
         closeModal('modal-auth');
-        loadUserWorkspace(users[email]);
+        loadUserWorkspace(users[email], false);
         alert(`🎉 Welcome back, ${users[email].name}!`);
       } else if (users[email]) {
         alert('Incorrect password. Please try again.');
@@ -1027,7 +1057,13 @@
         name: name,
         email: email,
         password: pass,
-        dailyGoal: goal
+        dailyGoal: goal,
+        level: 1,
+        levelTitle: 'Curious Mind',
+        totalXp: 50,
+        currentXp: 50,
+        xpForNextLevel: 100,
+        streakDays: 1
       };
 
       localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
@@ -1041,54 +1077,81 @@
     function loginDemoUser() {
       localStorage.setItem(AUTH_SESSION_KEY, 'aditya@focusmeet.in');
       closeModal('modal-auth');
-      const user = getCurrentUser();
-      loadUserWorkspace(user);
+      const users = getRegisteredUsers();
+      loadUserWorkspace(users['aditya@focusmeet.in'], false);
     }
 
     function handleLogout() {
       if (confirm('Are you sure you want to sign out?')) {
         localStorage.removeItem(AUTH_SESSION_KEY);
-        updateAuthUI();
-        openAuthModal('login');
+        setGuestMode();
+        alert('You have signed out. You are now exploring as a Guest Learner.');
       }
     }
 
-    function updateAuthUI() {
-      const user = getCurrentUser();
+    function setGuestMode() {
       const pill = document.getElementById('auth-user-pill');
       const loginBtn = document.getElementById('auth-login-btn');
+      const heroAuthBtn = document.getElementById('hero-auth-btn');
       const menu = document.getElementById('user-dropdown-menu');
       if (menu) menu.classList.add('hidden');
 
-      if (user) {
-        if (pill) pill.classList.remove('hidden');
-        if (loginBtn) loginBtn.classList.add('hidden');
+      if (pill) pill.classList.add('hidden');
+      if (loginBtn) loginBtn.classList.remove('hidden');
+      if (heroAuthBtn) heroAuthBtn.classList.remove('hidden');
 
-        const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
-        document.getElementById('user-avatar-initials').textContent = initial;
-        document.getElementById('menu-avatar-circle').textContent = initial;
-        document.getElementById('user-navbar-name').textContent = user.name.split(' ')[0];
-        document.getElementById('menu-user-fullname').textContent = user.name;
-        document.getElementById('menu-user-email').textContent = user.email;
-        document.getElementById('hero-greeting-name').textContent = user.name;
-      } else {
-        if (pill) pill.classList.add('hidden');
-        if (loginBtn) loginBtn.classList.remove('hidden');
-        document.getElementById('hero-greeting-name').textContent = 'Guest Learner';
-      }
+      document.getElementById('hero-greeting-prefix').textContent = 'Welcome to FocusMeet';
+      document.getElementById('hero-greeting-name').textContent = 'Guest Learner';
+      document.getElementById('hero-auth-prompt').textContent = 'Sign in or create an account to save your study streaks, earn XP, and track subjects.';
+
+      // Reset guest display metrics
+      appState.user.name = 'Guest Learner';
+      appState.user.level = 1;
+      appState.user.levelTitle = 'Curious Mind';
+      appState.user.totalXp = 0;
+      appState.user.currentXp = 0;
+      appState.user.xpForNextLevel = 100;
+      appState.user.streakDays = 0;
+      appState.user.dailyTargetMinutes = 120;
+      appState.user.todayStudiedMinutes = 0;
+      saveState();
+      renderUI();
     }
 
     function loadUserWorkspace(user, isNew = false) {
+      const pill = document.getElementById('auth-user-pill');
+      const loginBtn = document.getElementById('auth-login-btn');
+      const heroAuthBtn = document.getElementById('hero-auth-btn');
+      const menu = document.getElementById('user-dropdown-menu');
+      if (menu) menu.classList.add('hidden');
+
+      if (pill) pill.classList.remove('hidden');
+      if (loginBtn) loginBtn.classList.add('hidden');
+      if (heroAuthBtn) heroAuthBtn.classList.add('hidden');
+
+      const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+      document.getElementById('user-avatar-initials').textContent = initial;
+      document.getElementById('menu-avatar-circle').textContent = initial;
+      document.getElementById('user-navbar-name').textContent = user.name.split(' ')[0];
+      document.getElementById('menu-user-fullname').textContent = user.name;
+      document.getElementById('menu-user-email').textContent = user.email;
+
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      document.getElementById('hero-greeting-prefix').textContent = greeting;
+      document.getElementById('hero-greeting-name').textContent = user.name;
+      document.getElementById('hero-auth-prompt').innerHTML = `You're <span id="study-target-pct" class="font-bold theme-accent-soft px-1.5 py-0.5 rounded">0%</span> toward today's study target. Ready to focus?`;
+
       appState.user.name = user.name;
       appState.user.dailyTargetMinutes = user.dailyGoal || 120;
-      if (isNew) {
-        appState.user.totalXp = 50;
-        appState.user.currentXp = 50;
-        appState.user.level = 1;
-        appState.user.levelTitle = 'Curious Mind';
-      }
+      appState.user.level = user.level || 1;
+      appState.user.levelTitle = user.levelTitle || 'Curious Mind';
+      appState.user.totalXp = user.totalXp || 0;
+      appState.user.currentXp = user.currentXp || 0;
+      appState.user.xpForNextLevel = user.xpForNextLevel || 100;
+      appState.user.streakDays = user.streakDays || 1;
+
       saveState();
-      updateAuthUI();
       renderUI();
     }
 
@@ -1166,17 +1229,17 @@
     /* ==========================================================================
        APP STATE ENGINE
        ========================================================================== */
-    const STORAGE_KEY = 'focusmeet_student_state_v3';
+    const STORAGE_KEY = 'focusmeet_student_state_v4';
 
     const defaultState = {
       user: {
-        name: 'Aditya Rathore',
-        level: 2,
-        levelTitle: 'Apprentice Mind',
-        currentXp: 110,
-        xpForNextLevel: 200,
-        totalXp: 210,
-        streakDays: 1,
+        name: 'Guest Learner',
+        level: 1,
+        levelTitle: 'Curious Mind',
+        currentXp: 0,
+        xpForNextLevel: 100,
+        totalXp: 0,
+        streakDays: 0,
         dailyTargetMinutes: 120,
         todayStudiedMinutes: 0
       },
@@ -1201,7 +1264,13 @@
     function loadState() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (!localStorage.getItem(AUTH_SESSION_KEY)) {
+            parsed.user = JSON.parse(JSON.stringify(defaultState.user));
+          }
+          return parsed;
+        }
       } catch (e) {}
       return JSON.parse(JSON.stringify(defaultState));
     }
@@ -1221,14 +1290,15 @@
         appState.user.level += 1;
         appState.user.currentXp = appState.user.currentXp - appState.user.xpForNextLevel;
         appState.user.xpForNextLevel = Math.round(appState.user.xpForNextLevel * 1.5);
-        appState.user.levelTitle = 'Dedicated Learner';
+        if (appState.user.level === 2) appState.user.levelTitle = 'Apprentice Mind';
+        else if (appState.user.level >= 3) appState.user.levelTitle = 'Dedicated Learner';
         alert(`🌟 LEVEL UP! You reached Level ${appState.user.level} (${appState.user.levelTitle})!`);
       }
       saveState();
     }
 
     /* ==========================================================================
-       TIMER ENGINE & SYNTHESIZED SOUNDS
+       TIMER ENGINE & HIGH-FIDELITY SYNTHESIZED SOUNDS
        ========================================================================== */
     let timerDuration = 25 * 60;
     let timerTimeLeft = 25 * 60;
@@ -1353,56 +1423,211 @@
       if (heroState) heroState.textContent = timerIsRunning ? 'Flow State Active' : 'Ready';
     }
 
+    /* ==========================================================================
+       HIGH-FIDELITY AMBIENT SOUND SYNTHESIZER (WEB AUDIO API)
+       ========================================================================== */
     let audioCtx = null;
-    let noiseNode = null;
+    let currentSoundNodes = [];
+    let masterGainNode = null;
+    let ambientVolume = 0.45; // 45% default
+
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGainNode = audioCtx.createGain();
+        masterGainNode.gain.setValueAtTime(ambientVolume, audioCtx.currentTime);
+        masterGainNode.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function setAmbientVolume(val) {
+      ambientVolume = val / 100;
+      document.getElementById('ambient-volume-label').textContent = `${val}%`;
+      if (masterGainNode && audioCtx) {
+        masterGainNode.gain.setTargetAtTime(ambientVolume, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    function stopAllAmbientSounds() {
+      currentSoundNodes.forEach(node => {
+        try {
+          if (node.stop) node.stop();
+          node.disconnect();
+        } catch (e) {}
+      });
+      currentSoundNodes = [];
+    }
 
     function setAmbientSound(type) {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      ensureAudioContext();
+      stopAllAmbientSounds();
 
-      if (noiseNode) {
-        noiseNode.stop();
-        noiseNode.disconnect();
-        noiseNode = null;
-      }
-
+      // UI button state update
       ['off', 'rain', 'waves'].forEach(s => {
         const b = document.getElementById(`sound-${s}`);
         if (b) {
           if (s === type) b.className = 'px-2.5 py-1 rounded-lg theme-accent-btn font-bold';
-          else b.className = 'px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100';
+          else b.className = 'px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition';
         }
       });
 
-      if (type === 'off') return;
-
-      const bufferSize = audioCtx.sampleRate * 2;
-      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const data = buffer.getChannelData(0);
-
-      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        b0 = 0.99886 * b0 + white * 0.0555179;
-        b1 = 0.99332 * b1 + white * 0.0750759;
-        b2 = 0.96900 * b2 + white * 0.1538520;
-        b3 = 0.86650 * b3 + white * 0.3104856;
-        b4 = 0.55000 * b4 + white * 0.5329522;
-        b5 = -0.7616 * b5 - white * 0.0168980;
-        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.05;
-        b6 = white * 0.115926;
+      const volumeContainer = document.getElementById('ambient-volume-container');
+      if (type === 'off') {
+        if (volumeContainer) volumeContainer.classList.add('hidden');
+        return;
+      }
+      if (volumeContainer) {
+        volumeContainer.classList.remove('hidden');
+        volumeContainer.classList.add('flex');
       }
 
-      noiseNode = audioCtx.createBufferSource();
-      noiseNode.buffer = buffer;
-      noiseNode.loop = true;
+      if (type === 'rain') {
+        startRainSound();
+      } else if (type === 'waves') {
+        startOceanWavesSound();
+      }
+    }
 
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = type === 'rain' ? 'lowpass' : 'bandpass';
-      filter.frequency.value = type === 'rain' ? 800 : 400;
+    // 🌧️ REALISTIC TRIPLE-LAYER RAINFALL: Deep ambient body + droplet patter + soft mist sizzle
+    function startRainSound() {
+      const bufferLength = audioCtx.sampleRate * 6; // 6-second seamless loop buffer
+      const buffer = audioCtx.createBuffer(2, bufferLength, audioCtx.sampleRate);
+      
+      // Authentic Kellet pink-noise generator across stereo channels
+      for (let channel = 0; channel < 2; channel++) {
+        const data = buffer.getChannelData(channel);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.12;
+          b6 = white * 0.115926;
+        }
+      }
 
-      noiseNode.connect(filter);
-      filter.connect(audioCtx.destination);
-      noiseNode.start();
+      const rainSource = audioCtx.createBufferSource();
+      rainSource.buffer = buffer;
+      rainSource.loop = true;
+
+      // Layer 1: Warm ambient rainfall body (Low roar)
+      const lowFilter = audioCtx.createBiquadFilter();
+      lowFilter.type = 'lowpass';
+      lowFilter.frequency.setValueAtTime(850, audioCtx.currentTime);
+      const lowGain = audioCtx.createGain();
+      lowGain.gain.setValueAtTime(0.85, audioCtx.currentTime);
+
+      // Layer 2: Roof & window droplet patter (Crisp mid texture)
+      const patterFilter = audioCtx.createBiquadFilter();
+      patterFilter.type = 'bandpass';
+      patterFilter.frequency.setValueAtTime(1750, audioCtx.currentTime);
+      patterFilter.Q.setValueAtTime(1.4, audioCtx.currentTime);
+      const patterGain = audioCtx.createGain();
+      patterGain.gain.setValueAtTime(0.40, audioCtx.currentTime);
+
+      // Layer 3: Airy mist / high-frequency gentle drizzle
+      const mistFilter = audioCtx.createBiquadFilter();
+      mistFilter.type = 'highpass';
+      mistFilter.frequency.setValueAtTime(3200, audioCtx.currentTime);
+      const mistGain = audioCtx.createGain();
+      mistGain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+
+      // Parallel node connections to master
+      rainSource.connect(lowFilter);
+      lowFilter.connect(lowGain);
+      lowGain.connect(masterGainNode);
+
+      rainSource.connect(patterFilter);
+      patterFilter.connect(patterGain);
+      patterGain.connect(masterGainNode);
+
+      rainSource.connect(mistFilter);
+      mistFilter.connect(mistGain);
+      mistGain.connect(masterGainNode);
+
+      rainSource.start();
+      currentSoundNodes.push(rainSource, lowFilter, lowGain, patterFilter, patterGain, mistFilter, mistGain);
+    }
+
+    // 🌊 RHYTHMIC OCEAN WAVES: Dual-layer swell with rolling deep water & shore foam wash
+    function startOceanWavesSound() {
+      const bufferLength = audioCtx.sampleRate * 8; // 8-second seamless swell
+      const buffer = audioCtx.createBuffer(2, bufferLength, audioCtx.sampleRate);
+      
+      // Brownian/Pink noise generator for heavy oceanic body
+      for (let channel = 0; channel < 2; channel++) {
+        const data = buffer.getChannelData(channel);
+        let b0 = 0, b1 = 0, b2 = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.992 * b0 + white * 0.04;
+          b1 = 0.96 * b1 + white * 0.12;
+          b2 = 0.85 * b2 + white * 0.28;
+          data[i] = (b0 + b1 + b2) * 0.45;
+        }
+      }
+
+      const waveSource = audioCtx.createBufferSource();
+      waveSource.buffer = buffer;
+      waveSource.loop = true;
+
+      // 1. Rolling Deep Wave Swell
+      const waveFilter = audioCtx.createBiquadFilter();
+      waveFilter.type = 'lowpass';
+      waveFilter.frequency.setValueAtTime(420, audioCtx.currentTime);
+
+      const waveGain = audioCtx.createGain();
+      waveGain.gain.setValueAtTime(0.38, audioCtx.currentTime);
+
+      // Wave Period: 0.10 Hz (~10-second natural ocean swell)
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.setValueAtTime(0.10, audioCtx.currentTime);
+
+      // Sweeps cutoff cleanly between 120Hz and 720Hz (never goes negative)
+      const lfoFilterGain = audioCtx.createGain();
+      lfoFilterGain.gain.setValueAtTime(300, audioCtx.currentTime);
+      lfo.connect(lfoFilterGain);
+      lfoFilterGain.connect(waveFilter.frequency);
+
+      // Sweeps gain cleanly between 0.08 and 0.68
+      const lfoVolumeGain = audioCtx.createGain();
+      lfoVolumeGain.gain.setValueAtTime(0.30, audioCtx.currentTime);
+      lfo.connect(lfoVolumeGain);
+      lfoVolumeGain.connect(waveGain.gain);
+
+      waveSource.connect(waveFilter);
+      waveFilter.connect(waveGain);
+      waveGain.connect(masterGainNode);
+
+      // 2. Shore Foam / Surf Wash (Whitecap spray on sand)
+      const foamFilter = audioCtx.createBiquadFilter();
+      foamFilter.type = 'bandpass';
+      foamFilter.frequency.setValueAtTime(1450, audioCtx.currentTime);
+      foamFilter.Q.setValueAtTime(1.1, audioCtx.currentTime);
+
+      const foamGain = audioCtx.createGain();
+      foamGain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+
+      // Foam swells naturally as the wave crests
+      const lfoFoamGain = audioCtx.createGain();
+      lfoFoamGain.gain.setValueAtTime(0.10, audioCtx.currentTime);
+      lfo.connect(lfoFoamGain);
+      lfoFoamGain.connect(foamGain.gain);
+
+      waveSource.connect(foamFilter);
+      foamFilter.connect(foamGain);
+      foamGain.connect(masterGainNode);
+
+      waveSource.start();
+      lfo.start();
+      currentSoundNodes.push(waveSource, lfo, waveFilter, waveGain, lfoFilterGain, lfoVolumeGain, foamFilter, foamGain, lfoFoamGain);
     }
 
     /* ==========================================================================
@@ -1643,6 +1868,8 @@
 
       const streakElem = document.getElementById('streak-days');
       if (streakElem) streakElem.textContent = `${u.streakDays} day`;
+      const cardStreak = document.getElementById('card-streak-val');
+      if (cardStreak) cardStreak.textContent = `${u.streakDays} Days`;
 
       const menuRank = document.getElementById('menu-user-rank');
       if (menuRank) menuRank.textContent = `${u.levelTitle} (Lvl ${u.level})`;
@@ -1650,8 +1877,10 @@
       if (menuXp) menuXp.textContent = `${u.totalXp} XP`;
 
       const pct = Math.min(100, Math.round((u.todayStudiedMinutes / u.dailyTargetMinutes) * 100));
-      document.getElementById('study-target-pct').textContent = `${pct}%`;
+      const targetPctElem = document.getElementById('study-target-pct');
+      if (targetPctElem) targetPctElem.textContent = `${pct}%`;
       document.getElementById('card-study-mins').textContent = `${u.todayStudiedMinutes}m`;
+      document.getElementById('card-study-goal-label').textContent = `/ ${u.dailyTargetMinutes}m goal`;
       document.getElementById('study-progress-bar').style.width = `${pct}%`;
       document.getElementById('study-progress-label').textContent = `${pct}% accomplished`;
       document.getElementById('study-mins-left').textContent = `${Math.max(0, u.dailyTargetMinutes - u.todayStudiedMinutes)}m left`;
@@ -1664,7 +1893,7 @@
       document.getElementById('gamification-level-title').textContent = `Level ${u.level} • ${u.levelTitle}`;
       document.getElementById('gamification-total-xp').textContent = `${u.totalXp} XP Total`;
       const xpNeeded = u.xpForNextLevel - u.currentXp;
-      document.getElementById('gamification-xp-next').textContent = `${xpNeeded} XP needed to reach Level ${u.level + 1} (Dedicated Learner)`;
+      document.getElementById('gamification-xp-next').textContent = `${xpNeeded} XP needed to reach Level ${u.level + 1}`;
       const lvlPct = Math.min(100, Math.round((u.currentXp / u.xpForNextLevel) * 100));
       document.getElementById('gamification-xp-bar').style.width = `${lvlPct}%`;
       document.getElementById('gamification-xp-stat').textContent = `${lvlPct}% (${u.currentXp} / ${u.xpForNextLevel} XP)`;
