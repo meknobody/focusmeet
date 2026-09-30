@@ -4,149 +4,197 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FocusMeet &mdash; Student Study Workspace</title>
+  <meta name="description" content="FocusMeet is a gamified student study workspace combining Pomodoro focus timer, interactive 3D study sanctuary, timetable scheduling, and procedural ambient audio.">
+  <meta name="theme-color" content="#4f46e5">
+
+  <!-- FAVICON & BRAND ICONS -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 32a16 16 0 0 1 29.86-8' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M48 32a16 16 0 0 1-29.86 8' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpolygon points='32,20 40,32 32,44 24,32' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="alternate icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.svg">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Spline 3D Viewer Web Component -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.72/build/spline-viewer.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* DYNAMIC CSS THEME VARIABLES */
-    :root, [data-theme="indigo"] {
-      --bg-body: #f8fafc;
-      --bg-header: #ffffff;
-      --bg-card: #ffffff;
-      --border-main: #e2e8f0;
-      --border-card: #e2e8f0;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --accent: #4f46e5;
-      --accent-hover: #4338ca;
-      --accent-soft-bg: #eef2ff;
-      --accent-soft-text: #4338ca;
-      --focus-box-bg: linear-gradient(135deg, #312e81 0%, #3730a3 50%, #1e1b4b 100%);
-      --input-bg: #f8fafc;
-      --item-hover: #f1f5f9;
-      --badge-bar: #e0e7ff;
-    }
-
-    [data-theme="dark"] {
-      --bg-body: #0b0f19;
-      --bg-header: #111827;
-      --bg-card: #151d30;
-      --border-main: #1f293d;
-      --border-card: #202b44;
+    /* UNIFIED MINIMALIST OBSIDIAN / ULTRA-TRANSPARENT GLASS (GLOBAL PROCEDURAL GRID) */
+    :root {
+      --bg-body: #000000;
+      --bg-header: rgba(0, 0, 0, 0.35);
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border-main: rgba(255, 255, 255, 0.12);
+      --border-card: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --accent: #8b5cf6;
-      --accent-hover: #7c3aed;
-      --accent-soft-bg: #2e1065;
-      --accent-soft-text: #c4b5fd;
-      --focus-box-bg: linear-gradient(135deg, #1e1b4b 0%, #2e1065 50%, #0f172a 100%);
-      --input-bg: #0f172a;
-      --item-hover: #1e293b;
-      --badge-bar: #2e1065;
-    }
-
-    [data-theme="sage"] {
-      --bg-body: #f4f7f4;
-      --bg-header: #ffffff;
-      --bg-card: #ffffff;
-      --border-main: #dcfce7;
-      --border-card: #d1fae5;
-      --text-main: #14532d;
-      --text-muted: #4b6b55;
-      --accent: #059669;
-      --accent-hover: #047857;
-      --accent-soft-bg: #ecfdf5;
-      --accent-soft-text: #065f46;
-      --focus-box-bg: linear-gradient(135deg, #064e3b 0%, #047857 50%, #022c22 100%);
-      --input-bg: #f0fdf4;
-      --item-hover: #f0fdf4;
-      --badge-bar: #d1fae5;
-    }
-
-    [data-theme="sunset"] {
-      --bg-body: #fffbf5;
-      --bg-header: #ffffff;
-      --bg-card: #ffffff;
-      --border-main: #ffedd5;
-      --border-card: #fed7aa;
-      --text-main: #431407;
-      --text-muted: #7c2d12;
-      --accent: #ea580c;
-      --accent-hover: #c2410c;
-      --accent-soft-bg: #fff7ed;
-      --accent-soft-text: #9a3412;
-      --focus-box-bg: linear-gradient(135deg, #7c2d12 0%, #9a3412 50%, #431407 100%);
-      --input-bg: #fff7ed;
-      --item-hover: #fff7ed;
-      --badge-bar: #ffedd5;
-    }
-
-    [data-theme="cyber"] {
-      --bg-body: #050508;
-      --bg-header: #0d0e17;
-      --bg-card: #0e111d;
-      --border-main: #1f2338;
-      --border-card: #1f263d;
-      --text-main: #f1f5f9;
-      --text-muted: #7dd3fc;
-      --accent: #06b6d4;
-      --accent-hover: #0891b2;
-      --accent-soft-bg: #164e63;
-      --accent-soft-text: #67e8f9;
-      --focus-box-bg: linear-gradient(135deg, #0e7490 0%, #4f46e5 50%, #030712 100%);
-      --input-bg: #090b10;
-      --item-hover: #161b2b;
-      --badge-bar: #164e63;
+      --accent: #ffffff;
+      --accent-hover: #e2e8f0;
+      --accent-btn-text: #050505;
+      --accent-soft-bg: rgba(255, 255, 255, 0.08);
+      --accent-soft-text: #ffffff;
+      --focus-box-bg: rgba(255, 255, 255, 0.03);
+      --input-bg: rgba(255, 255, 255, 0.04);
+      --item-hover: rgba(255, 255, 255, 0.08);
+      --badge-bar: rgba(255, 255, 255, 0.12);
+      --bottom-nav-h: 60px;
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      transition: background-color 0.25s ease, color 0.25s ease;
+      background-color: #000000;
+      color: #f8fafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+      overscroll-behavior-y: none;
+
     }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
     .theme-card {
       background-color: var(--bg-card);
       border-color: var(--border-card);
       color: var(--text-main);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .theme-header {
       background-color: var(--bg-header);
       border-color: var(--border-main);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     .theme-accent-btn {
       background-color: var(--accent);
-      color: #ffffff;
+      color: var(--accent-btn-text, #000000);
+      font-weight: 700;
+      transition: all 0.2s ease;
     }
     .theme-accent-btn:hover {
       background-color: var(--accent-hover);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     }
     .theme-accent-soft {
       background-color: var(--accent-soft-bg);
       color: var(--accent-soft-text);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .theme-input {
       background-color: var(--input-bg);
       border-color: var(--border-card);
       color: var(--text-main);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 16px; /* prevent iOS auto-zoom on focus */
+    }
+    .theme-input:focus {
+      border-color: rgba(255, 255, 255, 0.4);
+      outline: none;
     }
     .theme-focus-box {
       background: var(--focus-box-bg);
+      border: 1px solid var(--border-card);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
+    /* SPLINE 3D CANVAS STYLES */
+    spline-viewer {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+    spline-viewer::part(logo) {
+      display: none !important;
+    }
+    /* ACCESSIBLE FOCUS INDICATORS */
+    :focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    /* =================================================================
+       MOBILE BOTTOM NAV BAR - glassmorphic fixed tab bar (iOS/Android style)
+       ================================================================= */
+    #mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      height: var(--bottom-nav-h);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    #mobile-bottom-nav .mob-nav-inner {
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+    }
+    #mobile-bottom-nav .mob-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.40);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      min-height: 44px; /* iOS HIG touch target */
+      transition: color 0.18s ease, transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 2px;
+      text-transform: uppercase;
+    }
+    #mobile-bottom-nav .mob-tab svg {
+      width: 22px; height: 22px;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    #mobile-bottom-nav .mob-tab.active { color: #ffffff; }
+    #mobile-bottom-nav .mob-tab.active svg {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.55));
+    }
+    #mobile-bottom-nav .mob-tab:active { transform: scale(0.90); }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 767px) {
+      #mobile-bottom-nav { display: block; }
+      .old-mobile-nav-row { display: none !important; }
+      main { padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom, 8px) + 16px) !important; }
+      .timer-dial-wrap { width: 200px !important; height: 200px !important; }
+      .timer-dial-wrap #timer-hero-clock { font-size: 2.6rem !important; }
+      #view-landing h2 { font-size: clamp(1.7rem, 7.5vw, 3.5rem) !important; }
+      #auth-login-btn .auth-btn-text { display: none; }
+      #badge-xp { display: none; }
+      .morph-btn-desktop { display: none !important; }
+    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   </style>
+
 </head>
-<body class="min-h-full flex flex-col antialiased">
+<body class="min-h-full flex flex-col antialiased relative bg-black text-white selection:bg-white selection:text-black">
+
+  <!-- GLOBAL PROCEDURAL DOTTED GRID CANVAS (WHOLE WEBSITE BACKGROUND) -->
+  <div id="global-dotted-grid-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <canvas id="dotted-grid-canvas" class="w-full h-full block cursor-pointer"></canvas>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-transparent"></div>
+  </div>
 
   <!-- TOP NAVIGATION BAR -->
   <header class="theme-header border-b sticky top-0 z-30 px-4 lg:px-8 py-3 shadow-xs">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
       <!-- Brand & Bespoke Logo -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('landing')" title="Go to Interactive Landing Page">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 transform hover:scale-105 transition">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 12a8 8 0 0 1 14.93-4" />
@@ -159,54 +207,29 @@
             <h1 class="text-lg font-bold tracking-tight text-inherit">FocusMeet</h1>
             <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full theme-accent-soft border border-indigo-200/40">focusmeet.in</span>
           </div>
-          <p class="text-[11px] text-slate-400 font-medium">Student Study Workspace</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Student Study Workspace</p>
         </div>
       </div>
 
       <!-- Center Navigation Tabs -->
       <nav class="hidden md:flex items-center gap-1 bg-slate-200/40 dark:bg-slate-800/40 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
-        <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition">Dashboard</button>
-        <button onclick="switchView('tasks')" id="nav-tasks" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Tasks & Timetable</button>
-        <button onclick="switchView('timer')" id="nav-timer" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Focus Timer</button>
-        <button onclick="switchView('subjects')" id="nav-subjects" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Subjects</button>
-        <button onclick="switchView('goals')" id="nav-goals" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Goals</button>
+        <button onclick="switchView('landing')" id="nav-landing" class="px-3 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition flex items-center gap-1.5"><span class="text-xs">✨</span><span>Landing</span></button>
+        <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Dashboard</button>
+        <button onclick="switchView('tasks')" id="nav-tasks" class="px-3 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Tasks & Timetable</button>
+        <button onclick="switchView('timer')" id="nav-timer" class="px-3 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Focus Timer</button>
+        <button onclick="switchView('subjects')" id="nav-subjects" class="px-3 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Subjects</button>
+        <button onclick="switchView('goals')" id="nav-goals" class="px-3 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition">Goals</button>
       </nav>
 
       <!-- Right Actions: Theme, XP, Streak, Auth Profile -->
       <div class="flex items-center gap-2 sm:gap-3">
         
-        <!-- THEME SELECTOR -->
-        <div class="relative">
-          <button onclick="toggleThemeMenu()" id="btn-theme-selector" title="Change Theme" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 hover:bg-slate-100 text-xs font-semibold shadow-xs transition">
-            <span class="text-sm">🎨</span>
-            <span id="current-theme-name" class="hidden sm:inline text-[11px]">Indigo</span>
-          </button>
-
-          <!-- Theme Dropdown -->
-          <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-52 theme-card border rounded-2xl shadow-2xl p-2.5 z-50 text-xs space-y-1">
-            <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Select Workspace Theme</div>
-            <button onclick="setAppTheme('indigo')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-indigo-600 border border-indigo-400"></div><span class="font-semibold">Daylight Indigo</span></div>
-              <span id="check-indigo" class="text-indigo-600 font-bold">✓</span>
-            </button>
-            <button onclick="setAppTheme('dark')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-slate-900 border border-purple-500"></div><span class="font-semibold">Midnight Obsidian</span></div>
-              <span id="check-dark" class="hidden font-bold">✓</span>
-            </button>
-            <button onclick="setAppTheme('sage')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-emerald-600 border border-emerald-400"></div><span class="font-semibold">Forest Sage</span></div>
-              <span id="check-sage" class="hidden font-bold">✓</span>
-            </button>
-            <button onclick="setAppTheme('sunset')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-amber-600 border border-orange-400"></div><span class="font-semibold">Warm Amber</span></div>
-              <span id="check-sunset" class="hidden font-bold">✓</span>
-            </button>
-            <button onclick="setAppTheme('cyber')" class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-              <div class="flex items-center gap-2.5"><div class="w-4 h-4 rounded-full bg-cyan-500 border border-indigo-500"></div><span class="font-semibold">Cyberpunk Neon</span></div>
-              <span id="check-cyber" class="hidden font-bold">✓</span>
-            </button>
-          </div>
-        </div>
+        <!-- ACTIVE GEOMETRY MORPH BUTTON IN NAVBAR -->
+        <button onclick="morphNextShape()" title="Morph Background Geometry (Click to cycle)" class="morph-btn-desktop flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono text-neutral-300 hover:text-white transition backdrop-blur-md">
+          <span class="text-xs">✦</span>
+          <span id="nav-active-shape-name" class="hidden sm:inline text-[11px] font-bold">Star</span>
+          <span class="text-[10px] opacity-60">▾</span>
+        </button>
 
         <!-- Level & XP Badge -->
         <div onclick="switchView('goals')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl theme-accent-soft text-xs font-semibold cursor-pointer">
@@ -228,14 +251,14 @@
             </div>
             <div class="hidden sm:block text-left">
               <span id="user-navbar-name" class="text-xs font-bold block leading-none">User</span>
-              <span class="text-[9px] text-slate-400">Account ▾</span>
+              <span class="text-[9px] text-slate-500 dark:text-slate-400">Account ▾</span>
             </div>
           </div>
 
           <!-- State 2: When Not Logged In (Prominent Sign In Button) -->
-          <button id="auth-login-btn" onclick="openAuthModal('login')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl theme-accent-btn text-xs font-extrabold shadow-sm transition transform active:scale-95">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-            Sign In / Sign Up
+          <button id="auth-login-btn" onclick="openAuthModal('login')" class="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl theme-accent-btn text-xs font-extrabold shadow-sm transition transform active:scale-95" title="Sign In or Sign Up">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+            <span class="auth-btn-text">Sign In / Sign Up</span>
           </button>
 
           <!-- User Profile Dropdown Menu -->
@@ -246,16 +269,16 @@
               </div>
               <div class="min-w-0 flex-1">
                 <p id="menu-user-fullname" class="font-bold text-sm truncate">Student</p>
-                <p id="menu-user-email" class="text-slate-400 text-[11px] truncate">student@focusmeet.in</p>
+                <p id="menu-user-email" class="text-slate-500 dark:text-slate-400 text-[11px] truncate">student@focusmeet.in</p>
               </div>
             </div>
 
             <div class="space-y-1">
-              <div class="flex items-center justify-between text-slate-400 py-1">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 py-1">
                 <span>Account Rank</span>
                 <span id="menu-user-rank" class="font-bold text-indigo-500">Curious Mind (Lvl 1)</span>
               </div>
-              <div class="flex items-center justify-between text-slate-400 py-1">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 py-1">
                 <span>Total XP Earned</span>
                 <span id="menu-user-xp" class="font-bold text-slate-700 dark:text-slate-200">0 XP</span>
               </div>
@@ -280,9 +303,10 @@
 
     </div>
 
-    <!-- Mobile Navigation Bar -->
-    <div class="flex md:hidden items-center justify-between gap-1 overflow-x-auto pt-2 border-t border-slate-200/40 dark:border-slate-800 text-xs font-semibold">
-      <button onclick="switchView('dashboard')" id="mob-nav-dashboard" class="px-2.5 py-1 rounded-lg theme-card shadow-xs">Dashboard</button>
+    <!-- Mobile Navigation Bar (legacy inline strip – hidden on mobile, replaced by fixed bottom nav) -->
+    <div class="old-mobile-nav-row flex md:hidden items-center justify-between gap-1 overflow-x-auto pt-2 border-t border-slate-200/40 dark:border-slate-800 text-xs font-semibold">
+      <button onclick="switchView('landing')" id="mob-nav-landing" class="px-2 py-1 rounded-lg theme-card shadow-xs flex items-center gap-1"><span>✨</span><span>Landing</span></button>
+      <button onclick="switchView('dashboard')" id="mob-nav-dashboard" class="px-2 py-1 rounded-lg opacity-75">Dashboard</button>
       <button onclick="switchView('tasks')" id="mob-nav-tasks" class="px-2.5 py-1 rounded-lg opacity-75">Tasks</button>
       <button onclick="switchView('timer')" id="mob-nav-timer" class="px-2.5 py-1 rounded-lg opacity-75">Timer</button>
       <button onclick="switchView('subjects')" id="mob-nav-subjects" class="px-2.5 py-1 rounded-lg opacity-75">Subjects</button>
@@ -293,44 +317,266 @@
   <!-- MAIN CONTAINER (MULTI-VIEW PANELS) -->
   <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 w-full flex-1 flex flex-col gap-6">
 
-    <!-- VIEW 1: DASHBOARD -->
-    <div id="view-dashboard" class="view-panel flex flex-col gap-6">
+    <!-- VIEW 0: INTERACTIVE PROCEDURAL DOTTED GRID LANDING PAGE -->
+    <div id="view-landing" class="view-panel relative w-full text-white min-h-[88vh] flex flex-col justify-between">
       
-      <!-- WELCOME HERO -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            <span id="current-date-display">Saturday, Sep 26, 2026</span>
+      <!-- Foreground Interactive Overlay -->
+      <div class="relative z-10 pointer-events-none flex flex-col justify-between h-full p-4 sm:p-8 lg:p-12">
+        
+        <!-- Top Status Bar in Landing View -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-xl text-[11px] font-mono tracking-wide text-neutral-300 shadow-inner">
+            <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>INTERACTIVE PROCEDURAL CANVAS &bull; CLICK ANYWHERE TO MORPH</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
-            <span id="hero-greeting-prefix">Welcome to FocusMeet</span>, <span id="hero-greeting-name">Guest Learner</span>! <span class="text-2xl animate-bounce">👋</span>
-          </h2>
-          <p id="motivational-sub" class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
-            <span id="hero-auth-prompt">Sign in or create an account to save your study streaks, earn XP, and track subjects.</span>
-          </p>
+          <div class="flex items-center gap-2 pointer-events-auto">
+            <button onclick="switchView('dashboard')" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-black hover:bg-neutral-200 transition shadow-[0_0_20px_rgba(255,255,255,0.25)]">
+              Open Full Workspace &rarr;
+            </button>
+          </div>
         </div>
 
-        <div class="flex items-center gap-3">
-          <button id="hero-auth-btn" onclick="openAuthModal('login')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-indigo-400/40 bg-indigo-50/50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 text-xs font-bold shadow-xs transition">
-            <span>🔑 Sign In / Register</span>
-          </button>
-          <button onclick="openNewTaskModal()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800 hover:bg-slate-50 text-xs font-bold shadow-xs transition">
-            <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-            Quick Add Task
-          </button>
-          <button onclick="switchView('timer')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl theme-accent-btn text-xs font-bold shadow-sm transition transform active:scale-95">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            Open Focus Station
-          </button>
+        <!-- Center Hero Text & Floating Focus Station Card -->
+        <div class="flex flex-col items-center text-center my-8 lg:my-12 max-w-4xl mx-auto w-full">
+          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-neutral-100 drop-shadow-sm">
+            Distraction vanishes into <span class="bg-gradient-to-r from-neutral-100 via-neutral-300 to-neutral-500 bg-clip-text text-transparent">pure frequency.</span>
+          </h2>
+          <p class="mt-4 text-xs sm:text-sm md:text-base text-neutral-400 max-w-2xl font-normal leading-relaxed">
+            A minimalist high-performance focus environment powered by real-time mathematical dot-matrix distortion, lag-free cursor tracking, and rhythmic flow-state timing.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 pointer-events-auto w-full px-2 max-w-xl">
+            <button onclick="switchView('dashboard')" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white text-black font-extrabold text-xs tracking-wider uppercase hover:bg-neutral-200 transition duration-200 shadow-[0_0_30px_rgba(255,255,255,0.25)] transform active:scale-95 min-h-[44px] flex items-center justify-center">
+              Launch Study Session
+            </button>
+            <button onclick="morphNextShape()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs tracking-wide border border-white/20 backdrop-blur-xl transition duration-200 min-h-[44px] flex items-center justify-center">
+              Morph Geometry (Tap to Cycle)
+            </button>
+            <button onclick="openAuthModal('signup')" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-neutral-200 font-semibold text-xs border border-white/15 backdrop-blur-xl transition min-h-[44px] flex items-center justify-center">
+              Create Account (+50 XP)
+            </button>
+          </div>
+
+          <!-- Floating Interactive Focus Station Card (Ultra-Transparent Glass) -->
+          <div class="mt-8 sm:mt-10 w-full max-w-lg pointer-events-auto rounded-3xl border border-white/20 bg-white/[0.03] hover:bg-white/[0.05] p-5 sm:p-7 backdrop-blur-md shadow-2xl transition duration-300 text-left">
+            <div class="flex items-center justify-between pb-3.5 border-b border-white/10">
+              <div class="flex items-center gap-2">
+                <span class="h-2.5 w-2.5 rounded-full bg-indigo-500 animate-ping"></span>
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300">
+                  Focus Station
+                </span>
+              </div>
+              <div class="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10 text-[11px] font-medium">
+                <button onclick="setLandingTimerPreset(25)" id="landing-mode-25" class="px-3 py-1.5 rounded-lg bg-white text-black font-bold shadow-xs transition min-h-[32px]">25m</button>
+                <button onclick="setLandingTimerPreset(5)" id="landing-mode-5" class="px-3 py-1.5 rounded-lg text-neutral-400 hover:text-white transition min-h-[32px]">5m</button>
+                <button onclick="setLandingTimerPreset(15)" id="landing-mode-15" class="px-3 py-1.5 rounded-lg text-neutral-400 hover:text-white transition min-h-[32px]">15m</button>
+              </div>
+            </div>
+
+            <!-- Countdown Display -->
+            <div class="my-5 sm:my-6 text-center">
+              <div id="landing-timer-clock" class="font-mono text-4xl sm:text-6xl font-black tracking-tight text-white drop-shadow-md">
+                25:00
+              </div>
+              <p class="text-[11px] text-neutral-400 font-mono mt-1.5 flex items-center justify-center gap-2">
+                <span>🎯 Target Task:</span>
+                <span id="landing-target-task-label" class="text-neutral-200 font-medium">Calculus & Linear Algebra</span>
+              </p>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="toggleLandingTimer()" id="btn-landing-timer-toggle" class="flex-1 py-3 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-neutral-200 transition shadow-md min-h-[44px]">
+                Start Focus Session
+              </button>
+              <button onclick="resetLandingTimer()" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-neutral-300 text-xs font-semibold border border-white/10 transition min-h-[44px]">
+                Reset
+              </button>
+              <button onclick="switchView('timer')" title="Open Full Screen Focus Station" class="px-3.5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 transition min-h-[44px]">
+                ↗ Full Station
+              </button>
+            </div>
+
+            <!-- Active Shape Indicator -->
+            <div class="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] text-neutral-400 font-mono">
+              <span>Active Geometry:</span>
+              <span id="active-shape-indicator" class="text-white font-bold bg-white/10 px-2 py-0.5 rounded border border-white/15">
+                Harmonic Star
+              </span>
+            </div>
+          </div>
+
+          <!-- Geometry Matrix Pills (5 Mathematical Shapes) -->
+          <div class="mt-8 w-full max-w-2xl pointer-events-auto">
+            <p class="text-[11px] font-mono uppercase tracking-widest text-neutral-500 mb-2.5 text-center">
+              Click background to cycle procedural geometries (<span id="shape-counter-badge">1</span> / 5)
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-left">
+              <div id="shape-pill-0" onclick="setSpecificShape(0)" class="cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/15 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.15)] text-white">
+                <div class="text-sm font-bold mb-0.5">✦</div>
+                <div class="text-[10px] font-bold truncate">Star</div>
+                <div class="text-[9px] opacity-60 leading-tight mt-0.5">5-point harmonic</div>
+              </div>
+              <div id="shape-pill-1" onclick="setSpecificShape(1)" class="cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+                <div class="text-sm font-bold mb-0.5">■</div>
+                <div class="text-[10px] font-bold truncate">Square</div>
+                <div class="text-[9px] opacity-60 leading-tight mt-0.5">Bound matrix</div>
+              </div>
+              <div id="shape-pill-2" onclick="setSpecificShape(2)" class="cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+                <div class="text-sm font-bold mb-0.5">●</div>
+                <div class="text-[10px] font-bold truncate">Ring</div>
+                <div class="text-[9px] opacity-60 leading-tight mt-0.5">Radial orbital</div>
+              </div>
+              <div id="shape-pill-3" onclick="setSpecificShape(3)" class="cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+                <div class="text-sm font-bold mb-0.5">✚</div>
+                <div class="text-[10px] font-bold truncate">Cross</div>
+                <div class="text-[9px] opacity-60 leading-tight mt-0.5">Orthogonal axes</div>
+              </div>
+              <div id="shape-pill-4" onclick="setSpecificShape(4)" class="cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+                <div class="text-sm font-bold mb-0.5">▲</div>
+                <div class="text-[10px] font-bold truncate">Triangle</div>
+                <div class="text-[9px] opacity-60 leading-tight mt-0.5">Kinetic delta</div>
+              </div>
+            </div>
+          </div>
+
         </div>
+
+        <!-- Bottom Notice Bar -->
+        <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-neutral-400">
+          <div class="flex items-center gap-2">
+            <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
+            <span>Suspended RAF Active &bull; Zero Idle Draw</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span>🖱️ Hover to distort dots &bull; 👆 Click background to morph</span>
+            <span class="text-neutral-200 font-semibold">&copy; 2026 FocusMeet</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 1: DASHBOARD -->
+    <div id="view-dashboard" class="view-panel hidden flex flex-col gap-6">
+      
+      <!-- HERO SHOWCASE: GREETING & 3D STUDY SANCTUARY -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Left: Welcome & Motivation Card (lg:col-span-7) -->
+        <div class="lg:col-span-7 theme-card border rounded-3xl p-6 sm:p-7 shadow-xs flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div>
+            <!-- Date & Status Pill -->
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span id="current-date-display">Today</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold theme-accent-soft border border-indigo-200/40">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                Virtual Desk Live
+              </span>
+            </div>
+
+            <!-- Main Headline Greeting -->
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              <span id="hero-greeting-prefix">Welcome to FocusMeet</span>, <span id="hero-greeting-name">Guest Learner</span>! <span class="inline-block animate-bounce">👋</span>
+            </h2>
+            <p id="motivational-sub" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium leading-relaxed">
+              <span id="hero-auth-prompt">Sign in or create an account to save your study streaks, earn XP, and track subjects.</span>
+            </p>
+
+            <!-- Quick Metrics Row -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-3 mt-5">
+              <div class="p-3 rounded-2xl bg-white/[0.04] border border-white/10">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">Streak</span>
+                <span id="hero-quick-streak" class="text-sm sm:text-base font-black text-amber-500">🔥 0 Days</span>
+              </div>
+              <div class="p-3 rounded-2xl bg-white/[0.04] border border-white/10">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">Today's Focus</span>
+                <span id="hero-quick-mins" class="text-sm sm:text-base font-black text-indigo-400">0 / 120m</span>
+              </div>
+              <div class="p-3 rounded-2xl bg-white/[0.04] border border-white/10">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block">Level XP</span>
+                <span id="hero-quick-xp" class="text-sm sm:text-base font-black text-purple-400">⚡ 0 XP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="flex flex-wrap items-center gap-2.5 mt-6 pt-4 border-t border-white/10">
+            <button onclick="switchView('timer')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black text-xs font-bold shadow-sm transition transform active:scale-95">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span>Open Focus Station</span>
+            </button>
+            <button onclick="openNewTaskModal()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/15 bg-white/10 hover:bg-white/20 text-white text-xs font-bold shadow-xs transition">
+              <svg class="w-4 h-4 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Quick Add Task</span>
+            </button>
+            <button id="hero-auth-btn" onclick="openAuthModal('login')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold shadow-xs transition">
+              <span>🔑 Sign In / Register</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: 3D Study Sanctuary Card (lg:col-span-5) -->
+        <div class="lg:col-span-5 theme-card border rounded-3xl p-4 shadow-md flex flex-col justify-between relative overflow-hidden min-h-[340px] sm:min-h-[380px]">
+          
+          <!-- Top Header Bar inside 3D Card -->
+          <div class="flex items-center justify-between pb-2 mb-1 border-b border-slate-200/60 dark:border-slate-800/80 z-10">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 class="text-xs font-bold tracking-tight">3D Study Sanctuary</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">Interactive</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <button onclick="reload3DScene()" title="Reset 3D Camera View" class="p-1.5 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </button>
+              <button onclick="open3DZenModal()" title="Expand to 3D Zen Mode" class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 text-[11px] font-bold hover:bg-indigo-100 transition shadow-xs">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                <span>Zen View</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3D Canvas Viewport Container -->
+          <div class="relative flex-1 w-full h-full min-h-[260px] sm:min-h-[290px] rounded-2xl overflow-hidden bg-slate-900/5 dark:bg-slate-950/40 border border-slate-200/40 dark:border-slate-800/40">
+            
+            <!-- Spline 3D Viewer Element -->
+            <spline-viewer id="spline-hero-viewer" url="https://prod.spline.design/Cyi5ZMAPS8Zr1cnH/scene.splinecode" class="w-full h-full block"></spline-viewer>
+
+            <!-- Loading Skeleton Overlay (fades out on 'load-complete') -->
+            <div id="spline-loading-skeleton" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-100/90 dark:bg-slate-900/90 backdrop-blur-xs transition-opacity duration-700 z-10 pointer-events-none">
+              <div class="relative mb-3">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-xl animate-pulse">
+                  🪴
+                </div>
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-indigo-600 border-2 border-white dark:border-slate-900 animate-spin border-t-transparent"></div>
+              </div>
+              <p class="text-xs font-bold text-slate-700 dark:text-slate-200">Loading 3D Study Sanctuary...</p>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Procedural study desk & ambiance</span>
+            </div>
+
+            <!-- Bottom Interactive Hint Pill -->
+            <div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-black/60 backdrop-blur-md text-white/90 shadow-sm border border-white/10 flex items-center gap-1.5 whitespace-nowrap">
+                <span>🖱️</span> Drag to rotate &bull; Scroll to zoom
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- 4 METRIC CARDS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-400">Today's Study Time</span>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Today's Study Time</span>
             <div class="w-7 h-7 rounded-lg theme-accent-soft flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
@@ -338,12 +584,12 @@
           <div class="mt-4">
             <div class="flex items-baseline gap-1.5">
               <span id="card-study-mins" class="text-2xl font-extrabold">0m</span>
-              <span id="card-study-goal-label" class="text-xs font-semibold text-slate-400">/ 120m goal</span>
+              <span id="card-study-goal-label" class="text-xs font-semibold text-slate-500 dark:text-slate-400">/ 120m goal</span>
             </div>
             <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 mt-3 overflow-hidden">
               <div id="study-progress-bar" class="theme-accent-btn h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
-            <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 font-medium">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-medium">
               <span id="study-progress-label">0% accomplished</span>
               <span id="study-mins-left">120m left</span>
             </div>
@@ -352,12 +598,12 @@
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-400">Current Study Streak</span>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Current Study Streak</span>
             <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center"><span>🔥</span></div>
           </div>
           <div class="mt-4">
             <span id="card-streak-val" class="text-2xl font-extrabold">0 Days</span>
-            <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
               <span class="text-amber-500 font-semibold">🔥 Daily habit on track!</span> Complete a 25m session to light up your streak.
             </p>
           </div>
@@ -365,7 +611,7 @@
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-400">Today's Tasks Done</span>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Today's Tasks Done</span>
             <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             </div>
@@ -373,15 +619,15 @@
           <div class="mt-4">
             <div class="flex items-baseline gap-1.5">
               <span id="card-tasks-done" class="text-2xl font-extrabold">0</span>
-              <span id="card-tasks-total" class="text-xs font-semibold text-slate-400">/ 0 total today</span>
+              <span id="card-tasks-total" class="text-xs font-semibold text-slate-500 dark:text-slate-400">/ 0 total today</span>
             </div>
-            <p id="card-tasks-pending" class="text-[11px] text-slate-400 mt-2">0 pending tasks remaining today.</p>
+            <p id="card-tasks-pending" class="text-[11px] text-slate-500 dark:text-slate-400 mt-2">0 pending tasks remaining today.</p>
           </div>
         </div>
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-400">All-Time Completed</span>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">All-Time Completed</span>
             <div class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-600 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"/></svg>
             </div>
@@ -389,9 +635,9 @@
           <div class="mt-4">
             <div class="flex items-baseline gap-1.5">
               <span id="alltime-tasks-done" class="text-2xl font-extrabold">0</span>
-              <span class="text-xs font-semibold text-slate-400">tasks across 4 subjects</span>
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">tasks across 4 subjects</span>
             </div>
-            <p id="alltime-sessions-done" class="text-[11px] text-slate-400 mt-2">0 focus sessions logged overall.</p>
+            <p id="alltime-sessions-done" class="text-[11px] text-slate-500 dark:text-slate-400 mt-2">0 focus sessions logged overall.</p>
           </div>
         </div>
       </div>
@@ -405,12 +651,12 @@
               <h3 id="gamification-level-title" class="text-sm font-bold">Level 1 • Curious Mind</h3>
               <span id="gamification-total-xp" class="text-xs font-bold theme-accent-soft px-2 py-0.5 rounded-full border border-current/20">0 XP Total</span>
             </div>
-            <p id="gamification-xp-next" class="text-xs text-slate-400 mt-0.5 font-medium">100 XP needed to reach Level 2 (Apprentice Mind)</p>
+            <p id="gamification-xp-next" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">100 XP needed to reach Level 2 (Apprentice Mind)</p>
             <div class="flex items-center gap-3 mt-2">
               <div class="w-48 sm:w-64 bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 overflow-hidden">
                 <div id="gamification-xp-bar" class="theme-accent-btn h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
-              <span id="gamification-xp-stat" class="text-[11px] font-semibold text-slate-400">0% (0 / 100 XP)</span>
+              <span id="gamification-xp-stat" class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">0% (0 / 100 XP)</span>
             </div>
           </div>
         </div>
@@ -421,10 +667,10 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
           <div class="flex items-center gap-2">
-            <div title="Locked: Focus Rookie" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🍅</div>
-            <div title="Locked: Streak Starter" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🔥</div>
-            <div title="Locked: Task Crusher" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🎯</div>
-            <div title="Locked: Deep Work Sage" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🛡️</div>
+            <div title="Locked: Focus Rookie" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🍅</div>
+            <div title="Locked: Streak Starter" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🔥</div>
+            <div title="Locked: Task Crusher" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🎯</div>
+            <div title="Locked: Deep Work Sage" class="w-8 h-8 rounded-xl bg-slate-200/40 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm opacity-50">🛡️</div>
           </div>
         </div>
       </div>
@@ -479,7 +725,7 @@
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-extrabold tracking-tight">Tasks & Weekly Timetable</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Manage study assignments, homework, and weekly classes.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Manage study assignments, homework, and weekly classes.</p>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="openNewTaskModal()" class="px-4 py-2 rounded-xl theme-accent-btn text-xs font-bold shadow-xs transition">+ New Task</button>
@@ -533,65 +779,65 @@
     <div id="view-timer" class="view-panel hidden flex flex-col items-center justify-center gap-6 py-6">
       <div class="text-center max-w-lg">
         <h2 class="text-3xl font-black tracking-tight">Focus Sanctuary</h2>
-        <p class="text-xs text-slate-400 mt-1">Procedural soothing ambient soundscapes, zero distractions, and pure flow.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Procedural soothing ambient soundscapes, zero distractions, and pure flow.</p>
       </div>
 
-      <div class="theme-card border rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col items-center max-w-md w-full relative overflow-hidden">
+      <div class="theme-card border border-white/15 rounded-3xl p-5 sm:p-10 shadow-2xl flex flex-col items-center max-w-md w-full relative overflow-hidden backdrop-blur-md">
         
         <!-- Mode Tabs -->
-        <div class="inline-flex p-1 rounded-2xl bg-slate-200/50 dark:bg-slate-800/80 mb-6 text-xs font-semibold">
-          <button onclick="setFocusPreset(25)" id="timer-tab-25" class="px-4 py-2 rounded-xl theme-card shadow-xs transition">25m Pomo</button>
-          <button onclick="setFocusPreset(50)" id="timer-tab-50" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">50m Deep</button>
-          <button onclick="setBreakMode(5)" id="timer-tab-short" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">5m Break</button>
-          <button onclick="setBreakMode(15)" id="timer-tab-long" class="px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition">15m Long</button>
+        <div class="flex flex-wrap justify-center gap-1 p-1 rounded-2xl bg-white/[0.04] border border-white/10 mb-6 text-xs font-semibold">
+          <button onclick="setFocusPreset(25)" id="timer-tab-25" class="px-3.5 sm:px-4 py-2 rounded-xl bg-white/15 text-white font-bold border border-white/20 shadow-xs transition">25m Pomo</button>
+          <button onclick="setFocusPreset(50)" id="timer-tab-50" class="px-3.5 sm:px-4 py-2 rounded-xl text-neutral-400 hover:text-white transition">50m Deep</button>
+          <button onclick="setBreakMode(5)" id="timer-tab-short" class="px-3.5 sm:px-4 py-2 rounded-xl text-neutral-400 hover:text-white transition">5m Break</button>
+          <button onclick="setBreakMode(15)" id="timer-tab-long" class="px-3.5 sm:px-4 py-2 rounded-xl text-neutral-400 hover:text-white transition">15m Long</button>
         </div>
 
         <!-- SVG Dial -->
-        <div class="relative w-64 h-64 flex items-center justify-center my-2">
+        <div class="timer-dial-wrap relative w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center my-2 transition-all">
           <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="44" stroke="currentColor" class="text-slate-200/60 dark:text-slate-800" stroke-width="6" fill="transparent" />
-            <circle id="timer-hero-progress-ring" cx="50" cy="50" r="44" stroke="currentColor" class="text-indigo-600 dark:text-indigo-400 transition-all duration-500 ease-linear" stroke-width="6" stroke-dasharray="276.46" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" />
+            <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.08)" stroke-width="6" fill="transparent" />
+            <circle id="timer-hero-progress-ring" cx="50" cy="50" r="44" stroke="currentColor" class="text-indigo-400 transition-all duration-500 ease-linear" stroke-width="6" stroke-dasharray="276.46" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" />
           </svg>
           <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span id="timer-hero-clock" class="text-5xl font-black font-mono tracking-tight">25:00</span>
+            <span id="timer-hero-clock" class="text-4xl sm:text-5xl font-black font-mono tracking-tight">25:00</span>
             <span id="timer-hero-state-label" class="text-xs uppercase font-bold text-slate-400 tracking-wider mt-2">Ready</span>
           </div>
         </div>
 
         <!-- Target Task -->
-        <div class="w-full mt-4 bg-slate-100/60 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-200/60 dark:border-slate-700/60 text-center">
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Task</span>
-          <p id="timer-hero-target-task" class="text-xs font-bold truncate mt-0.5">Calculus: Differential Equations</p>
+        <div class="w-full mt-4 bg-white/[0.03] rounded-xl p-3 border border-white/10 text-center">
+          <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Target Task</span>
+          <p id="timer-hero-target-task" class="text-xs font-bold truncate mt-0.5 text-neutral-100">Calculus: Differential Equations</p>
         </div>
 
         <!-- Controls -->
         <div class="flex items-center gap-3 w-full mt-6">
-          <button onclick="toggleTimer()" id="btn-timer-hero-toggle" class="flex-1 py-3.5 rounded-2xl theme-accent-btn font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
+          <button onclick="toggleTimer()" id="btn-timer-hero-toggle" class="flex-1 py-3.5 rounded-2xl bg-white text-black font-extrabold text-sm shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
             <span id="timer-hero-toggle-text">START FOCUS</span>
           </button>
-          <button onclick="resetTimer()" title="Reset Session" class="p-3.5 rounded-2xl border border-slate-300 dark:border-slate-700 theme-card opacity-75 hover:opacity-100 transition">
+          <button onclick="resetTimer()" title="Reset Session" class="p-3.5 rounded-2xl border border-white/15 bg-white/[0.04] hover:bg-white/10 text-neutral-300 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           </button>
         </div>
 
         <!-- ENHANCED AMBIENT SOUND GENERATOR (Rhythmic Ocean Swells & Multi-Layer Rain) -->
-        <div class="w-full mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-800 space-y-3">
+        <div class="w-full mt-6 pt-5 border-t border-white/10 space-y-3">
           <div class="flex items-center justify-between text-xs">
-            <span class="text-slate-400 font-bold flex items-center gap-1.5">
+            <span class="text-neutral-400 font-bold flex items-center gap-1.5">
               <span>🎧 Ambient Soundscape:</span>
             </span>
             <div class="flex items-center gap-1">
-              <button onclick="setAmbientSound('off')" id="sound-off" class="px-2.5 py-1 rounded-lg theme-accent-btn font-bold">Mute</button>
-              <button onclick="setAmbientSound('rain')" id="sound-rain" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition">🌧️ Rain</button>
-              <button onclick="setAmbientSound('waves')" id="sound-waves" class="px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition">🌊 Waves</button>
+              <button onclick="setAmbientSound('off')" id="sound-off" class="px-2.5 py-1 rounded-lg bg-white text-black font-bold shadow-xs">Mute</button>
+              <button onclick="setAmbientSound('rain')" id="sound-rain" class="px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/10 border border-white/10 opacity-75 hover:opacity-100 font-semibold transition">🌧️ Rain</button>
+              <button onclick="setAmbientSound('waves')" id="sound-waves" class="px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/10 border border-white/10 opacity-75 hover:opacity-100 font-semibold transition">🌊 Waves</button>
             </div>
           </div>
 
           <!-- Volume Slider -->
-          <div id="ambient-volume-container" class="hidden items-center justify-between gap-3 pt-1 text-xs text-slate-400">
+          <div id="ambient-volume-container" class="hidden items-center justify-between gap-3 pt-1 text-xs text-neutral-400">
             <span class="text-[11px] font-medium">Sound Volume:</span>
-            <input type="range" id="ambient-volume-slider" min="0" max="100" value="45" oninput="setAmbientVolume(this.value)" class="flex-1 accent-indigo-600 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg">
-            <span id="ambient-volume-label" class="font-mono text-[10px] w-7 text-right">45%</span>
+            <input type="range" id="ambient-volume-slider" min="0" max="100" value="45" oninput="setAmbientVolume(this.value)" class="flex-1 accent-white cursor-pointer h-1.5 bg-white/10 rounded-lg">
+            <span id="ambient-volume-label" class="font-mono text-[10px] w-7 text-right text-neutral-300">45%</span>
           </div>
         </div>
 
@@ -603,7 +849,7 @@
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-extrabold tracking-tight">Study Subjects & Syllabus</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Track time spent, syllabus progress, and assignments per course.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Track time spent, syllabus progress, and assignments per course.</p>
         </div>
         <button onclick="alert('Subject added! You can link tasks to this subject anytime.')" class="px-4 py-2 rounded-xl theme-accent-btn text-xs font-bold shadow-xs">+ Add New Subject</button>
       </div>
@@ -613,13 +859,13 @@
           <div>
             <div class="flex items-center justify-between"><span class="text-2xl">📐</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 border border-blue-500/20">Active</span></div>
             <h3 class="text-base font-bold mt-3">Mathematics</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Calculus, Linear Algebra & Geometry</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Calculus, Linear Algebra & Geometry</p>
             <div class="mt-4 space-y-2 text-xs">
-              <div class="flex justify-between text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">85%</span></div>
+              <div class="flex justify-between text-slate-500 dark:text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">85%</span></div>
               <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden"><div class="bg-blue-600 h-1.5 rounded-full" style="width: 85%"></div></div>
             </div>
           </div>
-          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
             <span>⏱️ 18h logged</span>
             <button onclick="setTaskFilter('Mathematics'); switchView('tasks')" class="font-bold text-blue-600 hover:underline">View Tasks (1) →</button>
           </div>
@@ -629,13 +875,13 @@
           <div>
             <div class="flex items-center justify-between"><span class="text-2xl">⚡</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/20">Active</span></div>
             <h3 class="text-base font-bold mt-3">Physics</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Electromagnetism & Thermodynamics</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Electromagnetism & Thermodynamics</p>
             <div class="mt-4 space-y-2 text-xs">
-              <div class="flex justify-between text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">70%</span></div>
+              <div class="flex justify-between text-slate-500 dark:text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">70%</span></div>
               <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 70%"></div></div>
             </div>
           </div>
-          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
             <span>⏱️ 14h logged</span>
             <button onclick="setTaskFilter('Physics'); switchView('tasks')" class="font-bold text-amber-600 hover:underline">View Tasks (1) →</button>
           </div>
@@ -645,13 +891,13 @@
           <div>
             <div class="flex items-center justify-between"><span class="text-2xl">💻</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/20">Active</span></div>
             <h3 class="text-base font-bold mt-3">Computer Science</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Data Structures & Algorithm Design</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Data Structures & Algorithm Design</p>
             <div class="mt-4 space-y-2 text-xs">
-              <div class="flex justify-between text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">92%</span></div>
+              <div class="flex justify-between text-slate-500 dark:text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">92%</span></div>
               <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden"><div class="bg-indigo-600 h-1.5 rounded-full" style="width: 92%"></div></div>
             </div>
           </div>
-          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
             <span>⏱️ 22h logged</span>
             <button onclick="setTaskFilter('Computer Science'); switchView('tasks')" class="font-bold text-indigo-600 hover:underline">View Tasks (1) →</button>
           </div>
@@ -661,13 +907,13 @@
           <div>
             <div class="flex items-center justify-between"><span class="text-2xl">🧪</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">Active</span></div>
             <h3 class="text-base font-bold mt-3">Chemistry</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Organic Reactions & Chemical Kinetics</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Organic Reactions & Chemical Kinetics</p>
             <div class="mt-4 space-y-2 text-xs">
-              <div class="flex justify-between text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">60%</span></div>
+              <div class="flex justify-between text-slate-500 dark:text-slate-400"><span>Syllabus Progress</span><span class="font-bold text-slate-700 dark:text-slate-200">60%</span></div>
               <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-1.5 overflow-hidden"><div class="bg-emerald-600 h-1.5 rounded-full" style="width: 60%"></div></div>
             </div>
           </div>
-          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div class="mt-6 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
             <span>⏱️ 10h logged</span>
             <button onclick="setTaskFilter('Chemistry'); switchView('tasks')" class="font-bold text-emerald-600 hover:underline">View Tasks (1) →</button>
           </div>
@@ -680,27 +926,27 @@
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-extrabold tracking-tight">Study Goals & Achievements</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Track your daily study milestones, leveling progress, and badge unlocks.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Track your daily study milestones, leveling progress, and badge unlocks.</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="theme-card border rounded-2xl p-5 shadow-xs">
-          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-400">Daily Study Target</span><span class="text-xs font-bold text-indigo-500">120 mins</span></div>
+          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Daily Study Target</span><span class="text-xs font-bold text-indigo-500">120 mins</span></div>
           <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div id="goal-progress-daily" class="theme-accent-btn h-2 rounded-full" style="width: 0%"></div></div>
-          <p id="goal-daily-status" class="text-xs text-slate-400 mt-2">0 / 120 minutes logged today</p>
+          <p id="goal-daily-status" class="text-xs text-slate-500 dark:text-slate-400 mt-2">0 / 120 minutes logged today</p>
         </div>
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs">
-          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-400">Weekly Pomodoro Target</span><span class="text-xs font-bold text-purple-500">20 Pomos</span></div>
+          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Weekly Pomodoro Target</span><span class="text-xs font-bold text-purple-500">20 Pomos</span></div>
           <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-purple-600 h-2 rounded-full" style="width: 0%"></div></div>
-          <p class="text-xs text-slate-400 mt-2">0 / 20 Pomodoros completed this week</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">0 / 20 Pomodoros completed this week</p>
         </div>
 
         <div class="theme-card border rounded-2xl p-5 shadow-xs">
-          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-400">Consistency Habit</span><span class="text-xs font-bold text-amber-500">7 Days</span></div>
+          <div class="flex items-center justify-between"><span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Consistency Habit</span><span class="text-xs font-bold text-amber-500">7 Days</span></div>
           <div class="w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full h-2 mt-4 overflow-hidden"><div class="bg-amber-500 h-2 rounded-full" style="width: 0%"></div></div>
-          <p class="text-xs text-slate-400 mt-2">Day 0 of 7 streak maintained 🔥</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Day 0 of 7 streak maintained 🔥</p>
         </div>
       </div>
 
@@ -708,33 +954,367 @@
         <div class="flex items-center justify-between pb-4 border-b border-slate-200/60 dark:border-slate-800">
           <div>
             <h3 class="text-base font-bold">Achievement Badges</h3>
-            <p class="text-xs text-slate-400">Earn XP and unlock recognition as you master your study routines.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Earn XP and unlock recognition as you master your study routines.</p>
           </div>
           <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">32 Badges to Unlock</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 mt-6">
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🍅</span><span class="text-xs font-bold mt-1">Focus Rookie</span><span class="text-[10px] text-slate-400">1st Pomo</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🔥</span><span class="text-xs font-bold mt-1">Streak Starter</span><span class="text-[10px] text-slate-400">1 Day</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🎯</span><span class="text-xs font-bold mt-1">Task Crusher</span><span class="text-[10px] text-slate-400">3 Tasks</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🛡️</span><span class="text-xs font-bold mt-1">Deep Sage</span><span class="text-[10px] text-slate-400">Lvl 3</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">👑</span><span class="text-xs font-bold mt-1">Century Club</span><span class="text-[10px] text-slate-400">100 Pomos</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">⌛</span><span class="text-xs font-bold mt-1">Time Bender</span><span class="text-[10px] text-slate-400">5hr Day</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">📚</span><span class="text-xs font-bold mt-1">Scholar</span><span class="text-[10px] text-slate-400">4 Subjects</span></div>
-          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🌟</span><span class="text-xs font-bold mt-1">Grandmaster</span><span class="text-[10px] text-slate-400">Lvl 10</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🍅</span><span class="text-xs font-bold mt-1">Focus Rookie</span><span class="text-[10px] text-slate-500 dark:text-slate-400">1st Pomo</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🔥</span><span class="text-xs font-bold mt-1">Streak Starter</span><span class="text-[10px] text-slate-500 dark:text-slate-400">1 Day</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🎯</span><span class="text-xs font-bold mt-1">Task Crusher</span><span class="text-[10px] text-slate-500 dark:text-slate-400">3 Tasks</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🛡️</span><span class="text-xs font-bold mt-1">Deep Sage</span><span class="text-[10px] text-slate-500 dark:text-slate-400">Lvl 3</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">👑</span><span class="text-xs font-bold mt-1">Century Club</span><span class="text-[10px] text-slate-500 dark:text-slate-400">100 Pomos</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">⌛</span><span class="text-xs font-bold mt-1">Time Bender</span><span class="text-[10px] text-slate-500 dark:text-slate-400">5hr Day</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">📚</span><span class="text-xs font-bold mt-1">Scholar</span><span class="text-[10px] text-slate-500 dark:text-slate-400">4 Subjects</span></div>
+          <div class="flex flex-col items-center text-center p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/60 opacity-50"><span class="text-2xl">🌟</span><span class="text-xs font-bold mt-1">Grandmaster</span><span class="text-[10px] text-slate-500 dark:text-slate-400">Lvl 10</span></div>
         </div>
       </div>
     </div>
 
   </main>
 
+  <!-- UNIVERSAL APP FOOTER -->
+  <footer class="theme-header border-t mt-12 py-10 px-4 lg:px-8 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      
+      <!-- Brand & Mission -->
+      <div class="space-y-2.5 max-w-sm">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchView('dashboard')">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-sm">
+            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14.93-4"/><path d="M20 12a8 8 0 0 1-14.93 4"/><polygon points="12,8 15,12 12,16 9,12" fill="white" stroke="none"/></svg>
+          </div>
+          <span class="text-base font-extrabold tracking-tight">FocusMeet</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full theme-accent-soft border border-indigo-200/40">focusmeet.in</span>
+        </div>
+        <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed font-normal">
+          Gamified student workspace combining Pomodoro focus timer, interactive 3D study sanctuary, timetable scheduling, and procedural ambient audio.
+        </p>
+        <div class="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>SSL Secured &bull; Client-Side Privacy Guaranteed</span>
+        </div>
+      </div>
+
+      <!-- Quick Links & Legal Navigation -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-10">
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] mb-2.5">Workspace</h4>
+          <ul class="space-y-2 text-slate-500 dark:text-slate-400 font-medium">
+            <li><button onclick="switchView('dashboard')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Dashboard</button></li>
+            <li><button onclick="switchView('tasks')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Tasks &amp; Schedule</button></li>
+            <li><button onclick="switchView('timer')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Focus Sanctuary</button></li>
+            <li><button onclick="switchView('subjects')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Subject Tracker</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] mb-2.5">3D &amp; Audio</h4>
+          <ul class="space-y-2 text-slate-500 dark:text-slate-400 font-medium">
+            <li><button onclick="open3DZenModal()" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">3D Zen Space 🪴</button></li>
+            <li><button onclick="switchView('timer'); setAmbientSound('rain');" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Rain Audio 🌧️</button></li>
+            <li><button onclick="switchView('timer'); setAmbientSound('waves');" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Ocean Waves 🌊</button></li>
+            <li><button onclick="switchView('goals')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Badges &amp; XP 🏆</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] mb-2.5">Legal &amp; Compliance</h4>
+          <ul class="space-y-2 text-slate-500 dark:text-slate-400 font-medium">
+            <li><button onclick="openLegalModal('privacy')" class="hover:text-indigo-600 dark:hover:text-indigo-400 underline decoration-dotted transition">Privacy Policy</button></li>
+            <li><button onclick="openLegalModal('terms')" class="hover:text-indigo-600 dark:hover:text-indigo-400 underline decoration-dotted transition">Terms of Service</button></li>
+            <li><button onclick="openLegalModal('cookies')" class="hover:text-indigo-600 dark:hover:text-indigo-400 underline decoration-dotted transition">Cookie Policy</button></li>
+            <li><span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">100% Local Client Storage</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright & Custom Domain Note -->
+    <div class="max-w-7xl mx-auto pt-6 mt-8 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 dark:text-slate-400 text-[11px]">
+      <p>&copy; 2026 FocusMeet (focusmeet.in). All rights reserved. Crafted for students &amp; lifelong learners.</p>
+      <div class="flex items-center gap-4">
+        <span>Custom Domain: <strong class="text-indigo-600 dark:text-indigo-400 font-semibold">focusmeet.in</strong></span>
+        <span>&bull;</span>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:underline font-semibold">Back to Top &uarr;</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       FIXED MOBILE BOTTOM NAVIGATION BAR (iOS / ANDROID NATIVE PATTERN)
+       ========================================================================= -->
+  <nav id="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <div class="mob-nav-inner max-w-lg mx-auto">
+      <button onclick="switchView('landing')" id="bottom-tab-landing" class="mob-tab active" aria-selected="true" title="Landing Page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <span>Landing</span>
+      </button>
+
+      <button onclick="switchView('dashboard')" id="bottom-tab-dashboard" class="mob-tab" aria-selected="false" title="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+          <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+          <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+        </svg>
+        <span>Home</span>
+      </button>
+
+      <button onclick="switchView('tasks')" id="bottom-tab-tasks" class="mob-tab" aria-selected="false" title="Tasks & Timetable">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 11 12 14 22 4"></polyline>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <span>Tasks</span>
+      </button>
+
+      <button onclick="switchView('timer')" id="bottom-tab-timer" class="mob-tab" aria-selected="false" title="Focus Timer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="13" r="8"></circle>
+          <polyline points="12 9 12 13 14 15"></polyline>
+          <line x1="5" y1="3" x2="2" y2="6"></line>
+          <line x1="22" y1="6" x2="19" y2="3"></line>
+          <line x1="10" y1="2" x2="14" y2="2"></line>
+        </svg>
+        <span>Timer</span>
+      </button>
+
+      <button onclick="switchView('subjects')" id="bottom-tab-subjects" class="mob-tab" aria-selected="false" title="Subjects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Subjects</span>
+      </button>
+
+      <button onclick="switchView('goals')" id="bottom-tab-goals" class="mob-tab" aria-selected="false" title="Goals & XP">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+        <span>Goals</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODAL: LEGAL & POLICIES READER (PRIVACY, TERMS, COOKIES) -->
+  <div id="modal-legal-reader" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="theme-card border rounded-3xl w-full max-w-2xl max-h-[85vh] shadow-2xl relative flex flex-col overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-5 sm:p-6 border-b border-slate-200/60 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm">
+            📜
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold tracking-tight" id="legal-modal-title">Privacy Policy</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">FocusMeet Student Transparency &amp; Compliance Hub</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-legal-reader')" class="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex border-b border-slate-200/60 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-6 pt-3 gap-2 text-xs font-bold">
+        <button onclick="switchLegalTab('privacy')" id="tab-legal-privacy" class="pb-2.5 px-3 border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-extrabold transition">
+          Privacy Policy
+        </button>
+        <button onclick="switchLegalTab('terms')" id="tab-legal-terms" class="pb-2.5 px-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
+          Terms of Service
+        </button>
+        <button onclick="switchLegalTab('cookies')" id="tab-legal-cookies" class="pb-2.5 px-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
+          Cookie &amp; Storage Policy
+        </button>
+      </div>
+
+      <!-- Tab Content Viewer (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300 flex-1">
+        
+        <!-- PRIVACY POLICY CONTENT -->
+        <div id="legal-content-privacy" class="space-y-4">
+          <div class="p-3.5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-900/60">
+            <h4 class="font-bold text-indigo-900 dark:text-indigo-300 text-xs">🛡️ Student-First Privacy Commitment</h4>
+            <p class="text-[11px] text-indigo-800 dark:text-indigo-200 mt-1">
+              FocusMeet operates on a strict <strong>Zero Server-Side Tracking</strong> architecture. Your tasks, timetable schedule, study streaks, and Pomodoro statistics never leave your device.
+            </p>
+          </div>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">1. Data Storage &amp; Ownership</h5>
+            <p>FocusMeet stores all user account data, study minutes, custom tasks, syllabus progress, and theme preferences entirely in your web browser's client-side storage (HTML5 <code>localStorage</code>). We do not operate remote databases or user tracking servers that profile your study habits.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">2. Zero Third-Party Advertising &amp; Keystroke Tracking</h5>
+            <p>We do not partner with ad brokers, data aggregators, or behavioral marketing networks. FocusMeet never sells, rents, or monetizes user information. There are no background keyloggers, screen scrapers, or surveillance scripts running inside this workspace.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">3. Third-Party CDN Services</h5>
+            <p>To deliver high performance and beautiful visuals without hosting overhead, FocusMeet loads client-side runtime libraries:</p>
+            <ul class="list-disc pl-5 space-y-1 text-slate-500 dark:text-slate-400">
+              <li><strong>Tailwind CSS CDN:</strong> Delivering modern utility styling.</li>
+              <li><strong>Google Fonts:</strong> Serving the Inter and JetBrains Mono typefaces.</li>
+              <li><strong>Spline 3D Runtime:</strong> Powering the interactive 3D study desk.</li>
+              <li><strong>GitHub Pages:</strong> Providing secure static SSL hosting.</li>
+            </ul>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">4. Data Deletion &amp; Control</h5>
+            <p>You have unconditional control over your data. You can completely erase your data at any moment by clearing your browser cache or resetting local storage for this domain.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">5. Student &amp; Child Privacy</h5>
+            <p>FocusMeet is designed to be fully compliant with educational privacy expectations (COPPA and FERPA principles) because zero personally identifiable information is transmitted or stored on remote servers.</p>
+          </section>
+        </div>
+
+        <!-- TERMS OF SERVICE CONTENT -->
+        <div id="legal-content-terms" class="space-y-4 hidden">
+          <div class="p-3.5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/60">
+            <h4 class="font-bold text-amber-900 dark:text-amber-300 text-xs">⚖️ Educational Workspace Terms</h4>
+            <p class="text-[11px] text-amber-800 dark:text-amber-200 mt-1">
+              By accessing FocusMeet (focusmeet.in or meknobody.github.io/focusmeet), you agree to these Terms of Service.
+            </p>
+          </div>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">1. Purpose of Service</h5>
+            <p>FocusMeet is an independent digital study productivity application designed to help learners manage study routines, track Pomodoro focus intervals, organize coursework, and build constructive learning habits.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">2. Disclaimer of Academic Outcomes</h5>
+            <p>FocusMeet is an organizational and motivational tool. It is not an accredited academic institution, school, or university. FocusMeet makes no guarantees regarding exam scores, academic performance, university admissions, or professional certifications.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">3. Acceptable Use</h5>
+            <p>You agree to use FocusMeet solely for lawful personal productivity and educational purposes. You agree not to reverse engineer or disrupt the service through malicious automated traffic.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">4. Intellectual Property</h5>
+            <p>The visual branding, aperture convergence logo, sound synthesis code, and software design of FocusMeet are protected under intellectual property laws. Content and task descriptions created by users remain the property of the respective user.</p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">5. Service Availability ("As-Is")</h5>
+            <p>The application is provided on an "as-is" and "as-available" basis without warranties of any kind. We reserve the right to update, modify, or enhance features at any time.</p>
+          </section>
+        </div>
+
+        <!-- COOKIE POLICY CONTENT -->
+        <div id="legal-content-cookies" class="space-y-4 hidden">
+          <div class="p-3.5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/60">
+            <h4 class="font-bold text-emerald-900 dark:text-emerald-300 text-xs">🍪 Local Storage &amp; Cookie Disclosure</h4>
+            <p class="text-[11px] text-emerald-800 dark:text-emerald-200 mt-1">
+              FocusMeet uses zero tracking cookies. Instead, it utilizes your browser's standard HTML5 <strong>Local Storage</strong> solely for offline functionality.
+            </p>
+          </div>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">1. Storage Keys Utilized</h5>
+            <div class="overflow-x-auto">
+              <table class="w-full text-[11px] border border-slate-200/60 dark:border-slate-800 rounded-xl overflow-hidden">
+                <thead class="bg-slate-100 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300">
+                  <tr>
+                    <th class="p-2 text-left font-bold">Key Name</th>
+                    <th class="p-2 text-left font-bold">Purpose</th>
+                    <th class="p-2 text-left font-bold">Duration</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200/50 dark:divide-slate-800">
+                  <tr>
+                    <td class="p-2 font-mono font-bold text-indigo-600 dark:text-indigo-400">focusmeet_active_session_v3</td>
+                    <td class="p-2">Stores currently active user session</td>
+                    <td class="p-2">Persistent until Logout</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 font-mono font-bold text-indigo-600 dark:text-indigo-400">focusmeet_registered_users_v2</td>
+                    <td class="p-2">Stores registered accounts on this device</td>
+                    <td class="p-2">Persistent</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 font-mono font-bold text-indigo-600 dark:text-indigo-400">focusmeet_student_state_v4</td>
+                    <td class="p-2">Stores tasks, schedule, study minutes, &amp; XP</td>
+                    <td class="p-2">Persistent</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 font-mono font-bold text-indigo-600 dark:text-indigo-400">focusmeet_theme</td>
+                    <td class="p-2">Remembers selected UI theme (Indigo, Dark, etc.)</td>
+                    <td class="p-2">Persistent</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 font-mono font-bold text-indigo-600 dark:text-indigo-400">focusmeet_cookie_consent</td>
+                    <td class="p-2">Records acknowledgment of this notice</td>
+                    <td class="p-2">Persistent</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="space-y-1.5">
+            <h5 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">2. Managing Local Storage</h5>
+            <p>You can inspect, export, or clear these keys at any time via your browser's Developer Tools (Application &rarr; Local Storage) or through your browser's clear browsing history settings.</p>
+          </section>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
+        <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Effective: September 2026 &bull; FocusMeet v2.4</span>
+        <button onclick="closeModal('modal-legal-reader')" class="px-5 py-2 rounded-xl theme-accent-btn text-xs font-bold shadow-xs transition">
+          I Understand
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FLOATING COOKIE & LOCAL STORAGE CONSENT BANNER -->
+  <div id="cookie-consent-banner" class="fixed bottom-4 right-4 max-w-sm sm:max-w-md z-40 hidden theme-card border rounded-2xl p-4 shadow-2xl transition-all duration-300 border-indigo-300/40 dark:border-indigo-800/40">
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-base shrink-0">
+        🍪
+      </div>
+      <div class="flex-1">
+        <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100">Local Storage &amp; Privacy Notice</h4>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+          FocusMeet uses your browser's local storage to save your focus streaks, custom themes, and study progress. Zero tracking cookies or third-party advertising.
+        </p>
+        <div class="flex items-center gap-2 mt-3">
+          <button onclick="acceptCookieConsent()" class="px-4 py-1.5 rounded-xl theme-accent-btn text-xs font-extrabold shadow-xs transition">
+            Got it
+          </button>
+          <button onclick="openLegalModal('cookies')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            Learn More
+          </button>
+        </div>
+      </div>
+      <button onclick="dismissCookieConsent()" class="text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
   <!-- =========================================================================
        AUTHENTICATION MODAL (LOGIN & SIGN UP)
        ========================================================================= -->
   <div id="modal-auth" class="fixed inset-0 bg-black/75 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="theme-card border rounded-3xl w-full max-w-md p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+    <div class="theme-card border rounded-3xl w-full max-w-md p-6 sm:p-8 shadow-2xl relative overflow-hidden modal-card max-h-[88vh] overflow-y-auto">
       
-      <button onclick="closeModal('modal-auth')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+      <button onclick="closeModal('modal-auth')" class="absolute top-4 right-4 text-slate-500 dark:text-slate-400 hover:text-slate-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
 
@@ -746,7 +1326,7 @@
           </svg>
         </div>
         <h3 id="auth-modal-title" class="text-xl font-black">Welcome to FocusMeet</h3>
-        <p id="auth-modal-subtitle" class="text-xs text-slate-400 mt-1">Sign in to your student workspace</p>
+        <p id="auth-modal-subtitle" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sign in to your student workspace</p>
       </div>
 
       <!-- Auth Mode Switcher Tabs -->
@@ -766,7 +1346,7 @@
           <input type="password" id="login-password" required placeholder="••••••••" class="w-full theme-input border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
         </div>
 
-        <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-1">
           <label class="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" checked class="accent-indigo-600 rounded">
             <span>Remember me</span>
@@ -809,6 +1389,12 @@
         <button type="submit" class="w-full py-3 rounded-xl theme-accent-btn font-extrabold text-xs shadow-md mt-2 transition transform active:scale-95">
           CREATE ACCOUNT (+50 BONUS XP)
         </button>
+        <p class="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed font-medium">
+          By creating an account, you agree to our 
+          <button type="button" onclick="openLegalModal('terms')" class="text-indigo-600 dark:text-indigo-400 underline font-bold">Terms of Service</button> 
+          and 
+          <button type="button" onclick="openLegalModal('privacy')" class="text-indigo-600 dark:text-indigo-400 underline font-bold">Privacy Policy</button>.
+        </p>
       </form>
 
     </div>
@@ -816,12 +1402,12 @@
 
   <!-- OTHER MODALS (TASK & BLOCK) -->
   <div id="modal-task" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
-      <button onclick="closeModal('modal-task')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative modal-card max-h-[88vh] overflow-y-auto">
+      <button onclick="closeModal('modal-task')" class="absolute top-4 right-4 text-slate-500 dark:text-slate-400 hover:text-slate-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
       <h3 class="text-lg font-bold mb-1">Create Study Task</h3>
-      <p class="text-xs text-slate-400 mb-4">Set subject, priority, and Pomodoro target.</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Set subject, priority, and Pomodoro target.</p>
       <form onsubmit="handleSaveTask(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold mb-1">Task Title</label>
@@ -866,12 +1452,12 @@
   </div>
 
   <div id="modal-block" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
-      <button onclick="closeModal('modal-block')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+    <div class="theme-card border rounded-2xl w-full max-w-md p-6 shadow-2xl relative modal-card max-h-[88vh] overflow-y-auto">
+      <button onclick="closeModal('modal-block')" class="absolute top-4 right-4 text-slate-500 dark:text-slate-400 hover:text-slate-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
       <h3 class="text-lg font-bold mb-1">Add Timetable Block</h3>
-      <p class="text-xs text-slate-400 mb-4">Slot a routine class, lecture, or focus session into your schedule.</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Slot a routine class, lecture, or focus session into your schedule.</p>
       <form onsubmit="handleSaveBlock(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold mb-1">Block / Subject Title</label>
@@ -918,6 +1504,57 @@
     </div>
   </div>
 
+  <!-- MODAL: FULLSCREEN 3D ZEN STUDY SANCTUARY -->
+  <div id="modal-3d-zen" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex-col justify-between p-4 sm:p-6 transition-all duration-300">
+    
+    <!-- Zen Top Bar -->
+    <div class="flex items-center justify-between text-white z-20">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-lg border border-white/20 shadow-md">
+          🪴
+        </div>
+        <div>
+          <h3 class="text-sm font-extrabold tracking-tight">3D Zen Study Sanctuary</h3>
+          <p class="text-[11px] text-slate-300">Immersive distraction-free virtual workspace</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Mini Timer Pill inside Zen Mode -->
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-xs font-mono font-bold">
+          <span id="zen-timer-clock">25:00</span>
+          <button onclick="toggleTimer()" id="btn-zen-timer-toggle" class="px-2 py-0.5 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-sans text-[10px] font-bold transition">START</button>
+        </div>
+
+        <!-- Close Zen View -->
+        <button onclick="close3DZenModal()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition border border-white/20" title="Exit Zen Mode (Esc)">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Zen 3D Viewport (Full Screen) -->
+    <div class="relative flex-1 w-full h-full my-4 rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black/40">
+      <spline-viewer id="spline-zen-viewer" url="https://prod.spline.design/Cyi5ZMAPS8Zr1cnH/scene.splinecode" class="w-full h-full block"></spline-viewer>
+    </div>
+
+    <!-- Zen Bottom Ambient Sound Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-white z-20">
+      <div class="flex items-center gap-2 text-xs">
+        <span class="font-bold text-slate-300">🎧 Ambient Audio:</span>
+        <button onclick="setAmbientSound('off')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold">Mute</button>
+        <button onclick="setAmbientSound('rain')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold">🌧️ Rain</button>
+        <button onclick="setAmbientSound('waves')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold">🌊 Waves</button>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-300">
+        <span class="text-[11px]">Volume:</span>
+        <input type="range" min="0" max="100" value="45" oninput="setAmbientVolume(this.value)" class="w-24 accent-indigo-400 h-1.5 cursor-pointer">
+        <span class="text-[10px] opacity-75">🖱️ Drag to rotate &bull; Scroll to zoom</span>
+      </div>
+    </div>
+
+  </div>
+
   <!-- JAVASCRIPT STATE, AUTH, SOUND & ROUTING ENGINE -->
   <script>
     /* ==========================================================================
@@ -954,8 +1591,9 @@
       if (activeEmail && users[activeEmail]) {
         loadUserWorkspace(users[activeEmail], false);
       } else {
-        // ALWAYS DEFAULT: Not logged in! Arrives as Guest Learner
+        // ALWAYS DEFAULT: Not logged in! Arrives as Guest Learner on Interactive Landing Page
         setGuestMode();
+        switchView('landing');
       }
     }
 
@@ -1153,6 +1791,7 @@
 
       saveState();
       renderUI();
+      switchView('dashboard');
     }
 
     /* ==========================================================================
@@ -1163,67 +1802,32 @@
       const target = document.getElementById(`view-${viewName}`);
       if (target) target.classList.remove('hidden');
 
-      const tabs = ['dashboard', 'tasks', 'timer', 'subjects', 'goals'];
+      const tabs = ['landing', 'dashboard', 'tasks', 'timer', 'subjects', 'goals'];
       tabs.forEach(tab => {
         const deskBtn = document.getElementById(`nav-${tab}`);
         const mobBtn = document.getElementById(`mob-nav-${tab}`);
+        const bottomBtn = document.getElementById(`bottom-tab-${tab}`);
         if (tab === viewName) {
-          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition';
-          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg theme-card shadow-xs';
+          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold theme-card shadow-xs transition flex items-center gap-1.5';
+          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg theme-card shadow-xs flex items-center gap-1';
+          if (bottomBtn) {
+            bottomBtn.classList.add('active');
+            bottomBtn.setAttribute('aria-selected', 'true');
+          }
         } else {
-          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition';
-          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg opacity-75';
+          if (deskBtn) deskBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold opacity-75 hover:opacity-100 transition flex items-center gap-1.5';
+          if (mobBtn) mobBtn.className = 'px-2.5 py-1 rounded-lg opacity-75 flex items-center gap-1';
+          if (bottomBtn) {
+            bottomBtn.classList.remove('active');
+            bottomBtn.setAttribute('aria-selected', 'false');
+          }
         }
       });
+
+      if (viewName === 'landing') {
+        setTimeout(resizeDottedGrid, 50);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* ==========================================================================
-       THEME ENGINE
-       ========================================================================== */
-    const THEMES = {
-      indigo: { name: 'Indigo' },
-      dark: { name: 'Midnight' },
-      sage: { name: 'Sage Green' },
-      sunset: { name: 'Warm Amber' },
-      cyber: { name: 'Cyberpunk' }
-    };
-
-    function initTheme() {
-      const savedTheme = localStorage.getItem('focusmeet_theme') || 'indigo';
-      setAppTheme(savedTheme, false);
-    }
-
-    function toggleThemeMenu() {
-      document.getElementById('theme-dropdown').classList.toggle('hidden');
-    }
-
-    document.addEventListener('click', (e) => {
-      const btn = document.getElementById('btn-theme-selector');
-      const menu = document.getElementById('theme-dropdown');
-      if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.add('hidden');
-      }
-    });
-
-    function setAppTheme(themeKey, shouldSave = true) {
-      if (!THEMES[themeKey]) themeKey = 'indigo';
-      document.documentElement.setAttribute('data-theme', themeKey);
-      
-      ['indigo', 'dark', 'sage', 'sunset', 'cyber'].forEach(k => {
-        const check = document.getElementById(`check-${k}`);
-        if (check) {
-          if (k === themeKey) check.classList.remove('hidden');
-          else check.classList.add('hidden');
-        }
-      });
-
-      document.getElementById('current-theme-name').textContent = THEMES[themeKey].name;
-      if (shouldSave) {
-        localStorage.setItem('focusmeet_theme', themeKey);
-        const menu = document.getElementById('theme-dropdown');
-        if (menu) menu.classList.add('hidden');
-      }
     }
 
     /* ==========================================================================
@@ -1318,9 +1922,12 @@
       const tabShort = document.getElementById('timer-tab-short');
       const tabLong = document.getElementById('timer-tab-long');
 
-      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = 'px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition'; });
-      if (minutes === 25 && tab25) tab25.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
-      if (minutes === 50 && tab50) tab50.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+      const activeTabStyle = 'px-4 py-2 rounded-xl bg-white/15 text-white font-bold border border-white/20 shadow-xs transition';
+      const inactiveTabStyle = 'px-4 py-2 rounded-xl text-neutral-400 hover:text-white transition';
+
+      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = inactiveTabStyle; });
+      if (minutes === 25 && tab25) tab25.className = activeTabStyle;
+      if (minutes === 50 && tab50) tab50.className = activeTabStyle;
 
       updateTimerUI();
     }
@@ -1338,9 +1945,12 @@
       const tabShort = document.getElementById('timer-tab-short');
       const tabLong = document.getElementById('timer-tab-long');
 
-      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = 'px-4 py-2 rounded-xl opacity-75 hover:opacity-100 transition'; });
-      if (minutes === 5 && tabShort) tabShort.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
-      if (minutes === 15 && tabLong) tabLong.className = 'px-4 py-2 rounded-xl theme-card shadow-xs transition';
+      const activeTabStyle = 'px-4 py-2 rounded-xl bg-white/15 text-white font-bold border border-white/20 shadow-xs transition';
+      const inactiveTabStyle = 'px-4 py-2 rounded-xl text-neutral-400 hover:text-white transition';
+
+      [tab25, tab50, tabShort, tabLong].forEach(t => { if(t) t.className = inactiveTabStyle; });
+      if (minutes === 5 && tabShort) tabShort.className = activeTabStyle;
+      if (minutes === 15 && tabLong) tabLong.className = activeTabStyle;
 
       updateTimerUI();
     }
@@ -1421,6 +2031,11 @@
 
       const heroState = document.getElementById('timer-hero-state-label');
       if (heroState) heroState.textContent = timerIsRunning ? 'Flow State Active' : 'Ready';
+
+      const zenClock = document.getElementById('zen-timer-clock');
+      if (zenClock) zenClock.textContent = formatted;
+      const zenBtn = document.getElementById('btn-zen-timer-toggle');
+      if (zenBtn) zenBtn.textContent = timerIsRunning ? 'PAUSE' : (timerTimeLeft === timerDuration ? 'START' : 'RESUME');
     }
 
     /* ==========================================================================
@@ -1469,8 +2084,8 @@
       ['off', 'rain', 'waves'].forEach(s => {
         const b = document.getElementById(`sound-${s}`);
         if (b) {
-          if (s === type) b.className = 'px-2.5 py-1 rounded-lg theme-accent-btn font-bold';
-          else b.className = 'px-2.5 py-1 rounded-lg bg-slate-200/40 dark:bg-slate-800 opacity-75 hover:opacity-100 font-semibold transition';
+          if (s === type) b.className = 'px-2.5 py-1 rounded-lg bg-white text-black font-bold shadow-xs';
+          else b.className = 'px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/10 border border-white/10 opacity-75 hover:opacity-100 font-semibold transition';
         }
       });
 
@@ -1652,9 +2267,9 @@
       document.getElementById('priority-tasks-count').textContent = appState.tasks.filter(t => !t.completed).length;
 
       const taskHtml = filtered.length === 0 ? `
-        <div class="py-8 text-center text-slate-400">
+        <div class="py-8 text-center text-slate-500 dark:text-slate-400">
           <p class="text-xs font-semibold">No tasks found</p>
-          <p class="text-[11px] text-slate-400 mt-0.5">Add a task to earn XP and stay on target.</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Add a task to earn XP and stay on target.</p>
         </div>
       ` : filtered.map(task => {
         const isActive = task.id === appState.activeTaskId;
@@ -1667,7 +2282,7 @@
 
         return `
           <div class="flex items-center justify-between p-3 rounded-xl border transition ${
-            isActive ? 'theme-accent-soft border-indigo-300 shadow-xs' : 'bg-slate-100/40 dark:bg-slate-800/40 hover:bg-slate-100/70 border-slate-200/60 dark:border-slate-800'
+            isActive ? 'bg-white/10 border-white/30 text-white shadow-xs' : 'bg-white/[0.03] hover:bg-white/[0.06] border-white/10'
           }">
             <div class="flex items-center gap-3 flex-1 min-w-0">
               <input type="checkbox" onchange="toggleTaskDone('${task.id}')" ${task.completed ? 'checked' : ''} class="w-4 h-4 rounded accent-indigo-600 cursor-pointer">
@@ -1789,20 +2404,20 @@
 
       if (dayBlocks.length === 0) {
         container.innerHTML = `
-          <div class="p-6 text-center text-slate-400 border border-dashed border-slate-300 dark:border-slate-800 rounded-xl">
+          <div class="p-6 text-center text-slate-500 dark:text-slate-400 border border-dashed border-slate-300 dark:border-slate-800 rounded-xl">
             <p class="text-xs font-semibold">No schedule slots for ${selectedDay}</p>
-            <p class="text-[11px] text-slate-400 mt-0.5">Click "+ Add Timetable Block" to add your classes.</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Click "+ Add Timetable Block" to add your classes.</p>
           </div>
         `;
         return;
       }
 
       container.innerHTML = dayBlocks.map(b => `
-        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/40 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 transition">
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 transition">
           <div class="flex items-center gap-3">
             <div class="flex flex-col font-mono text-center min-w-[65px]">
               <span class="text-xs font-bold">${b.start}</span>
-              <span class="text-[10px] text-slate-400">${b.end}</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400">${b.end}</span>
             </div>
             <div class="border-l border-slate-300 dark:border-slate-700 pl-3">
               <p class="text-xs font-bold">${b.title}</p>
@@ -1859,9 +2474,571 @@
       document.getElementById(id).classList.remove('flex');
     }
 
+    /* 3D SANCTUARY ZEN CONTROLS */
+    function open3DZenModal() {
+      const modal = document.getElementById('modal-3d-zen');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function close3DZenModal() {
+      const modal = document.getElementById('modal-3d-zen');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function reload3DScene() {
+      const viewer = document.getElementById('spline-hero-viewer');
+      if (viewer) {
+        const url = viewer.getAttribute('url');
+        viewer.removeAttribute('url');
+        setTimeout(() => {
+          viewer.setAttribute('url', url);
+        }, 50);
+      }
+    }
+
+    function initSplineViewer() {
+      const viewer = document.getElementById('spline-hero-viewer');
+      const skeleton = document.getElementById('spline-loading-skeleton');
+      if (viewer) {
+        viewer.addEventListener('load-complete', () => {
+          if (skeleton) {
+            skeleton.classList.add('opacity-0');
+            setTimeout(() => {
+              if (skeleton && skeleton.parentNode) skeleton.remove();
+            }, 700);
+          }
+          try {
+            const logo = viewer.shadowRoot?.querySelector('#logo') || viewer.shadowRoot?.querySelector('a[href*="spline"]');
+            if (logo) logo.remove();
+          } catch (e) {}
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          close3DZenModal();
+          closeModal('modal-legal-reader');
+        }
+      });
+    }
+
+    /* ==========================================================================
+       LEGAL COMPLIANCE & PRIVACY ENGINE
+       ========================================================================== */
+    function openLegalModal(tab = 'privacy') {
+      const modal = document.getElementById('modal-legal-reader');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        switchLegalTab(tab);
+      }
+    }
+
+    function switchLegalTab(tab) {
+      const tabs = ['privacy', 'terms', 'cookies'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-legal-${t}`);
+        const content = document.getElementById(`legal-content-${t}`);
+        if (t === tab) {
+          if (btn) btn.className = 'py-2 rounded-xl theme-card shadow-xs transition';
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) btn.className = 'py-2 rounded-xl opacity-75 hover:opacity-100 transition';
+          if (content) content.classList.add('hidden');
+        }
+      });
+      const scrollable = document.querySelector('#modal-legal-reader .overflow-y-auto');
+      if (scrollable) scrollable.scrollTop = 0;
+    }
+
+    /* COOKIE & LOCAL STORAGE CONSENT ENGINE */
+    const COOKIE_CONSENT_KEY = 'focusmeet_cookie_consent';
+
+    function initCookieConsent() {
+      const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+      if (!consent) {
+        setTimeout(() => {
+          const banner = document.getElementById('cookie-consent-banner');
+          if (banner) banner.classList.remove('hidden');
+        }, 1200);
+      }
+    }
+
+    function acceptCookieConsent() {
+      localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+      dismissCookieConsent();
+    }
+
+    function dismissCookieConsent() {
+      const banner = document.getElementById('cookie-consent-banner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    /* ==========================================================================
+       PROCEDURAL DOTTED GRID INTERACTIVE LANDING ENGINE
+       ========================================================================== */
+    const DOTTED_GRID_SPACING = 25;
+    const DOTTED_GRID_BASE_RADIUS = 7.0;
+    const DOTTED_GRID_MOUSE_RADIUS = 380;
+    const DOTTED_GRID_TRAIL_LENGTH = 456;
+    const DOTTED_GRID_TRAIL_RADIUS = 230;
+    const DOTTED_GRID_TRAIL_FADE_MS = 1200;
+    const DG_RANDOM_TIME = 0.6;
+    const DG_COLLECT_TIME = 1.1;
+    const DG_TOTAL_SHAPES = 5;
+
+    const DG_SHAPE_NAMES = [
+      "Harmonic Star",
+      "Orthogonal Square",
+      "Orbital Ring",
+      "Cartesian Cross",
+      "Kinetic Triangle"
+    ];
+
+    const dgLerp = (a, b, t) => a + (b - a) * t;
+    const dgClamp01 = (v) => Math.max(0, Math.min(1, v));
+    const dgSmoothstep = (e0, e1, v) => {
+      const t = dgClamp01((v - e0) / (e1 - e0));
+      return t * t * (3 - 2 * t);
+    };
+
+    const dgGetStarStrength = (x, y, time, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.28;
+      const nx = (x - cx) / scale;
+      const ny = (y - cy) / scale;
+      const r = Math.sqrt(nx * nx + ny * ny);
+      const angle = Math.atan2(ny, nx);
+      const spikes = 5;
+      const star = Math.cos(spikes * angle);
+      const radius = 0.55 + 0.25 * star;
+      return dgClamp01(1 - dgSmoothstep(radius - 0.05, radius + 0.05, r));
+    };
+
+    const dgGetSquareStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.26;
+      const rx = (x - cx) / scale;
+      const ry = (y - cy) / scale;
+      const d = Math.max(Math.abs(rx), Math.abs(ry));
+      return dgClamp01(1 - dgSmoothstep(0.78, 0.82, d));
+    };
+
+    const dgGetCircleRingStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.28;
+      const r = Math.sqrt(((x - cx) / scale) ** 2 + ((y - cy) / scale) ** 2);
+      return dgClamp01(1 - dgSmoothstep(0.13, 0.17, Math.abs(r - 0.72)));
+    };
+
+    const dgGetPlusStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.27;
+      const rx = (x - cx) / scale;
+      const ry = (y - cy) / scale;
+      const thickness = 0.18;
+      const length = 0.75;
+      const vertical = Math.abs(rx) < thickness && Math.abs(ry) < length;
+      const horizontal = Math.abs(ry) < thickness && Math.abs(rx) < length;
+      const d = Math.min(
+        Math.max(Math.abs(rx) - thickness, Math.abs(ry) - length),
+        Math.max(Math.abs(ry) - thickness, Math.abs(rx) - length)
+      );
+      return vertical || horizontal ? 1 : dgClamp01(1 - dgSmoothstep(0, 0.06, d));
+    };
+
+    const dgGetTriangleStrength = (x, y, time, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.32;
+      const rotation = Math.sin(time * 0.3) * 0.12;
+      const cos = Math.cos(rotation);
+      const sin = Math.sin(rotation);
+      const rx = ((x - cx) * cos - (y - cy) * sin) / scale;
+      const ry = ((x - cx) * sin + (y - cy) * cos) / scale;
+      const a = Math.abs(rx) * 0.9 + ry * 0.52;
+      const b = -ry * 0.95;
+      return dgClamp01(1 - dgSmoothstep(0.38, 0.48, Math.max(a, b)));
+    };
+
+    const dgGetRawShapeStrength = (shapeIndex, x, y, time, width, height) => {
+      const i = shapeIndex % DG_TOTAL_SHAPES;
+      if (i === 0) return dgGetStarStrength(x, y, time, width, height);
+      if (i === 1) return dgGetSquareStrength(x, y, width, height);
+      if (i === 2) return dgGetCircleRingStrength(x, y, width, height);
+      if (i === 3) return dgGetPlusStrength(x, y, width, height);
+      return dgGetTriangleStrength(x, y, time, width, height);
+    };
+
+    let dgCanvas = null;
+    let dgCtx = null;
+    let dgWidth = 0;
+    let dgHeight = 0;
+    let dgDpr = 1;
+    let dgDots = [];
+
+    const dgPatternState = {
+      currentShapeIndex: 0,
+      transitionStartTime: null
+    };
+
+    const dgMouse = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      active: false,
+      trail: []
+    };
+
+    function createDgDots() {
+      dgDots = [];
+      for (let y = DOTTED_GRID_SPACING / 2; y < dgHeight; y += DOTTED_GRID_SPACING) {
+        for (let x = DOTTED_GRID_SPACING / 2; x < dgWidth; x += DOTTED_GRID_SPACING) {
+          dgDots.push({
+            x,
+            y,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.3 + Math.random() * 1.0,
+            randomOffset: Math.random() * 10,
+            currentShapeStrength: 0,
+            currentRandomStrength: 1,
+            currentMouseStrength: 0,
+            currentTrailStrength: 0,
+            currentGrayDisperseStrength: 0
+          });
+        }
+      }
+    }
+
+    function resizeDottedGrid() {
+      if (!dgCanvas) dgCanvas = document.getElementById('dotted-grid-canvas');
+      if (!dgCanvas) return;
+      if (!dgCtx) dgCtx = dgCanvas.getContext('2d', { alpha: false });
+
+      dgWidth = window.innerWidth;
+      dgHeight = window.innerHeight;
+      dgDpr = Math.min(window.devicePixelRatio || 1, 2);
+      dgCanvas.width = Math.floor(dgWidth * dgDpr);
+      dgCanvas.height = Math.floor(dgHeight * dgDpr);
+      dgCtx.setTransform(dgDpr, 0, 0, dgDpr, 0, 0);
+      createDgDots();
+    }
+
+    function initDottedGrid() {
+      dgCanvas = document.getElementById('dotted-grid-canvas');
+      if (!dgCanvas) return;
+      dgCtx = dgCanvas.getContext('2d', { alpha: false });
+
+      window.addEventListener('resize', resizeDottedGrid);
+
+      // Global window-wide cursor tracking for full-site background interactivity
+      window.addEventListener('pointermove', (e) => {
+        dgMouse.targetX = e.clientX;
+        dgMouse.targetY = e.clientY;
+        dgMouse.active = true;
+        dgMouse.trail.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (dgMouse.trail.length > DOTTED_GRID_TRAIL_LENGTH) {
+          dgMouse.trail.shift();
+        }
+      });
+
+      window.addEventListener('pointerleave', () => {
+        dgMouse.active = false;
+      });
+
+      // Native mobile touch tracking for fluid interactive ripple effects on mobile screens
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          const t = e.touches[0];
+          dgMouse.targetX = t.clientX;
+          dgMouse.targetY = t.clientY;
+          dgMouse.active = true;
+          dgMouse.trail.push({ x: t.clientX, y: t.clientY, t: performance.now() });
+          if (dgMouse.trail.length > DOTTED_GRID_TRAIL_LENGTH) dgMouse.trail.shift();
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          const t = e.touches[0];
+          dgMouse.targetX = t.clientX;
+          dgMouse.targetY = t.clientY;
+          dgMouse.active = true;
+          dgMouse.trail.push({ x: t.clientX, y: t.clientY, t: performance.now() });
+          if (dgMouse.trail.length > DOTTED_GRID_TRAIL_LENGTH) dgMouse.trail.shift();
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        setTimeout(() => { dgMouse.active = false; }, 350);
+      }, { passive: true });
+
+      // Global click on empty page backdrop morphs procedural geometry!
+      window.addEventListener('click', (e) => {
+        if (e.target.closest('button, a, input, select, textarea, [data-interactive], form')) {
+          return;
+        }
+        morphNextShape();
+      });
+
+      resizeDottedGrid();
+      requestAnimationFrame(dgRenderLoop);
+    }
+
+    function morphNextShape() {
+      dgPatternState.currentShapeIndex = (dgPatternState.currentShapeIndex + 1) % DG_TOTAL_SHAPES;
+      dgPatternState.transitionStartTime = performance.now() * 0.001;
+      updateShapeUIIndicators();
+    }
+
+    function setSpecificShape(idx) {
+      dgPatternState.currentShapeIndex = idx % DG_TOTAL_SHAPES;
+      dgPatternState.transitionStartTime = performance.now() * 0.001;
+      updateShapeUIIndicators();
+    }
+
+    function updateShapeUIIndicators() {
+      const cur = dgPatternState.currentShapeIndex;
+      const indicator = document.getElementById('active-shape-indicator');
+      if (indicator) indicator.textContent = DG_SHAPE_NAMES[cur];
+      const counter = document.getElementById('shape-counter-badge');
+      if (counter) counter.textContent = cur + 1;
+
+      const navIndicator = document.getElementById('nav-active-shape-name');
+      if (navIndicator) {
+        navIndicator.textContent = DG_SHAPE_NAMES[cur].replace(/^(Harmonic |Orthogonal |Orbital |Cartesian |Kinetic )/, '');
+      }
+
+      for (let i = 0; i < 5; i++) {
+        const pill = document.getElementById(`shape-pill-${i}`);
+        if (pill) {
+          if (i === cur) {
+            pill.className = "cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/15 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.15)] text-white";
+          } else {
+            pill.className = "cursor-pointer p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400";
+          }
+        }
+      }
+    }
+
+    const dgGetShapeData = (x, y, time) => {
+      const { currentShapeIndex, transitionStartTime } = dgPatternState;
+      const shapeStrength = dgGetRawShapeStrength(currentShapeIndex, x, y, time, dgWidth, dgHeight);
+
+      if (transitionStartTime === null) {
+        return { shapeStrength, randomStrength: 0, grayDisperseStrength: 0 };
+      }
+
+      const cyclePosition = time - transitionStartTime;
+
+      if (cyclePosition < DG_RANDOM_TIME) {
+        return { shapeStrength: 0, randomStrength: 1, grayDisperseStrength: 0.35 };
+      }
+
+      if (cyclePosition < DG_RANDOM_TIME + DG_COLLECT_TIME) {
+        const eased = dgSmoothstep(0, 1, (cyclePosition - DG_RANDOM_TIME) / DG_COLLECT_TIME);
+        return {
+          shapeStrength: shapeStrength * eased,
+          randomStrength: 1 - eased,
+          grayDisperseStrength: 0.35 * (1 - eased)
+        };
+      }
+
+      return { shapeStrength, randomStrength: 0, grayDisperseStrength: 0 };
+    };
+
+    const dgDrawDot = (x, y, radius, brightness, grayDisperseStrength, trailStrength, mouseStrength) => {
+      const mouseFade = mouseStrength * mouseStrength * 0.72;
+      const trailFade = trailStrength * 0.38;
+      const alpha = dgClamp01((0.36 + brightness * 0.64) - mouseFade - trailFade);
+
+      const normalL = 26 + brightness * 72;
+      const disperseL = 16 + brightness * 56 + grayDisperseStrength * 24;
+      const lightness = dgLerp(normalL, disperseL, grayDisperseStrength);
+
+      const mouseLift = mouseStrength * (1 - mouseStrength) * 18;
+      const mouseDark = mouseStrength * mouseStrength * 38;
+      const trailLift = trailStrength * 38 * (1 - trailStrength * 0.55);
+
+      const finalLightness = dgClamp01((lightness - mouseDark + mouseLift + trailLift) / 100) * 100;
+      const saturation = trailStrength * trailStrength * 16;
+
+      dgCtx.beginPath();
+      dgCtx.fillStyle = `hsla(210, ${saturation}%, ${finalLightness}%, ${alpha})`;
+      dgCtx.arc(x, y, radius, 0, Math.PI * 2);
+      dgCtx.fill();
+    };
+
+    function dgRenderLoop(ms) {
+      if (document.hidden) {
+        requestAnimationFrame(dgRenderLoop);
+        return;
+      }
+
+      const time = ms * 0.001;
+      const now = performance.now();
+
+      dgMouse.x = dgLerp(dgMouse.x, dgMouse.targetX, 0.12);
+      dgMouse.y = dgLerp(dgMouse.y, dgMouse.targetY, 0.12);
+
+      dgCtx.fillStyle = "#000000";
+      dgCtx.fillRect(0, 0, dgWidth, dgHeight);
+
+      for (let i = 0; i < dgDots.length; i++) {
+        const dot = dgDots[i];
+        const { shapeStrength, randomStrength, grayDisperseStrength } = dgGetShapeData(dot.x, dot.y, time);
+
+        dot.currentShapeStrength = dgLerp(dot.currentShapeStrength, shapeStrength, 0.12);
+        dot.currentRandomStrength = dgLerp(dot.currentRandomStrength, randomStrength, 0.14);
+        dot.currentGrayDisperseStrength = dgLerp(dot.currentGrayDisperseStrength, grayDisperseStrength, 0.14);
+
+        let targetMouseStrength = 0;
+        if (dgMouse.active) {
+          const dx = dot.x - dgMouse.x;
+          const dy = dot.y - dgMouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < DOTTED_GRID_MOUSE_RADIUS) {
+            const norm = dist / DOTTED_GRID_MOUSE_RADIUS;
+            targetMouseStrength = (1 - norm) * (1 - norm) * (1 - norm);
+          }
+        }
+        dot.currentMouseStrength = dgLerp(dot.currentMouseStrength, targetMouseStrength, 0.12);
+
+        let targetTrailStrength = 0;
+        for (let j = 0; j < dgMouse.trail.length; j++) {
+          const pt = dgMouse.trail[j];
+          const age = (now - pt.t) / DOTTED_GRID_TRAIL_FADE_MS;
+          if (age >= 1) continue;
+          const ageFade = (1 - age) * (1 - age) * (1 - age);
+          const positionFade = (j + 1) / dgMouse.trail.length;
+          const fade = ageFade * positionFade;
+          const dx = dot.x - pt.x;
+          const dy = dot.y - pt.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < DOTTED_GRID_TRAIL_RADIUS) {
+            const proximity = 1 - dgSmoothstep(0, 1, dist / DOTTED_GRID_TRAIL_RADIUS);
+            targetTrailStrength = Math.max(targetTrailStrength, (proximity ** 3) * fade);
+          }
+        }
+        dot.currentTrailStrength = dgLerp(dot.currentTrailStrength, targetTrailStrength, 0.08);
+
+        const randomBlink = Math.sin(time * (1.2 + dot.speed * 1.2) + dot.phase + dot.randomOffset + dot.x * 0.02 + dot.y * 0.016) ** 2;
+        const softPulse = Math.sin(time * 1.4 + dot.phase + dot.x * 0.015) ** 2;
+
+        const stableBrightness = dgClamp01(0.16 + dot.currentShapeStrength * 0.84 + softPulse * 0.02);
+        const randomBrightness = dgClamp01(0.16 + randomBlink * 0.18);
+        const brightness = dgLerp(stableBrightness, randomBrightness, dot.currentRandomStrength);
+
+        const grayDisperseBlink = dgClamp01(dot.currentGrayDisperseStrength * (0.45 + randomBlink * 0.55));
+        const mouseShrink = 1 - dot.currentMouseStrength * 0.75;
+        const trailShrink = 1 - dot.currentTrailStrength * 0.65;
+
+        const stableRadius = DOTTED_GRID_BASE_RADIUS + dot.currentShapeStrength * 1.25;
+        const randomRadius = DOTTED_GRID_BASE_RADIUS + randomBlink * 0.35;
+        const radius = dgLerp(stableRadius, randomRadius, dot.currentRandomStrength) * mouseShrink * trailShrink;
+
+        dgDrawDot(dot.x, dot.y, radius, brightness, grayDisperseBlink, dot.currentTrailStrength, dot.currentMouseStrength);
+      }
+
+      requestAnimationFrame(dgRenderLoop);
+    }
+
+    /* Interactive Landing Timer Engine */
+    let landingTimerTotal = 25 * 60;
+    let landingTimerRemaining = 25 * 60;
+    let landingTimerRunning = false;
+    let landingTimerInterval = null;
+
+    function updateLandingClockDisplay() {
+      const elem = document.getElementById('landing-timer-clock');
+      if (!elem) return;
+      const mins = Math.floor(landingTimerRemaining / 60).toString().padStart(2, '0');
+      const secs = (landingTimerRemaining % 60).toString().padStart(2, '0');
+      elem.textContent = `${mins}:${secs}`;
+    }
+
+    function toggleLandingTimer() {
+      const btn = document.getElementById('btn-landing-timer-toggle');
+      if (landingTimerRunning) {
+        clearInterval(landingTimerInterval);
+        landingTimerRunning = false;
+        if (btn) btn.textContent = 'Resume Focus Session';
+      } else {
+        landingTimerRunning = true;
+        if (btn) btn.textContent = 'Pause Interval';
+        landingTimerInterval = setInterval(() => {
+          if (landingTimerRemaining > 0) {
+            landingTimerRemaining--;
+            updateLandingClockDisplay();
+          } else {
+            clearInterval(landingTimerInterval);
+            landingTimerRunning = false;
+            if (btn) btn.textContent = 'Interval Complete!';
+            awardXP(25, 'Completed landing focus interval');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetLandingTimer() {
+      clearInterval(landingTimerInterval);
+      landingTimerRunning = false;
+      landingTimerRemaining = landingTimerTotal;
+      updateLandingClockDisplay();
+      const btn = document.getElementById('btn-landing-timer-toggle');
+      if (btn) btn.textContent = 'Start Focus Session';
+    }
+
+    function setLandingTimerPreset(mins) {
+      clearInterval(landingTimerInterval);
+      landingTimerRunning = false;
+      landingTimerTotal = mins * 60;
+      landingTimerRemaining = landingTimerTotal;
+      updateLandingClockDisplay();
+      const btn = document.getElementById('btn-landing-timer-toggle');
+      if (btn) btn.textContent = 'Start Focus Session';
+
+      ['25', '5', '15'].forEach(m => {
+        const b = document.getElementById(`landing-mode-${m}`);
+        if (b) {
+          if (m === String(mins)) {
+            b.className = "px-3 py-1 rounded-lg bg-white text-black font-bold shadow-xs transition";
+          } else {
+            b.className = "px-3 py-1 rounded-lg text-neutral-400 hover:text-white transition";
+          }
+        }
+      });
+    }
+
     /* RENDER FULL UI */
     function renderUI() {
       const u = appState.user;
+
+      const dateElem = document.getElementById('current-date-display');
+      if (dateElem) {
+        const now = new Date();
+        dateElem.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      const quickStreak = document.getElementById('hero-quick-streak');
+      if (quickStreak) quickStreak.textContent = `🔥 ${u.streakDays} Days`;
+      const quickMins = document.getElementById('hero-quick-mins');
+      if (quickMins) quickMins.textContent = `${u.todayStudiedMinutes} / ${u.dailyTargetMinutes}m`;
+      const quickXp = document.getElementById('hero-quick-xp');
+      if (quickXp) quickXp.textContent = `⚡ ${u.totalXp} XP`;
 
       document.getElementById('badge-lvl').textContent = `Lvl ${u.level}`;
       document.getElementById('badge-xp').textContent = `${u.totalXp} XP`;
@@ -1916,8 +3093,10 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
       initAuth();
+      initSplineViewer();
+      initDottedGrid();
+      initCookieConsent();
       renderUI();
       updateTimerUI();
     });

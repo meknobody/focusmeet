@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="focusmeet-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Squircle Base -->
+  <rect width="64" height="64" rx="16" fill="url(#focusmeet-grad)"/>
+  <!-- Focus Convergence Rings & Diamond Aperture -->
+  <g filter="url(#shadow)">
+    <path d="M16 32a16 16 0 0 1 29.86-8" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M48 32a16 16 0 0 1-29.86 8" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+    <polygon points="32,20 40,32 32,44 24,32" fill="#ffffff"/>
+  </g>
+</svg>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-black text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER // Procedural Dot-Grid Interactive Landing Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      color: #ffffff;
+      overflow-x: hidden;
+      user-select: none;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen w-full bg-black">
+
+  <!-- Interactive Dot Grid Canvas (Full-Screen Background) -->
+  <div class="fixed inset-0 z-0">
+    <canvas id="dotted-grid-canvas" class="cursor-pointer touch-none"></canvas>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/50"></div>
+    <div class="pointer-events-none absolute inset-0 shadow-[inset_0_0_140px_rgba(0,0,0,0.95)]"></div>
+  </div>
+
+  <!-- Interactive Overlay Layer -->
+  <div class="relative z-10 pointer-events-none min-h-screen flex flex-col justify-between">
+    
+    <!-- Top Navigation -->
+    <header class="w-full px-6 py-5 sm:px-12 flex items-center justify-between border-b border-white/10 backdrop-blur-md bg-black/40">
+      <div class="flex items-center gap-3 pointer-events-auto">
+        <div class="h-9 w-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center font-mono font-black text-sm text-white shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+          ☵
+        </div>
+        <div>
+          <span class="text-sm font-extrabold tracking-widest uppercase block">
+            AETHER // GRID
+          </span>
+          <span class="text-[10px] text-neutral-400 font-mono tracking-wider block">
+            PROCEDURAL AMBIENT OS
+          </span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-xs font-medium text-neutral-400 pointer-events-auto">
+        <a href="#features" class="hover:text-white transition duration-200">Mechanics</a>
+        <a href="#shapes" class="hover:text-white transition duration-200">Geometry</a>
+        <a href="#zen" class="hover:text-white transition duration-200">Audio Synthesis</a>
+        <a href="#manifesto" class="hover:text-white transition duration-200">Manifesto</a>
+      </nav>
+
+      <div class="flex items-center gap-3 pointer-events-auto">
+        <button class="px-4 py-2 rounded-xl text-xs font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition border border-transparent hover:border-white/10">
+          Sign In
+        </button>
+        <button class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-black hover:bg-neutral-200 transition shadow-[0_0_25px_rgba(255,255,255,0.3)]">
+          Get Started
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Hero -->
+    <main class="container mx-auto px-6 py-12 lg:py-20 flex flex-col items-center text-center max-w-5xl">
+      
+      <!-- Interactive Hint Badge -->
+      <div class="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-xl text-[11px] font-mono tracking-wide text-neutral-300 mb-8 shadow-inner">
+        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>INTERACTIVE PROCEDURAL CANVAS &bull; CLICK ANYWHERE TO MORPH</span>
+      </div>
+
+      <!-- Hero Headline -->
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.08] text-neutral-100 max-w-4xl drop-shadow-sm">
+        Distraction vanishes into <span class="bg-gradient-to-r from-neutral-100 via-neutral-300 to-neutral-500 bg-clip-text text-transparent">pure frequency.</span>
+      </h1>
+
+      <p class="mt-6 text-sm sm:text-base md:text-lg text-neutral-400 max-w-2xl font-normal leading-relaxed">
+        A minimalist high-performance focus environment powered by real-time mathematical dot-matrix distortion, lag-free cursor tracking, and rhythmic flow-state timing.
+      </p>
+
+      <!-- CTAs -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
+        <button onclick="alert('Session initialized! Enjoy the flow state.')" class="px-7 py-3.5 rounded-2xl bg-white text-black font-extrabold text-xs tracking-wider uppercase hover:bg-neutral-200 transition duration-200 shadow-[0_0_35px_rgba(255,255,255,0.25)] transform active:scale-95">
+          Launch Workspace
+        </button>
+        <button onclick="morphNextShape()" class="px-6 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs tracking-wide border border-white/20 backdrop-blur-xl transition duration-200">
+          Morph Geometry &bull; Click Anywhere
+        </button>
+      </div>
+
+      <!-- Floating Focus Station Card -->
+      <div class="mt-14 w-full max-w-lg pointer-events-auto rounded-3xl border border-white/15 bg-neutral-950/70 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] text-left">
+        <div class="flex items-center justify-between pb-4 border-b border-white/10">
+          <div class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-indigo-500 animate-ping"></span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300">
+              Focus Station
+            </span>
+          </div>
+          <div class="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10 text-[11px] font-medium">
+            <button onclick="setTimerDuration(25)" id="btn-mode-25" class="px-3 py-1 rounded-lg bg-white text-black font-bold shadow-xs transition">25m</button>
+            <button onclick="setTimerDuration(5)" id="btn-mode-5" class="px-3 py-1 rounded-lg text-neutral-400 hover:text-white transition">5m</button>
+            <button onclick="setTimerDuration(15)" id="btn-mode-15" class="px-3 py-1 rounded-lg text-neutral-400 hover:text-white transition">15m</button>
+          </div>
+        </div>
+
+        <!-- Clock -->
+        <div class="my-8 text-center">
+          <div id="landing-timer-clock" class="font-mono text-6xl sm:text-7xl font-black tracking-tight text-white drop-shadow-md">
+            25:00
+          </div>
+          <p class="text-xs text-neutral-400 font-mono mt-2 flex items-center justify-center gap-2">
+            <span>🎯 Target Task:</span>
+            <span class="text-neutral-200 font-medium">Advanced Algorithmic Complexity</span>
+          </p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex items-center justify-center gap-3">
+          <button onclick="toggleLandingTimer()" id="btn-timer-action" class="flex-1 py-3 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-neutral-200 transition shadow-md">
+            Start Focus Session
+          </button>
+          <button onclick="resetLandingTimer()" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-neutral-300 text-xs font-semibold border border-white/10 transition">
+            Reset
+          </button>
+        </div>
+
+        <!-- Active Geometry Status -->
+        <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-neutral-400 font-mono">
+          <span>Active Geometry:</span>
+          <span id="active-shape-indicator" class="text-white font-bold bg-white/10 px-2 py-0.5 rounded border border-white/15">
+            Harmonic Star
+          </span>
+        </div>
+      </div>
+
+      <!-- Geometry Matrix Selector Grid -->
+      <div class="mt-10 w-full max-w-2xl pointer-events-auto">
+        <p class="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-3 text-center">
+          Click anywhere on background to cycle shapes (<span id="shape-counter-badge">1</span> / 5)
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-left" id="shapes-list-grid">
+          <div id="shape-pill-0" class="p-3 rounded-2xl border transition-all duration-300 bg-white/15 border-white/40 shadow-[0_0_20px_rgba(255,255,255,0.15)] text-white">
+            <div class="text-base font-bold mb-1">✦</div>
+            <div class="text-[11px] font-bold truncate">Star</div>
+            <div class="text-[9px] opacity-60 leading-tight mt-0.5">5-point harmonic</div>
+          </div>
+          <div id="shape-pill-1" class="p-3 rounded-2xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+            <div class="text-base font-bold mb-1">■</div>
+            <div class="text-[11px] font-bold truncate">Square</div>
+            <div class="text-[9px] opacity-60 leading-tight mt-0.5">Bound matrix</div>
+          </div>
+          <div id="shape-pill-2" class="p-3 rounded-2xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+            <div class="text-base font-bold mb-1">●</div>
+            <div class="text-[11px] font-bold truncate">Ring</div>
+            <div class="text-[9px] opacity-60 leading-tight mt-0.5">Radial orbital</div>
+          </div>
+          <div id="shape-pill-3" class="p-3 rounded-2xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+            <div class="text-base font-bold mb-1">✚</div>
+            <div class="text-[11px] font-bold truncate">Cross</div>
+            <div class="text-[9px] opacity-60 leading-tight mt-0.5">Orthogonal axes</div>
+          </div>
+          <div id="shape-pill-4" class="p-3 rounded-2xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400">
+            <div class="text-base font-bold mb-1">▲</div>
+            <div class="text-[11px] font-bold truncate">Triangle</div>
+            <div class="text-[9px] opacity-60 leading-tight mt-0.5">Kinetic delta</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom Footer -->
+    <footer class="w-full px-6 py-6 sm:px-12 border-t border-white/10 backdrop-blur-md bg-black/40">
+      <div class="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-400">
+        <div class="flex items-center gap-3">
+          <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
+          <span>Suspended RAF Engine Active &bull; Zero Idle Draw</span>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <span>Touch & Pointer Responsive</span>
+          <span>100% Client-Side Procedural</span>
+          <span class="text-white font-semibold">&copy; 2026 AETHER</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- PROCEDURAL DOTTED GRID SCRIPT -->
+  <script>
+    const DEFAULT_SPACING = 25;
+    const DEFAULT_BASE_RADIUS = 7.0;
+    const DEFAULT_MOUSE_RADIUS = 380;
+    const DEFAULT_TRAIL_LENGTH = 456;
+    const DEFAULT_TRAIL_RADIUS = 230;
+    const DEFAULT_TRAIL_FADE_MS = 1200;
+    const RANDOM_TIME = 0.6;
+    const COLLECT_TIME = 1.1;
+    const TOTAL_SHAPES = 5;
+
+    const SHAPE_NAMES = [
+      "Harmonic Star",
+      "Orthogonal Square",
+      "Orbital Ring",
+      "Cartesian Cross",
+      "Kinetic Triangle"
+    ];
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const clamp01 = (v) => Math.max(0, Math.min(1, v));
+    const smoothstep = (e0, e1, v) => {
+      const t = clamp01((v - e0) / (e1 - e0));
+      return t * t * (3 - 2 * t);
+    };
+
+    const getStarStrength = (x, y, time, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.28;
+      const nx = (x - cx) / scale;
+      const ny = (y - cy) / scale;
+      const r = Math.sqrt(nx * nx + ny * ny);
+      const angle = Math.atan2(ny, nx);
+      const spikes = 5;
+      const star = Math.cos(spikes * angle);
+      const radius = 0.55 + 0.25 * star;
+      return clamp01(1 - smoothstep(radius - 0.05, radius + 0.05, r));
+    };
+
+    const getSquareStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.26;
+      const rx = (x - cx) / scale;
+      const ry = (y - cy) / scale;
+      const d = Math.max(Math.abs(rx), Math.abs(ry));
+      return clamp01(1 - smoothstep(0.78, 0.82, d));
+    };
+
+    const getCircleRingStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.28;
+      const r = Math.sqrt(((x - cx) / scale) ** 2 + ((y - cy) / scale) ** 2);
+      return clamp01(1 - smoothstep(0.13, 0.17, Math.abs(r - 0.72)));
+    };
+
+    const getPlusStrength = (x, y, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.27;
+      const rx = (x - cx) / scale;
+      const ry = (y - cy) / scale;
+      const thickness = 0.18;
+      const length = 0.75;
+      const vertical = Math.abs(rx) < thickness && Math.abs(ry) < length;
+      const horizontal = Math.abs(ry) < thickness && Math.abs(rx) < length;
+      const d = Math.min(
+        Math.max(Math.abs(rx) - thickness, Math.abs(ry) - length),
+        Math.max(Math.abs(ry) - thickness, Math.abs(rx) - length)
+      );
+      return vertical || horizontal ? 1 : clamp01(1 - smoothstep(0, 0.06, d));
+    };
+
+    const getTriangleStrength = (x, y, time, width, height) => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const scale = Math.min(width, height) * 0.32;
+      const rotation = Math.sin(time * 0.3) * 0.12;
+      const cos = Math.cos(rotation);
+      const sin = Math.sin(rotation);
+      const rx = ((x - cx) * cos - (y - cy) * sin) / scale;
+      const ry = ((x - cx) * sin + (y - cy) * cos) / scale;
+      const a = Math.abs(rx) * 0.9 + ry * 0.52;
+      const b = -ry * 0.95;
+      return clamp01(1 - smoothstep(0.38, 0.48, Math.max(a, b)));
+    };
+
+    const getRawShapeStrength = (shapeIndex, x, y, time, width, height) => {
+      const i = shapeIndex % TOTAL_SHAPES;
+      if (i === 0) return getStarStrength(x, y, time, width, height);
+      if (i === 1) return getSquareStrength(x, y, width, height);
+      if (i === 2) return getCircleRingStrength(x, y, width, height);
+      if (i === 3) return getPlusStrength(x, y, width, height);
+      return getTriangleStrength(x, y, time, width, height);
+    };
+
+    const canvas = document.getElementById('dotted-grid-canvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dots = [];
+
+    const patternState = {
+      currentShapeIndex: 0,
+      transitionStartTime: null
+    };
+
+    const mouse = {
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
+      active: false,
+      trail: []
+    };
+
+    function createDots() {
+      dots = [];
+      for (let y = DEFAULT_SPACING / 2; y < height; y += DEFAULT_SPACING) {
+        for (let x = DEFAULT_SPACING / 2; x < width; x += DEFAULT_SPACING) {
+          dots.push({
+            x,
+            y,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.3 + Math.random() * 1.0,
+            randomOffset: Math.random() * 10,
+            currentShapeStrength: 0,
+            currentRandomStrength: 1,
+            currentMouseStrength: 0,
+            currentTrailStrength: 0,
+            currentGrayDisperseStrength: 0
+          });
+        }
+      }
+    }
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      createDots();
+    }
+
+    window.addEventListener('resize', resize);
+
+    window.addEventListener('pointermove', (e) => {
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
+      mouse.active = true;
+      mouse.trail.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+      if (mouse.trail.length > DEFAULT_TRAIL_LENGTH) {
+        mouse.trail.shift();
+      }
+    });
+
+    window.addEventListener('pointerleave', () => {
+      mouse.active = false;
+    });
+
+    function morphNextShape() {
+      patternState.currentShapeIndex = (patternState.currentShapeIndex + 1) % TOTAL_SHAPES;
+      patternState.transitionStartTime = performance.now() * 0.001;
+
+      // Update UI Pill indicators
+      const cur = patternState.currentShapeIndex;
+      document.getElementById('active-shape-indicator').textContent = SHAPE_NAMES[cur];
+      document.getElementById('shape-counter-badge').textContent = cur + 1;
+
+      for (let i = 0; i < 5; i++) {
+        const pill = document.getElementById(`shape-pill-${i}`);
+        if (i === cur) {
+          pill.className = "p-3 rounded-2xl border transition-all duration-300 bg-white/15 border-white/40 shadow-[0_0_20px_rgba(255,255,255,0.15)] text-white";
+        } else {
+          pill.className = "p-3 rounded-2xl border transition-all duration-300 bg-white/[0.03] border-white/10 text-neutral-400";
+        }
+      }
+    }
+
+    // Clicking anywhere on window triggers geometry morphing (unless clicking buttons/inputs)
+    window.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) {
+        return;
+      }
+      morphNextShape();
+    });
+
+    const getShapeData = (x, y, time) => {
+      const { currentShapeIndex, transitionStartTime } = patternState;
+      const shapeStrength = getRawShapeStrength(currentShapeIndex, x, y, time, width, height);
+
+      if (transitionStartTime === null) {
+        return { shapeStrength, randomStrength: 0, grayDisperseStrength: 0 };
+      }
+
+      const cyclePosition = time - transitionStartTime;
+
+      if (cyclePosition < RANDOM_TIME) {
+        return { shapeStrength: 0, randomStrength: 1, grayDisperseStrength: 0.35 };
+      }
+
+      if (cyclePosition < RANDOM_TIME + COLLECT_TIME) {
+        const eased = smoothstep(0, 1, (cyclePosition - RANDOM_TIME) / COLLECT_TIME);
+        return {
+          shapeStrength: shapeStrength * eased,
+          randomStrength: 1 - eased,
+          grayDisperseStrength: 0.35 * (1 - eased)
+        };
+      }
+
+      return { shapeStrength, randomStrength: 0, grayDisperseStrength: 0 };
+    };
+
+    const drawDot = (x, y, radius, brightness, grayDisperseStrength, trailStrength, mouseStrength) => {
+      const mouseFade = mouseStrength * mouseStrength * 0.72;
+      const trailFade = trailStrength * 0.38;
+      const alpha = clamp01((0.28 + brightness * 0.72) - mouseFade - trailFade);
+
+      const normalL = 16 + brightness * 78;
+      const disperseL = 12 + brightness * 58 + grayDisperseStrength * 22;
+      const lightness = lerp(normalL, disperseL, grayDisperseStrength);
+
+      const mouseLift = mouseStrength * (1 - mouseStrength) * 18;
+      const mouseDark = mouseStrength * mouseStrength * 38;
+      const trailLift = trailStrength * 38 * (1 - trailStrength * 0.55);
+
+      const finalLightness = clamp01((lightness - mouseDark + mouseLift + trailLift) / 100) * 100;
+      const saturation = trailStrength * trailStrength * 16;
+
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(210, ${saturation}%, ${finalLightness}%, ${alpha})`;
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
+    function renderLoop(ms) {
+      if (document.hidden) {
+        requestAnimationFrame(renderLoop);
+        return;
+      }
+
+      const time = ms * 0.001;
+      const now = performance.now();
+
+      mouse.x = lerp(mouse.x, mouse.targetX, 0.12);
+      mouse.y = lerp(mouse.y, mouse.targetY, 0.12);
+
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = 0; i < dots.length; i++) {
+        const dot = dots[i];
+        const { shapeStrength, randomStrength, grayDisperseStrength } = getShapeData(dot.x, dot.y, time);
+
+        dot.currentShapeStrength = lerp(dot.currentShapeStrength, shapeStrength, 0.12);
+        dot.currentRandomStrength = lerp(dot.currentRandomStrength, randomStrength, 0.14);
+        dot.currentGrayDisperseStrength = lerp(dot.currentGrayDisperseStrength, grayDisperseStrength, 0.14);
+
+        let targetMouseStrength = 0;
+        if (mouse.active) {
+          const dx = dot.x - mouse.x;
+          const dy = dot.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < DEFAULT_MOUSE_RADIUS) {
+            const norm = dist / DEFAULT_MOUSE_RADIUS;
+            targetMouseStrength = (1 - norm) * (1 - norm) * (1 - norm);
+          }
+        }
+        dot.currentMouseStrength = lerp(dot.currentMouseStrength, targetMouseStrength, 0.12);
+
+        let targetTrailStrength = 0;
+        for (let j = 0; j < mouse.trail.length; j++) {
+          const pt = mouse.trail[j];
+          const age = (now - pt.t) / DEFAULT_TRAIL_FADE_MS;
+          if (age >= 1) continue;
+          const ageFade = (1 - age) * (1 - age) * (1 - age);
+          const positionFade = (j + 1) / mouse.trail.length;
+          const fade = ageFade * positionFade;
+          const dx = dot.x - pt.x;
+          const dy = dot.y - pt.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < DEFAULT_TRAIL_RADIUS) {
+            const proximity = 1 - smoothstep(0, 1, dist / DEFAULT_TRAIL_RADIUS);
+            targetTrailStrength = Math.max(targetTrailStrength, (proximity ** 3) * fade);
+          }
+        }
+        dot.currentTrailStrength = lerp(dot.currentTrailStrength, targetTrailStrength, 0.08);
+
+        const randomBlink = Math.sin(time * (1.2 + dot.speed * 1.2) + dot.phase + dot.randomOffset + dot.x * 0.02 + dot.y * 0.016) ** 2;
+        const softPulse = Math.sin(time * 1.4 + dot.phase + dot.x * 0.015) ** 2;
+
+        const stableBrightness = clamp01(0.16 + dot.currentShapeStrength * 0.84 + softPulse * 0.02);
+        const randomBrightness = clamp01(0.16 + randomBlink * 0.18);
+        const brightness = lerp(stableBrightness, randomBrightness, dot.currentRandomStrength);
+
+        const grayDisperseBlink = clamp01(dot.currentGrayDisperseStrength * (0.45 + randomBlink * 0.55));
+        const mouseShrink = 1 - dot.currentMouseStrength * 0.75;
+        const trailShrink = 1 - dot.currentTrailStrength * 0.65;
+
+        const stableRadius = DEFAULT_BASE_RADIUS + dot.currentShapeStrength * 1.25;
+        const randomRadius = DEFAULT_BASE_RADIUS + randomBlink * 0.35;
+        const radius = lerp(stableRadius, randomRadius, dot.currentRandomStrength) * mouseShrink * trailShrink;
+
+        drawDot(dot.x, dot.y, radius, brightness, grayDisperseBlink, dot.currentTrailStrength, dot.currentMouseStrength);
+      }
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    // Initialize Canvas
+    resize();
+    requestAnimationFrame(renderLoop);
+
+    // --- Interactive Landing Timer Logic ---
+    let timerTotal = 25 * 60;
+    let timerRemaining = 25 * 60;
+    let timerRunning = false;
+    let timerInterval = null;
+
+    function updateClockDisplay() {
+      const mins = Math.floor(timerRemaining / 60).toString().padStart(2, '0');
+      const secs = (timerRemaining % 60).toString().padStart(2, '0');
+      document.getElementById('landing-timer-clock').textContent = `${mins}:${secs}`;
+    }
+
+    function toggleLandingTimer() {
+      const btn = document.getElementById('btn-timer-action');
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Resume Focus Session';
+      } else {
+        timerRunning = true;
+        btn.textContent = 'Pause Interval';
+        timerInterval = setInterval(() => {
+          if (timerRemaining > 0) {
+            timerRemaining--;
+            updateClockDisplay();
+          } else {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            btn.textContent = 'Interval Complete!';
+          }
+        }, 1000);
+      }
+    }
+
+    function resetLandingTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = timerTotal;
+      updateClockDisplay();
+      document.getElementById('btn-timer-action').textContent = 'Start Focus Session';
+    }
+
+    function setTimerDuration(mins) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerTotal = mins * 60;
+      timerRemaining = timerTotal;
+      updateClockDisplay();
+      document.getElementById('btn-timer-action').textContent = 'Start Focus Session';
+
+      ['25', '5', '15'].forEach(m => {
+        const b = document.getElementById(`btn-mode-${m}`);
+        if (m === String(mins)) {
+          b.className = "px-3 py-1 rounded-lg bg-white text-black font-bold shadow-xs transition";
+        } else {
+          b.className = "px-3 py-1 rounded-lg text-neutral-400 hover:text-white transition";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

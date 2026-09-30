@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found &bull; FocusMeet</title>
+  <meta name="description" content="The page you're looking for might have been moved or doesn't exist. Return to FocusMeet study workspace.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M16 32a16 16 0 0 1 29.86-8' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M48 32a16 16 0 0 1-29.86 8' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpolygon points='32,20 40,32 32,44 24,32' fill='%23ffffff'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-body: #000000;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000000;
+      color: #f8fafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+      overscroll-behavior-y: none;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .theme-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    /* Gradient mask on giant 404 */
+    .mask-404 {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 20%, rgba(255, 255, 255, 0.15) 85%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between antialiased relative bg-black text-white selection:bg-white selection:text-black">
+
+  <!-- GLOBAL PROCEDURAL DOTTED GRID CANVAS -->
+  <div id="global-dotted-grid-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <canvas id="dotted-grid-canvas" class="w-full h-full block cursor-pointer"></canvas>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-transparent"></div>
+  </div>
+
+  <!-- MINIMAL HEADER -->
+  <header class="relative z-20 px-6 py-4 border-b border-white/10 backdrop-blur-md bg-black/40">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12a8 8 0 0 1 14.93-4" />
+            <path d="M20 12a8 8 0 0 1-14.93 4" />
+            <polygon points="12,8 15,12 12,16 9,12" fill="white" stroke="none" />
+          </svg>
+        </div>
+        <div>
+          <span class="text-base font-bold tracking-tight">FocusMeet</span>
+          <span class="text-[10px] ml-1.5 px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-neutral-300 font-mono">focusmeet.in</span>
+        </div>
+      </a>
+      <a href="index.html" class="text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 transition">
+        Return to App &rarr;
+      </a>
+    </div>
+  </header>
+
+  <!-- 404 MAIN HERO (MATCHING not-found-2.tsx SPEC) -->
+  <main class="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-6 w-full max-w-2xl mx-auto">
+    <div class="theme-card rounded-3xl p-8 sm:p-14 text-center shadow-2xl w-full flex flex-col items-center gap-6">
+      
+      <!-- Empty Header -->
+      <div class="flex max-w-md flex-col items-center gap-2 text-center">
+        <!-- Giant 404 with Mask Gradient -->
+        <h1 class="mask-404 font-extrabold text-8xl sm:text-9xl tracking-tighter select-none">
+          404
+        </h1>
+        <!-- Description -->
+        <p class="-mt-4 sm:-mt-6 text-sm sm:text-base text-neutral-300 font-normal leading-relaxed">
+          The page you're looking for might have been <br class="hidden sm:inline" />
+          moved or doesn't exist.
+        </p>
+      </div>
+
+      <!-- Empty Content with Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xs mt-2">
+        <a href="index.html" class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white text-black font-extrabold text-xs uppercase tracking-wider hover:bg-neutral-200 transition shadow-[0_0_20px_rgba(255,255,255,0.2)] transform active:scale-95">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Go Home</span>
+        </a>
+
+        <a href="index.html" onclick="sessionStorage.setItem('fm_nav', 'dashboard')" class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-xs tracking-wider uppercase transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          <span>Explore</span>
+        </a>
+      </div>
+
+      <div class="pt-4 border-t border-white/10 text-[11px] font-mono text-neutral-400">
+        HTTP 404 &bull; URL Path Not Located on FocusMeet
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MINIMAL FOOTER -->
+  <footer class="relative z-20 py-4 text-center text-xs text-neutral-400 border-t border-white/10">
+    <p>&copy; 2026 FocusMeet (focusmeet.in) &bull; Student Study Workspace</p>
+  </footer>
+
+  <!-- PROCEDURAL DOTTED GRID SCRIPT (MATCHING MAIN APP) -->
+  <script>
+    let dgCanvas, dgCtx, dgWidth, dgHeight, dgDpr = 1;
+    let dgDots = [];
+    const DG_DOT_SPACING = 24;
+    const dgMouse = { x: -9999, y: -9999, targetX: -9999, targetY: -9999, active: false, trail: [] };
+
+    function initGrid() {
+      dgCanvas = document.getElementById('dotted-grid-canvas');
+      if (!dgCanvas) return;
+      dgCtx = dgCanvas.getContext('2d');
+      resize();
+      window.addEventListener('resize', resize);
+      window.addEventListener('pointermove', (e) => {
+        dgMouse.targetX = e.clientX;
+        dgMouse.targetY = e.clientY;
+        dgMouse.active = true;
+      });
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          dgMouse.targetX = e.touches[0].clientX;
+          dgMouse.targetY = e.touches[0].clientY;
+          dgMouse.active = true;
+        }
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          dgMouse.targetX = e.touches[0].clientX;
+          dgMouse.targetY = e.touches[0].clientY;
+          dgMouse.active = true;
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', () => {
+        setTimeout(() => { dgMouse.active = false; }, 350);
+      }, { passive: true });
+      requestAnimationFrame(loop);
+    }
+
+    function resize() {
+      dgDpr = Math.min(window.devicePixelRatio || 1, 2);
+      dgWidth = window.innerWidth;
+      dgHeight = window.innerHeight;
+      dgCanvas.width = Math.floor(dgWidth * dgDpr);
+      dgCanvas.height = Math.floor(dgHeight * dgDpr);
+      dgCtx.setTransform(dgDpr, 0, 0, dgDpr, 0, 0);
+
+      dgDots = [];
+      const cols = Math.ceil(dgWidth / DG_DOT_SPACING) + 2;
+      const rows = Math.ceil(dgHeight / DG_DOT_SPACING) + 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          dgDots.push({ ox: c * DG_DOT_SPACING, oy: r * DG_DOT_SPACING, x: c * DG_DOT_SPACING, y: r * DG_DOT_SPACING });
+        }
+      }
+    }
+
+    function loop() {
+      dgMouse.x += (dgMouse.targetX - dgMouse.x) * 0.15;
+      dgMouse.y += (dgMouse.targetY - dgMouse.y) * 0.15;
+
+      dgCtx.fillStyle = '#000000';
+      dgCtx.fillRect(0, 0, dgWidth, dgHeight);
+
+      const radius = 130;
+      for (let i = 0; i < dgDots.length; i++) {
+        const dot = dgDots[i];
+        let dx = dot.ox - dgMouse.x;
+        let dy = dot.oy - dgMouse.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        let drawX = dot.ox;
+        let drawY = dot.oy;
+        let alpha = 0.35;
+        let size = 1.1;
+
+        if (dgMouse.active && dist < radius) {
+          const factor = (1 - dist / radius);
+          const angle = Math.atan2(dy, dx);
+          const push = factor * 22;
+          drawX += Math.cos(angle) * push;
+          drawY += Math.sin(angle) * push;
+          alpha = 0.35 + factor * 0.55;
+          size = 1.1 + factor * 1.5;
+        }
+
+        dgCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        dgCtx.beginPath();
+        dgCtx.arc(drawX, drawY, size, 0, Math.PI * 2);
+        dgCtx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('DOMContentLoaded', initGrid);
+  </script>
+</body>
+</html>
