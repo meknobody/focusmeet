@@ -1,0 +1,736 @@
+/* UNIFIED MINIMALIST OBSIDIAN / ULTRA-TRANSPARENT GLASS (GLOBAL PROCEDURAL GRID) */
+    :root {
+      --bg-body: #000000;
+      --bg-header: rgba(0, 0, 0, 0.65);
+      --bg-card: rgba(255, 255, 255, 0.02);
+      --border-main: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #ffffff;
+      --accent-hover: #e2e8f0;
+      --accent-btn-text: #050505;
+      --accent-soft-bg: rgba(255, 255, 255, 0.06);
+      --accent-soft-text: #ffffff;
+      --focus-box-bg: rgba(255, 255, 255, 0.02);
+      --input-bg: rgba(255, 255, 255, 0.03);
+      --item-hover: rgba(255, 255, 255, 0.06);
+      --badge-bar: rgba(255, 255, 255, 0.08);
+      --bottom-nav-h: 60px;
+    }
+
+    body {
+      font-family: 'Cormorant', 'Cormorant Garamond', Georgia, serif;
+      background-color: #000000;
+      color: #f8fafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+      overscroll-behavior-y: none;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    /* Headings, Titles, Brand & Display Typography: Cinzel */
+    h1, h2, h3, h4, h5, h6,
+    .font-heading,
+    .font-serif,
+    .heading-font,
+    .brand-title,
+    #pill-logo-btn,
+    .pill-nav-item,
+    #nav-pill-mobile-title span:first-child {
+      font-family: 'Cinzel', Georgia, serif;
+      letter-spacing: 0.03em;
+    }
+
+    /* Normal Body Text, Paragraphs, Inputs & Descriptions: Cormorant */
+    p, span:not(.font-mono):not([class*="font-mono"]),
+    input, textarea, select, label,
+    .font-body,
+    .font-cormorant,
+    .font-sans {
+      font-family: 'Cormorant', 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* High-precision Monospace: JetBrains Mono for timers, clocks, stats */
+    .font-mono,
+    [class*="font-mono"],
+    #timer-display,
+    #landing-timer-display,
+    #ambient-time-display {
+      font-family: 'JetBrains Mono', monospace !important;
+      letter-spacing: 0.04em;
+    }
+    .theme-card {
+      background-color: var(--bg-card);
+      border-color: var(--border-card);
+      color: var(--text-main);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .theme-header {
+      background-color: var(--bg-header);
+      border-color: var(--border-main);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .theme-accent-btn {
+      background-color: var(--accent);
+      color: var(--accent-btn-text, #000000);
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .theme-accent-btn:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    }
+    .theme-accent-soft {
+      background-color: var(--accent-soft-bg);
+      color: var(--accent-soft-text);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .theme-input {
+      background-color: var(--input-bg);
+      border-color: var(--border-card);
+      color: var(--text-main);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 16px; /* prevent iOS auto-zoom on focus */
+    }
+    .theme-input:focus {
+      border-color: rgba(255, 255, 255, 0.4);
+      outline: none;
+    }
+    .theme-focus-box {
+      background: var(--focus-box-bg);
+      border: 1px solid var(--border-card);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    /* SPLINE 3D CANVAS STYLES */
+    spline-viewer {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+    spline-viewer::part(logo) {
+      display: none !important;
+    }
+    /* ACCESSIBLE FOCUS INDICATORS */
+    :focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    /* =================================================================
+       MOBILE BOTTOM NAV BAR - glassmorphic fixed tab bar (iOS/Android style)
+       ================================================================= */
+    #mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      height: var(--bottom-nav-h);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    #mobile-bottom-nav .mob-nav-inner {
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+    }
+    #mobile-bottom-nav .mob-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.40);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      min-height: 44px; /* iOS HIG touch target */
+      transition: color 0.18s ease, transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 2px;
+      text-transform: uppercase;
+    }
+    #mobile-bottom-nav .mob-tab svg {
+      width: 22px; height: 22px;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    #mobile-bottom-nav .mob-tab.active { color: #ffffff; }
+    #mobile-bottom-nav .mob-tab.active svg {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.55));
+    }
+    #mobile-bottom-nav .mob-tab:active { transform: scale(0.90); }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 767px) {
+      #mobile-bottom-nav { display: block; }
+      .old-mobile-nav-row { display: none !important; }
+      main { padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom, 8px) + 16px) !important; }
+      .timer-dial-wrap { width: 200px !important; height: 200px !important; }
+      .timer-dial-wrap #timer-hero-clock { font-size: 2.6rem !important; }
+      #view-landing h2 { font-size: clamp(1.7rem, 7.5vw, 3.5rem) !important; }
+      #auth-login-btn .auth-btn-text { display: none; }
+      #badge-xp { display: none; }
+      .morph-btn-desktop { display: none !important; }
+      #mobile-bottom-nav .mob-tab { font-size: 8px !important; padding: 0 1px !important; }
+      #mobile-bottom-nav .mob-tab svg { width: 19px !important; height: 19px !important; }
+    }
+            /* =================================================================
+       FLOATING PILL NAVBAR WITH FRAMER MOTION STYLE SPRING TRANSITIONS
+       ================================================================= */
+    #floating-navbar-container {
+      position: fixed;
+      top: 16px;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      padding: 0 16px;
+    }
+
+    #floating-nav-pill {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 48px;
+      padding: 6px 18px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center top;
+      max-width: 95vw;
+      position: relative;
+    }
+
+    #floating-nav-pill.pill-collapsed {
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
+      gap: 0 !important;
+      background: rgba(12, 12, 12, 0.92);
+      border-color: rgba(255, 255, 255, 0.22);
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.15);
+    }
+
+    #floating-nav-pill.pill-collapsed:hover {
+      transform: scale(1.08);
+      border-color: rgba(245, 158, 11, 0.65);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(245, 158, 11, 0.35);
+    }
+
+    #nav-pill-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      transition: opacity 0.22s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    #nav-pill-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.22s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    #floating-nav-pill.pill-collapsed #nav-pill-links-wrap,
+    #floating-nav-pill.pill-collapsed #nav-pill-actions-wrap,
+    #floating-nav-pill.pill-collapsed .pill-separator,
+    #floating-nav-pill.pill-collapsed #nav-pill-mobile-title {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    .pill-nav-item {
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pill-nav-item:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .pill-nav-item.active {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Tooltip when collapsed */
+    .pill-tooltip {
+      position: absolute;
+      top: 56px;
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: rgba(0, 0, 0, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    #floating-nav-pill.pill-collapsed:hover .pill-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* LOUNGE & CHAT CUSTOM STYLES */
+    .lounge-chat-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .lounge-chat-scroll::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 9999px;
+    }
+    .lounge-chat-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+    .lounge-chat-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .cheer-chip {
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cheer-chip:hover {
+      transform: translateY(-1px) scale(1.03);
+    }
+    .cheer-chip:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .lounge-room-tab.active-room {
+      background: rgba(255, 255, 255, 0.10) !important;
+      border-color: rgba(245, 158, 11, 0.45) !important;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.12);
+    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    /* MODERN TOGGLE SWITCH FOR SETTINGS */
+    .switch-toggle {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .switch-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transition: .25s ease;
+      border-radius: 9999px;
+    }
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: #ffffff;
+      transition: .25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 50%;
+    }
+    .switch-toggle input:checked + .switch-slider {
+      background-color: #6366f1;
+      border-color: #818cf8;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.45);
+    }
+    .switch-toggle input:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* ==========================================================================
+       CINEMATIC THEME SWITCHER COMPONENT (SUN & MOON)
+       ========================================================================== */
+    .cinematic-theme-switcher {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      background: #111317;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      padding: 3px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.theme-light .cinematic-theme-switcher {
+      background: #d6dce4 !important;
+      border-color: rgba(0, 0, 0, 0.20) !important;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Sliding Thumb */
+    .cinematic-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      border-radius: 9999px;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      pointer-events: none;
+    }
+
+    /* Dark Mode Thumb (active on Moon, right position) */
+    body:not(.theme-light) .cinematic-thumb {
+      background: radial-gradient(circle at 35% 35%, #2c364c, #161e2e);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), 0 0 14px rgba(56, 189, 248, 0.22);
+    }
+
+    /* Light Mode Thumb (active on Sun, left position) */
+    body.theme-light .cinematic-thumb {
+      background: radial-gradient(circle at 35% 35%, #ffffff, #fffbeb);
+      border: 1px solid rgba(245, 158, 11, 0.50);
+      box-shadow: 0 3px 10px rgba(245, 158, 11, 0.30), 0 1px 4px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Switcher Option Buttons */
+    .cinematic-option {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      transition: color 0.25s ease, transform 0.2s ease, filter 0.25s ease;
+    }
+    .cinematic-option:active {
+      transform: scale(0.92);
+    }
+
+    /* Large / Showcase Version (Settings View) - Concentric Alignment */
+    .cinematic-theme-switcher.switcher-lg {
+      height: 44px !important;
+      width: 88px !important;
+      min-width: 88px !important;
+      padding: 4px !important;
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+    .cinematic-theme-switcher.switcher-lg .cinematic-thumb {
+      width: 34px !important;
+      height: 34px !important;
+      top: 4px !important;
+      left: 4px !important;
+    }
+    body:not(.theme-light) .cinematic-theme-switcher.switcher-lg .cinematic-thumb {
+      transform: translateX(44px) !important;
+    }
+    body.theme-light .cinematic-theme-switcher.switcher-lg .cinematic-thumb {
+      transform: translateX(0px) !important;
+    }
+    .cinematic-theme-switcher.switcher-lg .cinematic-option {
+      width: 34px !important;
+      height: 34px !important;
+    }
+    .cinematic-theme-switcher.switcher-lg .cinematic-option svg {
+      width: 20px !important;
+      height: 20px !important;
+      display: block !important;
+      margin: auto !important;
+    }
+
+    /* Compact Version (Floating Navbar) - Concentric Alignment */
+    .cinematic-theme-switcher.switcher-sm {
+      height: 34px !important;
+      width: 68px !important;
+      min-width: 68px !important;
+      padding: 3px !important;
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+    .cinematic-theme-switcher.switcher-sm .cinematic-thumb {
+      width: 26px !important;
+      height: 26px !important;
+      top: 3px !important;
+      left: 3px !important;
+    }
+    body:not(.theme-light) .cinematic-theme-switcher.switcher-sm .cinematic-thumb {
+      transform: translateX(34px) !important;
+    }
+    body.theme-light .cinematic-theme-switcher.switcher-sm .cinematic-thumb {
+      transform: translateX(0px) !important;
+    }
+    .cinematic-theme-switcher.switcher-sm .cinematic-option {
+      width: 26px !important;
+      height: 26px !important;
+    }
+    .cinematic-theme-switcher.switcher-sm .cinematic-option svg {
+      width: 16px !important;
+      height: 16px !important;
+      display: block !important;
+      margin: auto !important;
+    }
+
+    /* Icon Active & Inactive Glow Colors - High Visibility in Both Modes */
+    body:not(.theme-light) .icon-sun-opt {
+      color: #cbd5e1;
+      opacity: 0.80;
+    }
+    body:not(.theme-light) .icon-sun-opt:hover {
+      color: #fef08a;
+      opacity: 1;
+    }
+    body:not(.theme-light) .icon-moon-opt {
+      color: #fde047;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.85));
+    }
+    body.theme-light .icon-sun-opt {
+      color: #f59e0b;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.90));
+    }
+    body.theme-light .icon-moon-opt {
+      color: #334155;
+      opacity: 0.80;
+    }
+    body.theme-light .icon-moon-opt:hover {
+      color: #0f172a;
+      opacity: 1;
+    }
+
+    /* Floating Theme Button (Bottom Right) */
+    body.theme-light #floating-quick-theme-btn {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #000000 !important;
+      border-color: rgba(0, 0, 0, 0.25) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    }
+    body.theme-light #floating-quick-theme-btn:hover {
+      background: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* ==========================================================================
+       HIGH CONTRAST LIGHT MODE - MANDATORY: ALL TEXT TURNS BLACK
+       ========================================================================== */
+    body.theme-light {
+      --bg-body: #eaedf1;
+      --bg-header: rgba(241, 244, 248, 0.92);
+      --bg-card: rgba(243, 246, 250, 0.95);
+      --border-main: rgba(0, 0, 0, 0.14);
+      --border-card: rgba(0, 0, 0, 0.12);
+      --text-main: #000000;
+      --text-muted: #1e293b;
+      --accent: #000000;
+      --accent-hover: #1f2937;
+      --accent-btn-text: #ffffff;
+      --accent-soft-bg: rgba(0, 0, 0, 0.06);
+      --accent-soft-text: #000000;
+      --focus-box-bg: rgba(0, 0, 0, 0.04);
+      --input-bg: rgba(0, 0, 0, 0.04);
+      --item-hover: rgba(0, 0, 0, 0.06);
+      --badge-bar: rgba(0, 0, 0, 0.10);
+
+      background-color: #eaedf1 !important;
+      color: #000000 !important;
+    }
+
+    body.theme-light #global-dotted-grid-bg {
+      background-color: #eaedf1 !important;
+    }
+
+    /* TURN ALL HEADINGS, BODY TEXT, PARAGRAPHS, SPANS, LABELS, INPUTS INTO BLACK IN LIGHT MODE */
+    body.theme-light,
+    body.theme-light h1,
+    body.theme-light h2,
+    body.theme-light h3,
+    body.theme-light h4,
+    body.theme-light h5,
+    body.theme-light h6,
+    body.theme-light p,
+    body.theme-light span:not(.theme-preserve-color):not([class*="bg-emerald"]):not([class*="bg-indigo"]):not([class*="bg-amber"]),
+    body.theme-light label,
+    body.theme-light a,
+    body.theme-light li,
+    body.theme-light strong,
+    body.theme-light b,
+    body.theme-light em,
+    body.theme-light input,
+    body.theme-light textarea,
+    body.theme-light select,
+    body.theme-light option,
+    body.theme-light .text-white,
+    body.theme-light [class*="text-slate-"],
+    body.theme-light [class*="text-neutral-"],
+    body.theme-light [class*="text-gray-"],
+    body.theme-light [class*="text-zinc-"],
+    body.theme-light .pill-nav-item,
+    body.theme-light .font-mono,
+    body.theme-light [class*="font-mono"],
+    body.theme-light #timer-hero-clock,
+    body.theme-light #timer-display,
+    body.theme-light #landing-timer-display,
+    body.theme-light #ambient-time-display,
+    body.theme-light .brand-title,
+    body.theme-light #badge-lvl,
+    body.theme-light #badge-xp,
+    body.theme-light #nav-active-shape-name {
+      color: #000000 !important;
+    }
+
+    /* Light Mode Card Surfaces & Modals */
+    body.theme-light .theme-card,
+    body.theme-light [class*="bg-neutral-900"],
+    body.theme-light [class*="bg-slate-900"],
+    body.theme-light [class*="bg-zinc-900"],
+    body.theme-light [class*="bg-black/"],
+    body.theme-light #user-dropdown-menu,
+    body.theme-light #modal-profile-auth > div,
+    body.theme-light #modal-edit-task > div,
+    body.theme-light #modal-legal-reader > div,
+    body.theme-light .theme-focus-box {
+      background-color: rgba(243, 246, 250, 0.96) !important;
+      border-color: rgba(0, 0, 0, 0.13) !important;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    /* Light Mode Borders & Dividers */
+    body.theme-light [class*="border-white/"],
+    body.theme-light .border-white\/10,
+    body.theme-light .border-white\/15,
+    body.theme-light .border-white\/20,
+    body.theme-light .border-white\/25,
+    body.theme-light .pill-separator {
+      border-color: rgba(0, 0, 0, 0.14) !important;
+      background-color: rgba(0, 0, 0, 0.14);
+    }
+
+    /* Floating Navbar in Light Mode */
+    body.theme-light #floating-nav-pill {
+      background: rgba(241, 244, 248, 0.92) !important;
+      border-color: rgba(0, 0, 0, 0.16) !important;
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.06) !important;
+    }
+    body.theme-light .pill-nav-item {
+      color: rgba(0, 0, 0, 0.75) !important;
+    }
+    body.theme-light .pill-nav-item:hover {
+      color: #000000 !important;
+      background: rgba(0, 0, 0, 0.06) !important;
+    }
+    body.theme-light .pill-nav-item.active {
+      color: #000000 !important;
+      background: rgba(0, 0, 0, 0.10) !important;
+      border-color: rgba(0, 0, 0, 0.20) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10) !important;
+    }
+
+    /* Inputs & Selects in Light Mode */
+    body.theme-light input,
+    body.theme-light textarea,
+    body.theme-light select,
+    body.theme-light .theme-input {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+      border-color: rgba(0, 0, 0, 0.22) !important;
+      color: #000000 !important;
+    }
+    body.theme-light input::placeholder,
+    body.theme-light textarea::placeholder {
+      color: rgba(0, 0, 0, 0.55) !important;
+    }
+
+    /* Buttons in Light Mode */
+    body.theme-light button:not(.cinematic-option) {
+      color: #000000 !important;
+    }
+    body.theme-light .theme-accent-btn,
+    body.theme-light button.bg-white,
+    body.theme-light .bg-white {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border: 1.5px solid #000000 !important;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.10) !important;
+    }
+    body.theme-light .theme-accent-btn:hover,
+    body.theme-light button.bg-white:hover {
+      background-color: #f1f5f9 !important;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16) !important;
+    }
+    body.theme-light .theme-accent-soft {
+      background-color: rgba(0, 0, 0, 0.06) !important;
+      color: #000000 !important;
+      border-color: rgba(0, 0, 0, 0.16) !important;
+    }
+
+    /* Mobile Bottom Navigation in Light Mode */
+    body.theme-light #mobile-bottom-nav {
+      background: rgba(241, 244, 248, 0.95) !important;
+      border-top-color: rgba(0, 0, 0, 0.14) !important;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+    body.theme-light #mobile-bottom-nav .mob-tab {
+      color: rgba(0, 0, 0, 0.60) !important;
+    }
+    body.theme-light #mobile-bottom-nav .mob-tab.active {
+      color: #000000 !important;
+    }
