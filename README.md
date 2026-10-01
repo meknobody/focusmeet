@@ -25,3 +25,13 @@ A modern, standalone productivity app that combines a **Pomodoro Focus Timer**, 
   * Saved automatically in your browser's `localStorage`.
   * Customizable timer durations & notification toggles.
   * Pre-populated with starter sample data.
+
+---
+
+## 💻 How to Run
+
+Simply open `index.html` in any modern web browser (Chrome, Edge, Firefox, Brave, Safari).
+
+```powershell
+Start-Process "C:\Users\rekha\.gemini\antigravity\scratch\focus-timetable-app\index.html"
+```

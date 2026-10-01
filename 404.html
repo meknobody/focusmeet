@@ -45,9 +45,9 @@
 <body class="min-h-full flex flex-col justify-between antialiased relative bg-black text-white selection:bg-white selection:text-black">
 
   <!-- GLOBAL PROCEDURAL DOTTED GRID CANVAS -->
-  <div id="global-dotted-grid-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+  <div id="global-dotted-grid-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
     <canvas id="dotted-grid-canvas" class="w-full h-full block cursor-pointer"></canvas>
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-transparent"></div>
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.80)_100%)]"></div>
   </div>
 
   <!-- MINIMAL HEADER -->
@@ -192,8 +192,8 @@
 
         let drawX = dot.ox;
         let drawY = dot.oy;
-        let alpha = 0.35;
-        let size = 1.1;
+        let alpha = 0.18;
+        let size = 1.0;
 
         if (dgMouse.active && dist < radius) {
           const factor = (1 - dist / radius);
@@ -201,8 +201,8 @@
           const push = factor * 22;
           drawX += Math.cos(angle) * push;
           drawY += Math.sin(angle) * push;
-          alpha = 0.35 + factor * 0.55;
-          size = 1.1 + factor * 1.5;
+          alpha = 0.18 + factor * 0.75;
+          size = 1.0 + factor * 1.6;
         }
 
         dgCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
